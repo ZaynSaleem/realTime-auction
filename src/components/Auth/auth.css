@@ -1,0 +1,544 @@
+/* #c8d8e4 
+    #ffff
+    #f2f2f2
+    #52ab98
+    #2b6777
+        background: #f1cdd7;
+    color: #865c6c;
+*/
+.flex_container {
+  background: #ffffff;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  min-height: 100vh;
+}
+.flex_left {
+  flex: 1;
+  background: #a8bdce;
+  color: #865c6c;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+.flex_right {
+  flex: 2;
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+.top_text {
+  position: absolute;
+  right: 42px;
+  top: 30px;
+  font-size: 17px;
+}
+.top_text a {
+  text-decoration: none;
+}
+.center_content {
+  width: 55%;
+  display: flex;
+  flex-wrap: wrap;
+}
+.SignUp_head {
+  width: 100%;
+}
+.SignUp_head h2 {
+  font-size: 27px;
+}
+hr.divider {
+  padding: 0;
+  overflow: visible;
+  border: none;
+  border-top: 1px solid #acacac;
+  color: #6e6d7a;
+  text-align: center;
+}
+hr.divider:after {
+  content: "Or";
+  display: inline-block;
+  position: relative;
+  top: -14px;
+  font-size: 20px;
+  padding: 0 16px;
+  background: rgb(255, 255, 255);
+}
+.SignUp_line {
+  width: 100%;
+  padding: 40px 5px 5px 0px;
+}
+.auth_form_wrapper {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+}
+.form_input {
+  padding: 10px 0px;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+.form_input span {
+  font-size: 17px;
+  font-weight: 600;
+  padding: 5px 0px;
+}
+.form_input input {
+  width: 90%;
+  padding: 12px;
+  font-size: 16px;
+  border: 0;
+  border-radius: 5px;
+  background-color: rgb(238, 238, 238);
+  transition: 0.3s;
+}
+.form_input_btn {
+  padding: 10px 0px;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+.form_input input:focus {
+  outline: 0px;
+}
+.form_input input:hover {
+  box-shadow: 0px 0px 2px 3px #a8bdce;
+  background-color: white;
+}
+.image_left {
+  width: 100%;
+}
+.image_left img {
+  width: 100%;
+  object-fit: cover;
+}
+.left_head {
+  width: 80%;
+}
+.text h1 {
+  margin-bottom: 0;
+  color: #2b6777;
+}
+.logo {
+  font-size: 26px;
+  font-family: revert;
+  color: #48789f;
+}
+.logo span {
+  color: #2b6777;
+}
+
+/* Buttons All SignIn SignUp */
+
+.btn_signUp_google {
+  width: 50%;
+  padding: 16px;
+  font-size: 17px;
+  border: 0px;
+  border-radius: 4px;
+  background: #1a73e8;
+  color: white;
+  font-weight: 600;
+  transition: 0.2s;
+  cursor: pointer;
+}
+.btn_signUp_google:hover {
+  background-color: #4d94f0;
+}
+.btn_twitter {
+  padding: 15px 25px;
+  font-size: 17px;
+  border: 0px;
+  border-radius: 4px;
+  margin-left: 15px;
+  color: #565656;
+  cursor: pointer;
+  width: 40%;
+}
+.btn_twitter:hover {
+  background-color: rgb(212, 212, 212);
+}
+
+.btn_create {
+  padding: 10px;
+  border: 0;
+  border-radius: 5px;
+  color: white;
+  font-size: 17px;
+  width: 250px;
+  background-color: #2b6777;
+}
+.btn_create:hover {
+  background-color: #468090;
+  cursor: pointer;
+}
+.btn_signIn_google {
+  width: 50%;
+}
+
+.btn_signIn_google button {
+  width: 90%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  font-size: 17px;
+  border: 0px;
+  border-radius: 4px;
+  background: #1a73e8;
+  color: white;
+  font-weight: 600;
+  transition: 0.2s;
+  cursor: pointer;
+}
+.btn_signIn_google span {
+  padding: 10px;
+  display: flex;
+}
+.btn_signIn_google button:hover {
+  background-color: #4d94f0;
+}
+.btn_twitter_signIn {
+  width: 50%;
+}
+.btn_twitter_signIn button {
+  width: 90%;
+  font-size: 17px;
+  border: 0px;
+  border-radius: 4px;
+  background: #1da1f2;
+  color: white;
+  font-weight: 600;
+  transition: 0.2s;
+  cursor: pointer;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+.btn_twitter_signIn button:hover {
+  background-color: rgb(212, 212, 212);
+}
+.btn_twitter_signIn span {
+  padding: 10px;
+  display: flex;
+}
+
+.btn_create_signIn {
+  padding: 10px;
+  border: 0;
+  border-radius: 5px;
+  color: white;
+  font-size: 17px;
+  width: 250px;
+  background-color: #2b6777;
+}
+.btn_create_signIn:hover {
+  background-color: #468090;
+  cursor: pointer;
+}
+
+.top_text_end {
+  display: none;
+}
+.top_text_end_signIn {
+  display: none;
+}
+/* END  */
+
+/* SIGN IN CSS */
+
+.flex_left_signIn {
+  width: 35%;
+  background: #a8bdce;
+  color: #865c6c;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+.flex_right_signIn {
+  width: 65%;
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+.top_text_signIn {
+  position: absolute;
+  right: 42px;
+  top: 30px;
+  font-size: 17px;
+}
+.top_text_signIn a {
+  text-decoration: none;
+}
+.center_content_signIn {
+  width: 50%;
+  display: flex;
+  flex-wrap: wrap;
+}
+.SignIn_head {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.text_signIn_head {
+  width: 100%;
+}
+.SignIp_head h2 {
+  font-size: 25px;
+}
+hr.divider {
+  padding: 0;
+  overflow: visible;
+  border: none;
+  border-top: 1px solid #acacac;
+  color: #6e6d7a;
+  text-align: center;
+}
+hr.divider:after {
+  content: "Or";
+  display: inline-block;
+  position: relative;
+  top: -14px;
+  font-size: 20px;
+  padding: 0 16px;
+  background: rgb(255, 255, 255);
+}
+.SignIn_line {
+  width: 100%;
+  padding: 40px 5px 5px 0px;
+}
+.auth_form_wrapper_signIn {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+}
+.form_input_signIn {
+  padding: 10px 0px;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+.form_input_signIn span {
+  font-size: 18px;
+  font-weight: 600;
+  padding: 5px 0px;
+}
+.form_input_signIn input {
+  width: 90%;
+  padding: 10px;
+  font-size: 18px;
+  border: 0;
+  border-radius: 5px;
+  background-color: rgb(238, 238, 238);
+  transition: 0.3s;
+}
+.form_input_btn_signIn {
+  padding: 10px 0px;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+.form_input_signIn input:focus {
+  outline: 0px;
+}
+.form_input_signIn input:hover {
+  box-shadow: 0px 0px 2px 3px #a8bdce;
+  background-color: white;
+}
+.image_left_signIn {
+  width: 100%;
+}
+.image_left_signIn img {
+  width: 100%;
+  object-fit: cover;
+}
+.left_head_signIn {
+  width: 80%;
+}
+.text h1 {
+  font-size: 26px;
+  margin-bottom: 0;
+  color: #2b6777;
+}
+.logo_signIn {
+  font-size: 20px;
+  font-family: revert;
+  color: #48789f;
+}
+.logo_signIn span {
+  color: #2b6777;
+}
+
+/* SIGN IN CSS END */
+
+/* START MEDIA QUERY */
+
+@media (max-width: 1382px) {
+  .center_content {
+    width: 60%;
+  }
+  .center_content_signIn {
+    width: 60%;
+  }
+}
+@media (max-width: 998px) {
+  .center_content {
+    width: 80%;
+  }
+  .form_input input {
+    padding: 10px;
+    font-size: 15px;
+  }
+  .form_input span {
+    font-size: 15px;
+    padding: 5px 0px;
+  }
+  .left_head h1 {
+    font-size: 22px;
+  }
+  .flex_left {
+    width: 45%;
+  }
+  .flex_right {
+    width: 55%;
+  }
+  .btn_signUp_google {
+    width: 60%;
+
+    font-size: 15px;
+  }
+
+  .center_content_signIn {
+    width: 80%;
+  }
+  .form_input_signIn input {
+    padding: 10px;
+    font-size: 15px;
+  }
+  .form_input_signIn span {
+    font-size: 15px;
+    padding: 5px 0px;
+  }
+  .left_head_signIn h1 {
+    font-size: 22px;
+  }
+  .flex_left_signIn {
+    width: 45%;
+  }
+  .flex_right_signIn {
+    width: 55%;
+  }
+  .btn_signIn_google {
+    width: 60%;
+    font-size: 15px;
+  }
+
+  @media (max-width: 743px) {
+    .flex_container {
+      flex-direction: column;
+      /* overflow: scroll; */
+    }
+    .top_text {
+      display: none;
+    }
+    .top_text_end {
+      display: block;
+      width: 100%;
+      padding-bottom: 35px;
+    }
+    .flex_right {
+      width: 95%;
+    }
+    .form_input input {
+      padding: 10px;
+      font-size: 15px;
+      width: 100%;
+    }
+    .form_input span {
+      font-size: 15px;
+      padding: 5px 0px;
+    }
+
+    .btn_signUp_google {
+      width: 70%;
+      padding: 16px;
+      font-size: 15px;
+    }
+    .flex_left {
+      width: 100%;
+    }
+    .center_content {
+      text-align: center;
+    }
+    .image_left img {
+      /* height:300px; */
+      width: 50%;
+      object-fit: cover;
+    }
+    .flex_left {
+      text-align: center;
+    }
+    .form_input_btn {
+      justify-content: center;
+      padding: 25px 0px;
+    }
+    .btn_create {
+      width: 100%;
+    }
+
+    .top_text_signIn {
+      display: none;
+    }
+    .top_text_end_signIn {
+      display: block;
+      width: 100%;
+      padding-bottom: 35px;
+    }
+    .flex_right_signIn {
+      width: 95%;
+    }
+    .form_input_signIn input {
+      padding: 10px;
+      font-size: 15px;
+      width: 100%;
+    }
+    .form_input_signIn span {
+      font-size: 15px;
+      padding: 5px 0px;
+    }
+    .btn_signUp_google {
+      width: 70%;
+      padding: 16px;
+      font-size: 15px;
+    }
+    .flex_left_signIn {
+      width: 100%;
+      text-align: center;
+    }
+    .center_content_signIn {
+      text-align: center;
+    }
+    .image_left_signIn img {
+      /* height:300px; */
+      width: 50%;
+      object-fit: cover;
+    }
+    .form_input_btn_signIn {
+      justify-content: center;
+    }
+  }
+}
+
+/* END MEDIA QUERY */

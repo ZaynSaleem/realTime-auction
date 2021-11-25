@@ -1,0 +1,109 @@
+.home-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  background-color: rgb(238, 238, 238);
+}
+.navbar-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  background-color: #6ba6d5;
+  width: 100%;
+  z-index: 99;
+}
+.custom_container {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+.navbar-top-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.top-social-left {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 20px;
+  color: white;
+  width: 50%;
+  flex: 50%;
+}
+.facebook {
+  padding: 10px;
+}
+.top-right {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: baseline;
+  color: white;
+  width: 50%;
+  flex: 50%;
+}
+.actions {
+  padding-right: 8px;
+  text-align: right;
+  font-size: 17px;
+  border-right: 1px solid white;
+  margin-right: 3px;
+}
+
+.logout button {
+  border: 0;
+  /* padding: 8px; */
+  font-size: 17px;
+  background-color: transparent;
+  color: white;
+  cursor: pointer;
+}
+
+/* NAVBAR MAIN */
+
+.navbar-main {
+  box-shadow: 0px 0px 5px grey;
+  background-color: white;
+  padding: 15px;
+  width: 100%;
+}
+.navbar-inner {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.navbar-logo {
+  text-align: center;
+  font-size: 50px;
+  font-family: fantasy;
+  color: #48789f;
+}
+.navbar-logo span {
+  color: #2b6777;
+}
+.navbar-menu {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+.nav-items {
+  padding: 10px 20px;
+  font-size: 20px;
+}
+.nav-items a {
+  transition: all 0.2s ease-in-out;
+  text-decoration: none;
+  color: #48789f;
+}
+.nav-items a:hover {
+  border-bottom: 3px solid #48789f;
+}
+.nav-items:last-child {
+  padding-right: 0;
+}
