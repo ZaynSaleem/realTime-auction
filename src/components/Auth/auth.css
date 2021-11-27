@@ -78,6 +78,9 @@ hr.divider:after {
   align-items: center;
   justify-content: flex-start;
 }
+.auth_form_wrapper form {
+  width: 100%;
+}
 .form_input {
   padding: 10px 0px;
   width: 100%;
@@ -88,6 +91,7 @@ hr.divider:after {
   font-size: 17px;
   font-weight: 600;
   padding: 5px 0px;
+  width: 100%;
 }
 .form_input input {
   width: 90%;
@@ -178,6 +182,10 @@ hr.divider:after {
   background-color: #468090;
   cursor: pointer;
 }
+.btn_create:disabled {
+  pointer-events: none;
+  opacity: 0.8;
+}
 .btn_signIn_google {
   width: 50%;
 }
@@ -242,12 +250,19 @@ hr.divider:after {
   background-color: #468090;
   cursor: pointer;
 }
+.btn_create_signIn:disabled{
+  pointer-events: none;
+  opacity: 0.8;
+}
 
 .top_text_end {
   display: none;
 }
 .top_text_end_signIn {
   display: none;
+}.error-message{
+  color: red;
+  text-transform: capitalize;
 }
 /* END  */
 
@@ -324,6 +339,9 @@ hr.divider:after {
   align-items: center;
   justify-content: flex-start;
 }
+.auth_form_wrapper_signIn form {
+  width: 100%;
+}
 .form_input_signIn {
   padding: 10px 0px;
   width: 100%;
@@ -334,6 +352,7 @@ hr.divider:after {
   font-size: 18px;
   font-weight: 600;
   padding: 5px 0px;
+  width: 100%;
 }
 .form_input_signIn input {
   width: 90%;
@@ -387,10 +406,10 @@ hr.divider:after {
 
 @media (max-width: 1382px) {
   .center_content {
-    width: 60%;
+    width: 70%;
   }
   .center_content_signIn {
-    width: 60%;
+    width: 70%;
   }
 }
 @media (max-width: 998px) {
@@ -403,6 +422,7 @@ hr.divider:after {
   }
   .form_input span {
     font-size: 15px;
+    width: 100%;
     padding: 5px 0px;
   }
   .left_head h1 {
@@ -416,7 +436,6 @@ hr.divider:after {
   }
   .btn_signUp_google {
     width: 60%;
-
     font-size: 15px;
   }
 
@@ -469,6 +488,7 @@ hr.divider:after {
     .form_input span {
       font-size: 15px;
       padding: 5px 0px;
+      width: 100%;
     }
 
     .btn_signUp_google {

@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 // import PrivateRoute from "../../PrivateRoute";
-import SignUp from "../../components/Auth/SignUp";
-import SignIn from "../../components/Auth/SignIn";
+// import SignUp from "../../components/Auth/SignUp";
+// import SignIn from "../../components/Auth/SignIn";
 // import SignIn from "../../pages/Auth/sign-in";
 // import SignUp from "../../pages/Auth/sign-up";
 // import Index from "../../pages/Main";

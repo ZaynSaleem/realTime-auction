@@ -1,5 +1,4 @@
 import React from "react";
-import { FaAngleRight } from "react-icons/fa";
 
 const StepsCard = ({ circleIcon, angleIcon, head, bodyText }) => {
   return (
@@ -11,9 +10,7 @@ const StepsCard = ({ circleIcon, angleIcon, head, bodyText }) => {
 
       <div className="steps-card-text">
         <h3>{head}</h3>
-        <p>
-         {bodyText}
-        </p>
+        <p>{bodyText}</p>
       </div>
     </div>
   );

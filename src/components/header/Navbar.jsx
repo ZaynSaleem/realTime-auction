@@ -1,7 +1,6 @@
 import React from "react";
 import { FaFacebookSquare, FaTwitter, FaTwitterSquare } from "react-icons/fa";
 import "./head.css";
-import toggleMenu from "../../assets/toggleMenu.png";
 
 const Navbar = () => {
   return (

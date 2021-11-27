@@ -1,9 +1,61 @@
-import React from "react";
+import React, { useState } from "react";
 import "./auth.css";
 import { FaTwitter, FaGoogle } from "react-icons/fa";
 import LoginImg from "../../assets/loginImage.png";
+import firebase, { db } from "../../config/firebase/firebase";
+import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import { login } from "../../store/actions/AuthAction";
+import { toast } from "react-toastify";
+import { useHistory } from "react-router";
 
 const SignIn = () => {
+  const dispatch = useDispatch();
+  let history = useHistory();
+
+  const [errorMessages, setErrorMessages] = useState("");
+  const [bool, setBool] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = (data) => {
+    // console.log(data);
+    setErrorMessages("");
+    setBool(true);
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(data.email, data.password)
+      .then((userCredential) => {
+        // Signed in
+        var user = userCredential.user;
+        if (data.email === "admin@admin.com" && data.password === "12345678") {
+          history.push("/dashboard");
+          toast.success("Logged in successfully");
+          setBool(false);
+          dispatch(login(data.email));
+        } else {
+          dispatch(login(data.email));
+
+          setBool(false);
+          toast.success("Logged in successfully");
+          history.push("/");
+        }
+      })
+      .catch((error) => {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        // console.log(error);
+        setBool(false);
+
+        // console.log(errorCode);
+        setErrorMessages(error);
+      });
+  };
+
   return (
     <div className="flex_container">
       <div className="flex_left_signIn">
@@ -18,9 +70,7 @@ const SignIn = () => {
             <h1>Discover the world’s top Designers & Creatives.</h1>
           </div>
         </div>
-        <div className="image_left_signIn">
-          <img src={LoginImg} />
-        </div>
+        <div className="image_left_signIn">{/* <img src={LoginImg} /> */}</div>
       </div>
 
       <div className="flex_right_signIn">
@@ -53,22 +103,49 @@ const SignIn = () => {
             <hr className="divider"></hr>
           </div>
           <div className="auth_form_wrapper_signIn">
-            <div className="form_input_signIn">
-              <span>Email</span>
-              <input type="email" />
-            </div>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <div className="form_input_signIn">
+                <span>Email</span>
+                <input
+                  id="email"
+                  {...register("email", { required: true, maxLength: 30 })}
+                />
+                {errors.email && errors.email.type === "required" && (
+                  <span className="error-message">This is required</span>
+                )}
+              </div>
 
-            <div className="form_input_signIn">
-              <span>Password</span>
-              <input type="password" />
-            </div>
+              <div className="form_input_signIn">
+                <span>Password</span>
+                <input
+                  id="password"
+                  type="password"
+                  {...register("password", { required: true, maxLength: 30 })}
+                />
+                {errors.password && errors.password.type === "required" && (
+                  <span className="error-message">This is required</span>
+                )}
+                {errorMessages ? (
+                  <p className="error-message">incorrect email or password</p>
+                ) : null}
+              </div>
 
-            <div className="form_input_btn">
-              <button className="btn_create_signIn">Sign In</button>
-            </div>
-            <div className="top_text_end_signIn">
-              Not a member?<a href="#"> Sign up now</a>{" "}
-            </div>
+              <div className="form_input_btn">
+                {bool === false ? (
+                  <button className="btn_create_signIn" type="submit">
+                    Sign In
+                  </button>
+                ) : (
+                  <button className="btn_create_signIn" type="submit" disabled>
+                    <span className="spinner-border spinner-border-sm"></span>
+                    Sign In
+                  </button>
+                )}
+              </div>
+              <div className="top_text_end_signIn">
+                Not a member?<a href="#"> Sign up now</a>{" "}
+              </div>
+            </form>
           </div>
         </div>
       </div>

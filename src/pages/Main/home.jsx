@@ -40,7 +40,6 @@ const Home = () => {
             <Card image={card1} />
             <Card image={card1} />
           </div>
-          
         </div>
       </div>
       <div className="steps-wrapper">
