@@ -5,6 +5,7 @@ import storage from "redux-persist/lib/storage";
 
 import todoReducer from "./reducers/todoReducers";
 import AuthReducer from "./reducers/authReducer";
+import VendorReducer from "./reducers/vendorReducer";
 
 const persistConfig = {
   key: "root",
@@ -14,6 +15,7 @@ const persistConfig = {
 const combineReducer = combineReducers({
   auth: AuthReducer,
   todo: todoReducer,
+  vendor: VendorReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, combineReducer);

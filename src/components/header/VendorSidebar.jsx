@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { logout } from "../../store/actions/AuthAction";
 import { useHistory } from "react-router";
 
-const Sidebar = ({ toggleBool }) => {
+const VendorSidebar = ({ toggleBool, name }) => {
   let dispatch = useDispatch();
   let history = useHistory();
 
@@ -31,24 +31,18 @@ const Sidebar = ({ toggleBool }) => {
             </div>
             <div className="sidebar-name">
               <p>Welcome</p>
-              <p>John Doe</p>
+              <p>{name}</p>
             </div>
           </div>
           <div className="items-wrapper">
             <div className="sidebar-items">
-              <a href="/dashboard"> Dashboard </a>
+              <a href="/vendor-dash"> Dashboard </a>
             </div>
 
             <div className="sidebar-items">
-              <a href="add-category"> Add category </a>
+              <a href="/add-product">Add Product</a>
             </div>
 
-            <div className="sidebar-items">
-              <a href=""> Products </a>
-            </div>
-            <div className="sidebar-items">
-              <a href="/vendors"> Vendors </a>
-            </div>
             <div className="sidebar-items">
               <button onClick={logoutUser}> logout </button>
             </div>
@@ -59,4 +53,4 @@ const Sidebar = ({ toggleBool }) => {
   );
 };
 
-export default Sidebar;
+export default VendorSidebar;

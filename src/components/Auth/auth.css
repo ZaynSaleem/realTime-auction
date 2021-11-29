@@ -250,7 +250,7 @@ hr.divider:after {
   background-color: #468090;
   cursor: pointer;
 }
-.btn_create_signIn:disabled{
+.btn_create_signIn:disabled {
   pointer-events: none;
   opacity: 0.8;
 }
@@ -260,9 +260,23 @@ hr.divider:after {
 }
 .top_text_end_signIn {
   display: none;
-}.error-message{
+}
+.error-message {
   color: red;
   text-transform: capitalize;
+}
+
+.form_input select {
+  width: 90%;
+  padding: 12px;
+  font-size: 16px;
+  border: 0;
+  border-radius: 5px;
+  background-color: rgb(238, 238, 238);
+  transition: 0.3s;
+}
+.form_input select:focus{
+  outline: 0px;
 }
 /* END  */
 

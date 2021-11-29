@@ -1,18 +1,17 @@
-export const login = (email) => {
+export const login = (obj) => {
   return (dispatch) => {
-    console.log("-----Action----");
+    // console.log("-----Action----");
     dispatch({
       type: "SIGN_IN",
-      payload: { email },
+      payload: obj ,
     });
   };
 };
 
-// export const logout = () => {
-//   return (dispatch) => {
-//     console.log("logout action");
-//     dispatch({
-//       type: "SIGN_OUT",
-//     });
-//   };
-// };
+export const logout = () => {
+  return (dispatch) => {
+    dispatch({
+      type: "SIGN_OUT",
+    });
+  };
+};

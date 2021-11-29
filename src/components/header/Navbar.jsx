@@ -1,8 +1,22 @@
 import React from "react";
 import { FaFacebookSquare, FaTwitter, FaTwitterSquare } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router";
+import { logout } from "../../store/actions/AuthAction";
 import "./head.css";
 
 const Navbar = () => {
+  const Data = useSelector((state) => state?.auth.auth);
+  console.log(Data);
+  let dispatch = useDispatch();
+  let history = useHistory();
+  const logoutUser = () => {
+    dispatch(logout());
+    history.push("/sign-in");
+  };
+  const loginUser = () => {
+    history.push("/sign-in");
+  };
   return (
     <div className="home-container">
       <div className="navbar-top">
@@ -17,10 +31,21 @@ const Navbar = () => {
               </div>
             </div>
             <div className="top-right">
-              <div className="actions">My Account</div>
-              <div className="logout">
-                <button>Logout</button>
-              </div>
+              {Data && Data?.length ? (
+                <>
+                  <div className="actions">{Data[0]?.email?.split("@")[0]}</div>
+                  <div className="logout">
+                    <button onClick={logoutUser}>Logout</button>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="actions">My Account</div>
+                  <div className="logout">
+                    <button onClick={loginUser}>Login</button>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </div>
@@ -48,6 +73,11 @@ const Navbar = () => {
               <div className="nav-items">
                 <a href="#">Products</a>
               </div>
+              {Data && Data?.length && Data[0]?.role === "vendor" ? (
+                <div className="nav-items">
+                  <a href="/vendor-dash">Dashboard</a>
+                </div>
+              ) : null}
             </div>
           </div>
         </div>

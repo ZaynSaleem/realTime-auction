@@ -184,3 +184,17 @@
   color: white;
   font-weight: 600;
 }
+.sidebar-items button {
+  border: 0;
+  text-align: center;
+  width: 90%;
+  padding: 7px;
+  background-color: #58b74f;
+  border-radius: 5px;
+  color: white;
+  text-transform: capitalize;
+  font-weight: 600;
+}
+.sidebar-items button:hover{
+  background-color:#4ada40;
+}

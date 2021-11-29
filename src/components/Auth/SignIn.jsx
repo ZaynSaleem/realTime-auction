@@ -4,7 +4,7 @@ import { FaTwitter, FaGoogle } from "react-icons/fa";
 import LoginImg from "../../assets/loginImage.png";
 import firebase, { db } from "../../config/firebase/firebase";
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../store/actions/AuthAction";
 import { toast } from "react-toastify";
 import { useHistory } from "react-router";
@@ -32,14 +32,25 @@ const SignIn = () => {
       .then((userCredential) => {
         // Signed in
         var user = userCredential.user;
-        if (data.email === "admin@admin.com" && data.password === "12345678") {
+        if (data.email === "admin@admin.com" || data.password === "12345678") {
           history.push("/dashboard");
           toast.success("Logged in successfully");
           setBool(false);
           dispatch(login(data.email));
         } else {
+          db.collection("users")
+            .where("email", "==", data.email)
+            .get()
+            .then((querySnapshot) => {
+              querySnapshot.forEach((doc) => {
+                dispatch(login(doc.data()));
+                console.log(doc.id, " => ", doc.data());
+              });
+            })
+            .catch((error) => {
+              console.log("Error getting documents: ", error);
+            });
           dispatch(login(data.email));
-
           setBool(false);
           toast.success("Logged in successfully");
           history.push("/");

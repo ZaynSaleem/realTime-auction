@@ -6,12 +6,17 @@ import reportWebVitals from "./reportWebVitals";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-toastify/dist/ReactToastify.css";
 import { Provider } from "react-redux";
-import { store } from "./store";
+import { persistor, store } from "./store";
+import { PersistGate } from "redux-persist/integration/react";
 
 ReactDOM.render(
+  <React.StrictMode>
   <Provider store={store}>
-    <App />
-  </Provider>,
+    <PersistGate loading={null} persistor={persistor}>
+      <App/>
+    </PersistGate>
+  </Provider>
+</React.StrictMode>,
   document.getElementById("root")
 );
 

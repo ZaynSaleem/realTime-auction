@@ -5,7 +5,7 @@ import left from "../../assets/left_main.png";
 import firebase, { db } from "../../config/firebase/firebase";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router";
-import {toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 const SignUp = () => {
   let history = useHistory();
@@ -18,6 +18,7 @@ const SignUp = () => {
   } = useForm();
 
   const onSubmit = (data) => {
+    console.log(data);
     setBool(true);
     firebase
       .auth()
@@ -32,6 +33,7 @@ const SignUp = () => {
             uid: user,
             name: data.username,
             email: data.email,
+            role: data.role
           })
           .then((docRef) => {
             setBool(false);
@@ -112,6 +114,21 @@ const SignUp = () => {
                 {errors.password && errors.password.type === "required" && (
                   <span>This is required</span>
                 )}
+              </div>
+
+              <div className="form_input">
+                <span>Select Role</span>
+                <select {...register("role", { required: true })}>
+                  <option value="" disabled selected hidden>
+                    Select Role
+                  </option>
+                  <option value="vendor">Vendor</option>
+                  <option value="bidder">Bidder</option>
+                </select>
+                {errors.role &&
+                  errors.role.type === "required" && (
+                    <span>This is required</span>
+                  )}
               </div>
 
               <div className="form_input_btn">
