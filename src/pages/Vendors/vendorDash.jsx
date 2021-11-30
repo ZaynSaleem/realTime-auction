@@ -1,29 +1,27 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./style.css";
 import ToggleMenu from "../../assets/toggleMenu.png";
 import { FaRegEdit, FaTrashAlt } from "react-icons/fa";
-import { useState } from "react";
 import { Table } from "reactstrap";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
 import { db } from "../../config/firebase/firebase";
-import { addCat, dltTodo, updateCat } from "../../store/actions";
-import { getVendor, getVendorProduct } from "../../store/actions/VendorAction";
+
+import { dltProduct, getVendorProduct } from "../../store/actions/VendorAction";
 import VendorSidebar from "../../components/header/VendorSidebar";
+import Timer from "./timer";
+import { useHistory } from "react-router";
 
 const VendorDash = () => {
   const dispatch = useDispatch();
-  const dataProduct = useSelector((state) => state?.vendor.products);
+  let history = useHistory();
+  // const dataProduct = useSelector((state) => state?.vendor.products);
   const auth = useSelector((state) => state?.auth.auth);
-  console.log(auth[0]?.email?.split("@")[0]);
-  console.log(auth);
   const [toggleBool, setToggleBool] = useState(false);
-  const [modal, setModal] = useState(false);
-  const [btnBool, setBtnBool] = useState(false);
+  const [dataProduct, setDataProduct] = useState([]);
   const [editId, setEditId] = useState("");
-  const [categoryName, setcategoryName] = useState("");
 
   const {
     register,
@@ -34,19 +32,30 @@ const VendorDash = () => {
     getValues,
   } = useForm({});
   let arr = [];
+
   useEffect(() => {
     db.collection("products")
       .where("uid", "==", auth[0]?.uid)
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
-          console.log(doc.id, " => ", doc.data());
-          arr.push(doc.data());
+          let obj = {
+            id: doc.id,
+            uid: doc.data().uid,
+            productName: doc.data().productName,
+            catId: doc.data().catId,
+            startTime: doc.data().startTime,
+            endTime: doc.data().endTime,
+            startingBid: doc.data().startingBid,
+            timerStatus: doc.data().timerStatus,
+            bids: [],
+          };
+          arr.push(obj);
         });
-        dispatch(getVendorProduct(arr));
+        setDataProduct(arr);
       })
       .catch((error) => {
-        console.log("Error getting documents: ", error);
+        toast.error("Error getting documents: ", error);
       });
   }, []);
 
@@ -58,65 +67,36 @@ const VendorDash = () => {
     }
   };
 
-  const toggle = () => {
-    setValue("category", "");
-    setEditId("");
-    // setModal(!modal);
-    setBtnBool(false);
+    const editCat = (id) => {
+      console.log(id)
+      setEditId(id);
+      history.push(`edit-product/${id}`)
+      // let data = Data.find((x) => x.id === id);
+      // if (data) {
+      //   setValue("category", data?.category);
+      //   setModal(!modal);
+      //   setBtnBool(true);
+      // }
+    };
+
+  const deleteCat = (id) => {
+    db.collection("products")
+      .doc(id)
+      .delete()
+      .then(() => {
+        toast.success("Deleted Successfully");
+        let dupData = [...dataProduct];
+        let newArr = dupData.filter((x) => x.id !== id);
+        setDataProduct(newArr);
+      })
+      .catch((error) => {
+        toast.error("Error removing document: ", error);
+      });
   };
-
-  //   const onSubmit = (data) => {
-  //     setcategoryName("");
-  //     if (!editId) {
-  //       db.collection("category")
-  //         .add({
-  //           categoryName: data.category,
-  //         })
-  //         .then((docRef) => {
-  //           console.log("Document written with ID: ", docRef.id);
-  //           let obj = {
-  //             id: docRef.id,
-  //             category: data.category,
-  //           };
-  //           dispatch(addCat(obj));
-  //           toast.success("New Category Added!");
-  //           setModal(!modal);
-  //         })
-  //         .catch((error) => {
-  //           console.error("Error adding document: ", error);
-  //         });
-  //     } else {
-  //       console.log(editId);
-  //       setcategoryName("");
-  //       setBtnBool(!btnBool);
-  //       setModal(!modal);
-  //       console.log(data);
-  //       db.collection("category")
-  //         .doc(editId)
-  //         .update({
-  //           categoryName: data.category,
-  //         })
-  //         .then(() => {
-  //           dispatch(updateCat(editId, data.category));
-  //           console.log("Document successfully updated!");
-  //         });
-  //     }
-  //   };
-
-  //   const editCat = (id) => {
-  //     setEditId(id);
-  //     let data = Data.find((x) => x.id === id);
-  //     if (data) {
-  //       setValue("category", data?.category);
-  //       setModal(!modal);
-  //       setBtnBool(true);
-  //     }
-  //   };
 
   return (
     <div>
       <div className="container-admin">
-        {/* <VendorSidebar toggleBool={toggleBool} /> */}
         <VendorSidebar
           toggleBool={toggleBool}
           name={auth[0]?.email?.split("@")[0]}
@@ -147,6 +127,7 @@ const VendorDash = () => {
                           <th>Product Name</th>
                           <th>Start Time</th>
                           <th>End Time</th>
+                          <th>Timer</th>
                           <th>Starting Bid</th>
                           <th>no.of Bids</th>
                           <th>Action</th>
@@ -161,24 +142,58 @@ const VendorDash = () => {
                                 <td>{item.productName}</td>
                                 <td>{item.startTime}</td>
                                 <td>{item.endTime}</td>
+                                <td>
+                                  {new Date(item?.startTime).getTime() <
+                                  new Date().getTime() ? (
+                                    <Timer
+                                      startTime={item?.startTime}
+                                      endTime={item?.endTime}
+                                    />
+                                  ) : (
+                                    "NOT STARTED"
+                                  )}
+                                </td>
                                 <td>{item.startingBid}</td>
                                 <td>{item.bids}</td>
                                 <td className="button-action">
-                                  <button
-                                    className="btn btn-success"
-                                    // onClick={() => editCat(item.id)}
-                                  >
-                                    {" "}
-                                    <FaRegEdit size={20} />
-                                  </button>
+                                  {new Date(item?.startTime).getTime() <
+                                  new Date().getTime() ? (
+                                    <>
+                                      <button
+                                        className="btn btn-success"
+                                        disabled
+                                      >
+                                        {" "}
+                                        <FaRegEdit size={20} />
+                                      </button>
 
-                                  <button
-                                    className="btn btn-danger"
-                                    // onClick={() => deleteCat(item.id)}
-                                  >
-                                    {" "}
-                                    <FaTrashAlt size={20} />
-                                  </button>
+                                      <button
+                                        className="btn btn-danger"
+                                        disabled
+                                      >
+                                        {" "}
+                                        <FaTrashAlt size={20} />
+                                      </button>
+                                    </>
+                                  ) : (
+                                    <>
+                                      <button
+                                        className="btn btn-success"
+                                        onClick={() => editCat(item.id)}
+                                      >
+                                        {" "}
+                                        <FaRegEdit size={20} />
+                                      </button>
+
+                                      <button
+                                        className="btn btn-danger"
+                                        onClick={() => deleteCat(item.id)}
+                                      >
+                                        {" "}
+                                        <FaTrashAlt size={20} />
+                                      </button>
+                                    </>
+                                  )}
                                 </td>
                               </tr>
                             );

@@ -17,6 +17,16 @@ const VendorReducer = (state = initialState, action) => {
         products: action.payload,
       };
 
+    // case "PRODUCT_DELETE":
+    //   // console.log("reducer dlte", action.payload);
+
+    // let dupData = [...state.products];
+    // let newArr = dupData.filter((x) => x.id !== action.payload);
+    // return {
+    //   ...state,
+    //   products: newArr,
+    // };
+
     default:
       return state;
   }

@@ -16,5 +16,14 @@ export const getVendorProduct = (obj) => {
       payload: obj,
     });
   };
-}
+};
 
+// export const dltProduct = (id) => {
+//   // console.log("action", id);
+//   return (dispatch) => {
+//     dispatch({
+//       type: "PRODUCT_DELETE",
+//       payload: id,
+//     });
+//   };
+// };

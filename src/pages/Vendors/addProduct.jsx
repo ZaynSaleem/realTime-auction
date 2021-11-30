@@ -1,37 +1,31 @@
 import React, { useEffect } from "react";
 import "./style.css";
 import ToggleMenu from "../../assets/toggleMenu.png";
-import { FaRegEdit, FaTrashAlt } from "react-icons/fa";
 import { useState } from "react";
-import Sidebar from "../../components/header/Sidebar";
-import {
-  Button,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Table,
-} from "reactstrap";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
 import { db } from "../../config/firebase/firebase";
-import { addCat, dltTodo, updateCat } from "../../store/actions";
-import { getVendor } from "../../store/actions/VendorAction";
 import VendorSidebar from "../../components/header/VendorSidebar";
+import { useHistory, useParams } from "react-router-dom";
 
 const AddProduct = () => {
+  const id = useParams();
   const dispatch = useDispatch();
-  const Data = useSelector((state) => state?.vendor.data);
+  const history = useHistory();
+  const products = useSelector((state) => state?.vendor.products);
+
   const auth = useSelector((state) => state?.auth.auth);
-  console.log(auth[0]?.email?.split("@")[0]);
-  console.log(auth);
+  // console.log(auth[0]?.email?.split("@")[0]);
+  // console.log(auth);
   const [toggleBool, setToggleBool] = useState(false);
-  const [modal, setModal] = useState(false);
+  // const [modal, setModal] = useState(false);
   const [btnBool, setBtnBool] = useState(false);
-  const [editId, setEditId] = useState("");
-  const [categoryName, setcategoryName] = useState("");
+  // const [editId, setEditId] = useState("");
+  // const [categoryName, setcategoryName] = useState("");
+  const [startTime, setStartTime] = useState("");
+  const [minEndTime, setMinEndTime] = useState("");
 
   const {
     register,
@@ -42,16 +36,22 @@ const AddProduct = () => {
     getValues,
   } = useForm({});
   let arr = [];
+  const d = new Date();
+  let text = d?.toISOString();
+
   useEffect(() => {
-    // db.collection("users")
-    //   .get()
-    //   .then((querySnapshot) => {
-    //     querySnapshot.forEach((doc) => {
-    //       arr.push(doc.data());
-    //     });
-    //     dispatch(getVendor(arr));
-    //   });
-  }, []);
+    if (startTime && startTime !== "") {
+      let stDate = new Date(startTime);
+      stDate.setHours(stDate.getHours() + 7);
+      let end_t = stDate.toISOString();
+      let et = end_t.split(".")[0];
+      setMinEndTime(et);
+    }
+  }, [startTime]);
+
+  useEffect(() => {
+    console.log(id);
+  }, [id]);
 
   const toggleButton = () => {
     if (!toggleBool) {
@@ -60,16 +60,9 @@ const AddProduct = () => {
       setToggleBool(!toggleBool);
     }
   };
-
-  const toggle = () => {
-    setValue("category", "");
-    setEditId("");
-    // setModal(!modal);
-    setBtnBool(false);
-  };
-
   const onSubmit = (data) => {
-    console.log(data);
+    setBtnBool(true);
+    // console.log(data);
     db.collection("products")
       .add({
         uid: auth[0]?.uid,
@@ -78,10 +71,13 @@ const AddProduct = () => {
         startTime: data.start_time,
         endTime: data.end_time,
         startingBid: data.starting_bid,
+        timerStatus: false,
         bids: [],
       })
       .then((docRef) => {
-        console.log("Document written with ID: ", docRef.id);
+        setBtnBool(false);
+
+        // console.log("Document written with ID: ", docRef.id);
         // let obj = {
         //   uid: auth[0]?.uid,
         //   productName: data.product_name,
@@ -93,10 +89,11 @@ const AddProduct = () => {
         // };
         // dispatch(addCat(obj));
         toast.success("New Product Added!");
+        history.push("/vendor-dash");
         // setModal(!modal);
       })
       .catch((error) => {
-        console.error("Error adding document: ", error);
+        toast.error("Error adding document: ");
       });
 
     //     setcategoryName("");
@@ -188,28 +185,31 @@ const AddProduct = () => {
                     <div className="form-input-vendor">
                       <span>Start Time</span>
                       <input
+                        id="start_time"
                         type="datetime-local"
                         {...register("start_time", {
                           required: true,
-                          onChange: (e) => console.log(e.target.value),
+                          min: text.split(".")[0],
+                          onChange: (e) => setStartTime(e.target.value),
                         })}
                       />
-                      {errors.start_time &&
-                        errors.start_time.type === "required" && (
-                          <p>This is required</p>
-                        )}
+                      {errors.start_time && (
+                        <p>This is required or must be current time</p>
+                      )}
                     </div>
 
                     <div className="form-input-vendor">
                       <span>End Time</span>
                       <input
                         type="datetime-local"
-                        {...register("end_time", { required: true })}
+                        {...register("end_time", {
+                          required: true,
+                          min: minEndTime,
+                        })}
                       />
-                      {errors.end_time &&
-                        errors.end_time.type === "required" && (
-                          <p>This is required</p>
-                        )}
+                      {errors.end_time && (
+                        <p>Must be greater than start time</p>
+                      )}
                     </div>
 
                     <div className="form-input-vendor">
@@ -225,7 +225,17 @@ const AddProduct = () => {
                     </div>
 
                     <div className="form-input-vendor">
-                      <button type="submit">Add Product</button>
+                      {btnBool === false ? (
+                        <button type="submit">Add Product</button>
+                      ) : (
+                        <button type="submit" disabled>
+                          {" "}
+                          <div className="spinner-border spinner-border-sm">
+                            {" "}
+                          </div>{" "}
+                          Add Product
+                        </button>
+                      )}
                     </div>
                   </div>
                 </form>

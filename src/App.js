@@ -32,6 +32,7 @@ function App() {
           <PrivateRoute path="/vendor-dash" component={VendorDash} />
           <PrivateRoute path="/add-category" component={AddCategory} />
           <PrivateRoute path="/add-product" component={AddProduct} />
+          <PrivateRoute path="/edit-product/:id" component={AddProduct} />
           <PrivateRoute path="/vendors" component={Vendor} />
           <PrivateRoute path="/dashboard" component={Dashboard} />
           <Route path="/sign-in">
