@@ -3,6 +3,7 @@ import imgAvatar from "../../assets/img_avatar.png";
 import { useDispatch } from "react-redux";
 import { logout } from "../../store/actions/AuthAction";
 import { useHistory } from "react-router";
+import { FaChartLine, FaRegPlusSquare } from "react-icons/fa";
 
 const VendorSidebar = ({ toggleBool, name }) => {
   let dispatch = useDispatch();
@@ -16,7 +17,7 @@ const VendorSidebar = ({ toggleBool, name }) => {
   return (
     <div
       className="dashboard-sidebar"
-      style={toggleBool === false ? { width: "20%" } : { width: "0%" }}
+      style={toggleBool === false ? { width: "15%" } : { width: "0%" }}
     >
       <div className="sidebar-container">
         <div className="sidebar-wrapper">
@@ -30,17 +31,28 @@ const VendorSidebar = ({ toggleBool, name }) => {
               <img src={imgAvatar} />
             </div>
             <div className="sidebar-name">
-              <p>Welcome</p>
               <p>{name}</p>
             </div>
           </div>
           <div className="items-wrapper">
             <div className="sidebar-items">
-              <a href="/vendor-dash"> Dashboard </a>
+              <div className="icon-dash-vendor">
+                <FaChartLine />
+    
+              </div>
+              <div className="text-dash-vendor">
+                <a href="/vendor-dash"> Dashboard </a>
+              </div>
             </div>
 
             <div className="sidebar-items">
-              <a href="/add-product">Add Product</a>
+              <div className="icon-dash-vendor">
+                <FaRegPlusSquare />
+              </div>
+              <div className="text-dash-vendor">
+                <a href="/add-product">Add Product</a>
+              </div>
+     
             </div>
 
             <div className="sidebar-items">

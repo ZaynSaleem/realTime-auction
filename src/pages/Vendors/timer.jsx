@@ -7,6 +7,7 @@ const Timer = (props) => {
   const [hour, setHour] = useState("00");
   const [min, setMin] = useState("00");
   const [sec, setSec] = useState("00");
+  const [status, setStatus] = useState("");
 
   useEffect(() => {
     if (props?.endTime) {
@@ -26,12 +27,14 @@ const Timer = (props) => {
 
         if (distance < 0) {
           clearInterval(x);
+          console.log("ss");
+          setStatus("EXPIRED");
         }
       }, 1000);
     }
   }, [props.endTime]);
 
-  return <>{`${day}d ${hour}h ${min}m ${sec}s`}</>;
+  return <>{status !== "" ? status : `${day}d ${hour}h ${min}m ${sec}s`}</>;
 };
 
 export default Timer;

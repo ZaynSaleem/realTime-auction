@@ -67,17 +67,17 @@ const VendorDash = () => {
     }
   };
 
-    const editCat = (id) => {
-      console.log(id)
-      setEditId(id);
-      history.push(`edit-product/${id}`)
-      // let data = Data.find((x) => x.id === id);
-      // if (data) {
-      //   setValue("category", data?.category);
-      //   setModal(!modal);
-      //   setBtnBool(true);
-      // }
-    };
+  const editCat = (id) => {
+    // console.log(id)
+    setEditId(id);
+    history.push(`edit-product/${id}`);
+    // let data = Data.find((x) => x.id === id);
+    // if (data) {
+    //   setValue("category", data?.category);
+    //   setModal(!modal);
+    //   setBtnBool(true);
+    // }
+  };
 
   const deleteCat = (id) => {
     db.collection("products")
@@ -102,22 +102,24 @@ const VendorDash = () => {
           name={auth[0]?.email?.split("@")[0]}
         />
         <div
-          className="dashboard-content"
-          style={toggleBool === false ? { width: "80%" } : { width: "100%" }}
+          className="vendor-dashboard-content"
+          style={toggleBool === false ? { width: "85%" } : { width: "100%" }}
         >
-          <div className="dashboard-content-container">
-            <div className="dashboard-top-bar">
-              <div className="button-toggle">
+          
+            <div className="vendor-dashboard-top-bar">
+            <div className="vendor-top-container">
+              <div className="vendor-button-toggle">
                 <button onClick={toggleButton}>
                   {" "}
                   <img src={ToggleMenu} />
                 </button>
               </div>
               <div className="content-top">Vendor-Dash</div>
+              </div>
             </div>
 
-            <div className="dashboard-card-wrapper">
-              <div className="container-category-wrapper">
+            <div className="vendor-dashboard-card-wrapper">
+              <div className="vendor-container-category-wrapper">
                 <div className="table-wrapper">
                   <div className="table-form">
                     <Table bordered>
@@ -207,7 +209,9 @@ const VendorDash = () => {
                 </div>
               </div>
             </div>
-          </div>
+      
+
+          {/*  */}
         </div>
       </div>
     </div>

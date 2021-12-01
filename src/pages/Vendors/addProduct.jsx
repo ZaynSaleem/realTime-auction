@@ -26,6 +26,7 @@ const AddProduct = () => {
   // const [categoryName, setcategoryName] = useState("");
   const [startTime, setStartTime] = useState("");
   const [minEndTime, setMinEndTime] = useState("");
+  const [btnUpdateBool, setBtnUpdateBool] = useState(false);
 
   const {
     register,
@@ -50,8 +51,26 @@ const AddProduct = () => {
   }, [startTime]);
 
   useEffect(() => {
-    console.log(id);
-  }, [id]);
+    if (id.id && id.id !== "") {
+      db.collection("products")
+        .doc(id.id)
+        .get()
+        .then((doc) => {
+          console.log(doc.data());
+          setValue("product_name", doc?.data()?.productName);
+          setValue("product_cat", doc?.data()?.catId);
+          setValue("start_time", doc?.data()?.startTime);
+          setValue("end_time", doc?.data()?.endTime);
+          setValue("starting_bid", doc?.data()?.startingBid);
+          setBtnUpdateBool(true);
+        })
+        .catch((error) => {
+          toast.error("Error getting documents: ", error);
+        });
+    } else {
+      console.log("no Id");
+    }
+  }, [id.id]);
 
   const toggleButton = () => {
     if (!toggleBool) {
@@ -63,69 +82,50 @@ const AddProduct = () => {
   const onSubmit = (data) => {
     setBtnBool(true);
     // console.log(data);
-    db.collection("products")
-      .add({
-        uid: auth[0]?.uid,
-        productName: data.product_name,
-        catId: data.product_cat,
-        startTime: data.start_time,
-        endTime: data.end_time,
-        startingBid: data.starting_bid,
-        timerStatus: false,
-        bids: [],
-      })
-      .then((docRef) => {
-        setBtnBool(false);
-
-        // console.log("Document written with ID: ", docRef.id);
-        // let obj = {
-        //   uid: auth[0]?.uid,
-        //   productName: data.product_name,
-        //   catId: data.product_cat,
-        //   startTime: data.start_time,
-        //   endTime: data.end_time,
-        //   startingBid: data.starting_bid,
-        //   bids: [],
-        // };
-        // dispatch(addCat(obj));
-        toast.success("New Product Added!");
-        history.push("/vendor-dash");
-        // setModal(!modal);
-      })
-      .catch((error) => {
-        toast.error("Error adding document: ");
-      });
-
-    //     setcategoryName("");
-    //     if (!editId) {
-    //     } else {
-    //       console.log(editId);
-    //       setcategoryName("");
-    //       setBtnBool(!btnBool);
-    //       setModal(!modal);
-    //       console.log(data);
-    //       db.collection("category")
-    //         .doc(editId)
-    //         .update({
-    //           categoryName: data.category,
-    //         })
-    //         .then(() => {
-    //           dispatch(updateCat(editId, data.category));
-    //           console.log("Document successfully updated!");
-    //         });
-    //     }
+    if (btnUpdateBool === false) {
+      db.collection("products")
+        .add({
+          uid: auth[0]?.uid,
+          productName: data?.product_name,
+          catId: data?.product_cat,
+          startTime: data?.start_time,
+          endTime: data?.end_time,
+          startingBid: data?.starting_bid,
+          timerStatus: false,
+          bids: [],
+        })
+        .then((docRef) => {
+          setBtnBool(false);
+          toast.success("New Product Added!");
+          history.push("/vendor-dash");
+          // setModal(!modal);
+        })
+        .catch((error) => {
+          toast.error("Error adding document: ");
+        });
+    } else {
+      db.collection("products")
+        .doc(id.id)
+        .update({
+          productName: data?.product_name,
+          catId: data?.product_cat,
+          startTime: data?.start_time,
+          endTime: data?.end_time,
+          startingBid: data?.starting_bid,
+          bids: [],
+        })
+        .then(() => {
+          setBtnUpdateBool(false);
+          setBtnBool(false);
+          toast.success("Document successfully updated!");
+          history.push("/vendor-dash");
+        })
+        .catch((error) => {
+          setBtnBool(false);
+          toast.error("Error adding document: ");
+        });
+    }
   };
-
-  //   const editCat = (id) => {
-  //     setEditId(id);
-  //     let data = Data.find((x) => x.id === id);
-  //     if (data) {
-  //       setValue("category", data?.category);
-  //       setModal(!modal);
-  //       setBtnBool(true);
-  //     }
-  //   };
-
   return (
     <div>
       <div className="container-admin">
@@ -135,97 +135,97 @@ const AddProduct = () => {
           name={auth[0]?.email?.split("@")[0]}
         />
         <div
-          className="dashboard-content"
-          style={toggleBool === false ? { width: "80%" } : { width: "100%" }}
+          className="vendor-dashboard-content"
+          style={toggleBool === false ? { width: "85%" } : { width: "100%" }}
         >
-          <div className="dashboard-content-container">
-            <div className="dashboard-top-bar">
-              <div className="button-toggle">
+          <div className="vendor-dashboard-top-bar">
+            <div className="vendor-top-container">
+              <div className="vendor-button-toggle">
                 <button onClick={toggleButton}>
                   {" "}
                   <img src={ToggleMenu} />
                 </button>
               </div>
-              <div className="content-top">Add Product</div>
+              <div className="vendor-content-top">Add Product</div>
             </div>
+          </div>
 
-            <div className="dashboard-card-wrapper">
-              <div className="container-category-wrapper">
-                <form onSubmit={handleSubmit(onSubmit)}>
-                  <div className="form-vendor-wrapper">
-                    <div className="form-input-vendor">
-                      <span>Product Name</span>
-                      <input
-                        type="text"
-                        {...register("product_name", {
-                          required: true,
-                          maxLength: 30,
-                        })}
-                      />
-                      {errors.product_name &&
-                        errors.product_name.type === "required" && (
-                          <p>This is required</p>
-                        )}
-                    </div>
-
-                    <div className="form-input-vendor">
-                      <span>Product Category</span>
-                      <select {...register("product_cat", { required: true })}>
-                        <option value="" disabled selected hidden>
-                          Select Category
-                        </option>
-                        <option value="abc">abc</option>
-                      </select>
-                      {errors.product_cat &&
-                        errors.product_cat.type === "required" && (
-                          <p>This is required</p>
-                        )}
-                    </div>
-
-                    <div className="form-input-vendor">
-                      <span>Start Time</span>
-                      <input
-                        id="start_time"
-                        type="datetime-local"
-                        {...register("start_time", {
-                          required: true,
-                          min: text.split(".")[0],
-                          onChange: (e) => setStartTime(e.target.value),
-                        })}
-                      />
-                      {errors.start_time && (
-                        <p>This is required or must be current time</p>
+          <div className="vendor-dashboard-card-wrapper">
+            <div className="vendor-container-category-wrapper">
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <div className="form-vendor-wrapper">
+                  <div className="form-input-vendor">
+                    <span>Product Name</span>
+                    <input
+                      type="text"
+                      {...register("product_name", {
+                        required: true,
+                        maxLength: 30,
+                      })}
+                    />
+                    {errors.product_name &&
+                      errors.product_name.type === "required" && (
+                        <p>This is required</p>
                       )}
-                    </div>
+                  </div>
 
-                    <div className="form-input-vendor">
-                      <span>End Time</span>
-                      <input
-                        type="datetime-local"
-                        {...register("end_time", {
-                          required: true,
-                          min: minEndTime,
-                        })}
-                      />
-                      {errors.end_time && (
-                        <p>Must be greater than start time</p>
+                  <div className="form-input-vendor">
+                    <span>Product Category</span>
+                    <select {...register("product_cat", { required: true })}>
+                      <option value="" disabled selected hidden>
+                        Select Category
+                      </option>
+                      <option value="abc">abc</option>
+                    </select>
+                    {errors.product_cat &&
+                      errors.product_cat.type === "required" && (
+                        <p>This is required</p>
                       )}
-                    </div>
+                  </div>
 
-                    <div className="form-input-vendor">
-                      <span>Starting Bid</span>
-                      <input
-                        type="number"
-                        {...register("starting_bid", { required: true })}
-                      />
-                      {errors.starting_bid &&
-                        errors.starting_bid.type === "required" && (
-                          <p>This is required</p>
-                        )}
-                    </div>
+                  <div className="form-input-vendor">
+                    <span>Start Time</span>
+                    <input
+                      id="start_time"
+                      type="datetime-local"
+                      {...register("start_time", {
+                        required: true,
+                        // min: text.split(".")[0],
+                        onChange: (e) => setStartTime(e.target.value),
+                      })}
+                    />
+                    {errors.start_time && (
+                      <p>This is required or must be current time</p>
+                    )}
+                  </div>
 
-                    <div className="form-input-vendor">
-                      {btnBool === false ? (
+                  <div className="form-input-vendor">
+                    <span>End Time</span>
+                    <input
+                      type="datetime-local"
+                      {...register("end_time", {
+                        required: true,
+                        min: minEndTime,
+                      })}
+                    />
+                    {errors.end_time && <p>Must be greater than start time</p>}
+                  </div>
+
+                  <div className="form-input-vendor">
+                    <span>Starting Bid</span>
+                    <input
+                      type="number"
+                      {...register("starting_bid", { required: true })}
+                    />
+                    {errors.starting_bid &&
+                      errors.starting_bid.type === "required" && (
+                        <p>This is required</p>
+                      )}
+                  </div>
+
+                  <div className="form-input-vendor">
+                    {btnUpdateBool === false ? (
+                      btnBool === false ? (
                         <button type="submit">Add Product</button>
                       ) : (
                         <button type="submit" disabled>
@@ -235,13 +235,25 @@ const AddProduct = () => {
                           </div>{" "}
                           Add Product
                         </button>
-                      )}
-                    </div>
+                      )
+                    ) : btnBool === false ? (
+                      <button type="submit">Update Product</button>
+                    ) : (
+                      <button type="submit" disabled>
+                        {" "}
+                        <div className="spinner-border spinner-border-sm">
+                          {" "}
+                        </div>{" "}
+                        Update Product
+                      </button>
+                    )}
                   </div>
-                </form>
-              </div>
+                </div>
+              </form>
             </div>
           </div>
+
+          {/*  */}
         </div>
       </div>
     </div>
