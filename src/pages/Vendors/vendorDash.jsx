@@ -41,13 +41,15 @@ const VendorDash = () => {
         querySnapshot.forEach((doc) => {
           let obj = {
             id: doc.id,
-            uid: doc.data().uid,
-            productName: doc.data().productName,
-            catId: doc.data().catId,
-            startTime: doc.data().startTime,
-            endTime: doc.data().endTime,
-            startingBid: doc.data().startingBid,
-            timerStatus: doc.data().timerStatus,
+            uid: doc.data()?.uid,
+            productName: doc.data()?.productName,
+            catId: doc.data()?.catId,
+            startTime: doc.data()?.startTime,
+            endTime: doc.data()?.endTime,
+            startingBid: doc.data()?.startingBid,
+            timerStatus: doc.data()?.timerStatus,
+            adminStatus: doc.data()?.adminStatus,
+            productStatus: doc.data().productStatus,
             bids: [],
           };
           arr.push(obj);
@@ -78,6 +80,24 @@ const VendorDash = () => {
     //   setBtnBool(true);
     // }
   };
+  const handleUpdate = (e) => {
+    // console.log(e);
+    let id = e.target.value;
+    console.log(id);
+    let boolSwitch = e.target.checked;
+    db.collection("products")
+      .doc(id)
+      .update({
+        productStatus: boolSwitch,
+      })
+      .then(() => {
+        let dup = [...dataProduct];
+        let updated = dup.findIndex((x) => x.id === id);
+        dup[updated].productStatus = boolSwitch;
+        console.log(dup);
+        setDataProduct(dup);
+      });
+  };
 
   const deleteCat = (id) => {
     db.collection("products")
@@ -105,8 +125,7 @@ const VendorDash = () => {
           className="vendor-dashboard-content"
           style={toggleBool === false ? { width: "85%" } : { width: "100%" }}
         >
-          
-            <div className="vendor-dashboard-top-bar">
+          <div className="vendor-dashboard-top-bar">
             <div className="vendor-top-container">
               <div className="vendor-button-toggle">
                 <button onClick={toggleButton}>
@@ -115,101 +134,132 @@ const VendorDash = () => {
                 </button>
               </div>
               <div className="content-top">Vendor-Dash</div>
-              </div>
             </div>
+          </div>
 
-            <div className="vendor-dashboard-card-wrapper">
-              <div className="vendor-container-category-wrapper">
-                <div className="table-wrapper">
-                  <div className="table-form">
-                    <Table bordered>
-                      <thead dark>
-                        <tr>
-                          <th>#</th>
-                          <th>Product Name</th>
-                          <th>Start Time</th>
-                          <th>End Time</th>
-                          <th>Timer</th>
-                          <th>Starting Bid</th>
-                          <th>no.of Bids</th>
-                          <th>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {dataProduct && dataProduct?.length ? (
-                          dataProduct.map((item, index) => {
-                            return (
-                              <tr key={index}>
-                                <th scope="row">{++index}</th>
-                                <td>{item.productName}</td>
-                                <td>{item.startTime}</td>
-                                <td>{item.endTime}</td>
-                                <td>
-                                  {new Date(item?.startTime).getTime() <
-                                  new Date().getTime() ? (
-                                    <Timer
-                                      startTime={item?.startTime}
-                                      endTime={item?.endTime}
+          <div className="vendor-dashboard-card-wrapper">
+            <div className="vendor-container-category-wrapper">
+              <div className="table-wrapper">
+                <div className="table-form">
+                  <Table bordered>
+                    <thead dark>
+                      <tr>
+                        <th>#</th>
+                        <th>Product Name</th>
+                        <th>Start Time</th>
+                        <th>End Time</th>
+                        <th>Timer</th>
+                        <th>Starting Bid</th>
+                        <th>no.of Bids</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                        <th>Active</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {dataProduct && dataProduct?.length ? (
+                        dataProduct.map((item, index) => {
+                          return (
+                            <tr key={index} style={{color : item.adminStatus ? "grey" : ""}}>
+                              <th scope="row">{++index}</th>
+                              <td>{item.productName}</td>
+                              <td>{item.startTime}</td>
+                              <td>{item.endTime}</td>
+                              <td>
+                                {new Date(item?.startTime).getTime() <
+                                new Date().getTime() ? (
+                                  <Timer
+                                    startTime={item?.startTime}
+                                    endTime={item?.endTime}
+                                  />
+                                ) : (
+                                  "NOT STARTED"
+                                )}
+                              </td>
+                              <td>{item.startingBid}</td>
+                              <td>{item.bids}</td>
+                              <td>
+                                {" "}
+                                {!item.adminStatus ? (
+                                  !item.productStatus ? (
+                                    <span className="status-active">
+                                      Active
+                                    </span>
+                                  ) : (
+                                    <span className="status-vendor">
+                                      disabled
+                                    </span>
+                                  )
+                                ) : (
+                                  <span className="status-vendor">
+                                    disabled by admin
+                                  </span>
+                                )}
+                              </td>
+                              <td className="button-action">
+                                {new Date(item?.startTime).getTime() <
+                                new Date().getTime() || item?.adminStatus ? (
+                                  <>
+                                    <button
+                                      className="btn btn-success"
+                                      disabled
+                                    >
+                                      {" "}
+                                      <FaRegEdit size={20} />
+                                    </button>
+
+                                    <button className="btn btn-danger" disabled>
+                                      {" "}
+                                      <FaTrashAlt size={20} />
+                                    </button>
+                                  </>
+                                ) : (
+                                  <>
+                                    <button
+                                      className="btn btn-success"
+                                      onClick={() => editCat(item.id)}
+                                    >
+                                      {" "}
+                                      <FaRegEdit size={20} />
+                                    </button>
+
+                                    <button
+                                      className="btn btn-danger"
+                                      onClick={() => deleteCat(item.id)}
+                                    >
+                                      {" "}
+                                      <FaTrashAlt size={20} />
+                                    </button>
+                                  </>
+                                )}
+                              </td>
+                              <td>
+                                {" "}
+                                <div className="btn-switch">
+                                  <label class="switch">
+                                    <input
+                                      checked={item.productStatus}
+                                      value={item?.id}
+                                      type="checkbox"
+                                      disabled
+                                      onChange={(e) => handleUpdate(e)}
                                     />
-                                  ) : (
-                                    "NOT STARTED"
-                                  )}
-                                </td>
-                                <td>{item.startingBid}</td>
-                                <td>{item.bids}</td>
-                                <td className="button-action">
-                                  {new Date(item?.startTime).getTime() <
-                                  new Date().getTime() ? (
-                                    <>
-                                      <button
-                                        className="btn btn-success"
-                                        disabled
-                                      >
-                                        {" "}
-                                        <FaRegEdit size={20} />
-                                      </button>
-
-                                      <button
-                                        className="btn btn-danger"
-                                        disabled
-                                      >
-                                        {" "}
-                                        <FaTrashAlt size={20} />
-                                      </button>
-                                    </>
-                                  ) : (
-                                    <>
-                                      <button
-                                        className="btn btn-success"
-                                        onClick={() => editCat(item.id)}
-                                      >
-                                        {" "}
-                                        <FaRegEdit size={20} />
-                                      </button>
-
-                                      <button
-                                        className="btn btn-danger"
-                                        onClick={() => deleteCat(item.id)}
-                                      >
-                                        {" "}
-                                        <FaTrashAlt size={20} />
-                                      </button>
-                                    </>
-                                  )}
-                                </td>
-                              </tr>
-                            );
-                          })
-                        ) : (
-                          <tr>No DATA</tr>
-                        )}
-                      </tbody>
-                    </Table>
-                  </div>
+                                    <span class="slider-switch round"></span>
+                                  </label>
+                                </div>
+                              </td>
+                            </tr>
+                          );
+                        })
+                      ) : (
+                        <tr>No DATA</tr>
+                      )}
+                    </tbody>
+                  </Table>
                 </div>
               </div>
             </div>
-      
+          </div>
 
           {/*  */}
         </div>

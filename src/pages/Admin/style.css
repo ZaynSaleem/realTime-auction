@@ -1,3 +1,7 @@
+.table-form {
+  overflow: auto;
+}
+
 .container-admin {
   display: flex;
   flex-wrap: wrap;
@@ -249,7 +253,7 @@ input:checked + .slider-switch:before {
 
 @media (max-width: 1119px) {
   .table-form {
-    overflow-y: scroll;
+    overflow: scroll;
   }
 }
 /* SIDE BAR */

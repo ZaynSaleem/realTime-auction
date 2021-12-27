@@ -92,9 +92,12 @@ const AddProduct = () => {
           endTime: data?.end_time,
           startingBid: data?.starting_bid,
           timerStatus: false,
+          adminStatus : false,
+          productStatus : true,
           bids: [],
         })
         .then((docRef) => {
+          console.log(docRef);
           setBtnBool(false);
           toast.success("New Product Added!");
           history.push("/vendor-dash");
@@ -112,6 +115,7 @@ const AddProduct = () => {
           startTime: data?.start_time,
           endTime: data?.end_time,
           startingBid: data?.starting_bid,
+          
           bids: [],
         })
         .then(() => {
@@ -190,7 +194,7 @@ const AddProduct = () => {
                       type="datetime-local"
                       {...register("start_time", {
                         required: true,
-                        // min: text.split(".")[0],
+                        min: text.split(".")[0],
                         onChange: (e) => setStartTime(e.target.value),
                       })}
                     />

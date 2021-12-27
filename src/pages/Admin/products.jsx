@@ -22,12 +22,12 @@ import { getVendor } from "../../store/actions/VendorAction";
 
 import Loader from "../../components/Loader/loader";
 
-const Users = () => {
+const VendorProducts = () => {
   const dispatch = useDispatch();
   const Data = useSelector((state) => state?.vendor.data);
   const [toggleBool, setToggleBool] = useState(false);
   const [loaderBool, setLoaderBool] = useState(false);
-  const [vendorData, setVendorData] = useState([]);
+  const [productData, setProductData] = useState([]);
 
   const {
     formState: { errors },
@@ -36,22 +36,21 @@ const Users = () => {
   let arr = [];
   useEffect(() => {
     setLoaderBool(true);
-    db.collection("users")
-      .where("role", "==", "bidder")
+    db.collection("products")
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
           let obj = {
             id: doc.id,
-            email: doc.data()?.email,
-            name: doc.data()?.name,
-            role: doc.data()?.role,
-            uid: doc.data()?.uid,
-            status: doc.data()?.status,
+            productName: doc.data()?.productName,
+            categoryName: doc.data()?.catId,
+            productStatus: doc.data()?.productStatus,
+            adminStatus : doc.data()?.adminStatus,
+            startingBid: doc.data()?.startingBid,
           };
           arr.push(obj);
         });
-        setVendorData(arr);
+        setProductData(arr);
         setLoaderBool(false);
       });
   }, []);
@@ -67,17 +66,17 @@ const Users = () => {
   const handleStatus = (e) => {
     let id = e.target.value;
     let boolSwitch = e.target.checked;
-    db.collection("users")
+    db.collection("products")
       .doc(id)
       .update({
-        status: boolSwitch,
+        adminStatus: boolSwitch,
       })
       .then(() => {
-        let dup = [...vendorData];
+        let dup = [...productData];
         let updated = dup.findIndex((x) => x.id === id);
-        dup[updated].status = boolSwitch;
+        dup[updated].adminStatus = boolSwitch;
 
-        setVendorData(dup);
+        setProductData(dup);
       });
   };
 
@@ -99,7 +98,7 @@ const Users = () => {
                   <img src={ToggleMenu} />
                 </button>
               </div>
-              <div className="content-top">Users</div>
+              <div className="content-top">Products</div>
             </div>
 
             <div
@@ -113,28 +112,42 @@ const Users = () => {
                       <thead dark>
                         <tr>
                           <th>#</th>
-                          <th>Name</th>
-                          <th>Email</th>
-                          <th>Status</th>
+                          <th>Product Name</th>
+                          <th>Category Name</th>
+                          <th>Vendor status</th>
+                          <th>Starting Bid</th>
+                          <th>Admin Status</th>
                           <th>Action</th>
                         </tr>
                       </thead>
                       <tbody>
-                        {vendorData && vendorData?.length ? (
-                          vendorData.map((item, index) => {
+                        {productData && productData?.length ? (
+                          productData.map((item, index) => {
                             return (
                               <tr key={index}>
                                 <th scope="row">{++index}</th>
-                                <td>{item?.name}</td>
-                                <td>{item?.email}</td>
+                                <td>{item?.productName}</td>
+                                <td>{item?.categoryName}</td>
                                 <td>
-                                  {!item?.status ? (
+                                  {!item?.productStatus ? (
+                                    <span className="status-active">
+                                      Live
+                                    </span>
+                                  ) : (
+                                    <span className="status-vendor">
+                                      disabled
+                                    </span>
+                                  )}
+                                </td>
+                                <td>{item?.startingBid}</td>
+                                <td>
+                                  {!item?.adminStatus ? (
                                     <span className="status-active">
                                       Active
                                     </span>
                                   ) : (
                                     <span className="status-vendor">
-                                      blocked
+                                      disabled by admin
                                     </span>
                                   )}
                                 </td>
@@ -170,4 +183,4 @@ const Users = () => {
   );
 };
 
-export default Users;
+export default VendorProducts;

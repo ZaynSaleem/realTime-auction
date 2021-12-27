@@ -44,13 +44,13 @@ const Sidebar = ({ toggleBool }) => {
             </div>
 
             <div className="sidebar-items">
-              <a href=""> Products </a>
+              <a href="/products"> Products </a>
             </div>
             <div className="sidebar-items">
               <a href="/vendors"> Vendors </a>
             </div>
             <div className="sidebar-items">
-              <a href="/bidders"> Bidders </a>
+              <a href="/bidders"> Users </a>
             </div>
             <div className="sidebar-items">
               <button onClick={logoutUser}> logout </button>
