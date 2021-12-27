@@ -1,0 +1,6 @@
+.image-loader{
+    position: absolute;
+}
+.image-loader img{
+    width: 100px;
+}

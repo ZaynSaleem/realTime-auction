@@ -18,7 +18,7 @@ const SignUp = () => {
   } = useForm();
 
   const onSubmit = (data) => {
-    console.log(data);
+   
     setBool(true);
     firebase
       .auth()
@@ -33,7 +33,8 @@ const SignUp = () => {
             uid: user,
             name: data.username,
             email: data.email,
-            role: data.role
+            role: data.role,
+            status : "active"
           })
           .then((docRef) => {
             setBool(false);

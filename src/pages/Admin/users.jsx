@@ -22,14 +22,12 @@ import { getVendor } from "../../store/actions/VendorAction";
 
 import Loader from "../../components/Loader/loader";
 
-const Vendor = () => {
+const Users = () => {
   const dispatch = useDispatch();
   const Data = useSelector((state) => state?.vendor.data);
-  // console.log(Data);
   const [toggleBool, setToggleBool] = useState(false);
   const [loaderBool, setLoaderBool] = useState(false);
   const [vendorData, setVendorData] = useState([]);
-  // const [btnStatusBool, setBtnStatusBool] = useState("")
 
   const {
     formState: { errors },
@@ -39,12 +37,10 @@ const Vendor = () => {
   useEffect(() => {
     setLoaderBool(true);
     db.collection("users")
-      .where("role", "==", "vendor")
+      .where("role", "==", "bidder")
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
-          // console.log(doc.data());
-
           let obj = {
             id: doc.id,
             email: doc.data()?.email,
@@ -55,7 +51,6 @@ const Vendor = () => {
           };
           arr.push(obj);
         });
-        // dispatch(getVendor(arr));
         setVendorData(arr);
         setLoaderBool(false);
       });
@@ -70,8 +65,6 @@ const Vendor = () => {
   };
 
   const handleStatus = (e) => {
-    console.log(e.target.checked);
-    console.log(e.target.value);
     let id = e.target.value;
     let boolSwitch = e.target.checked;
     db.collection("users")
@@ -83,58 +76,10 @@ const Vendor = () => {
         let dup = [...vendorData];
         let updated = dup.findIndex((x) => x.id === id);
         dup[updated].status = boolSwitch;
-        console.log(dup);
+
         setVendorData(dup);
       });
   };
-
-  //   const onSubmit = (data) => {
-  //     setcategoryName("");
-  //     if (!editId) {
-  //       db.collection("category")
-  //         .add({
-  //           categoryName: data.category,
-  //         })
-  //         .then((docRef) => {
-  //           console.log("Document written with ID: ", docRef.id);
-  //           let obj = {
-  //             id: docRef.id,
-  //             category: data.category,
-  //           };
-  //           dispatch(addCat(obj));
-  //           toast.success("New Category Added!");
-  //           setModal(!modal);
-  //         })
-  //         .catch((error) => {
-  //           console.error("Error adding document: ", error);
-  //         });
-  //     } else {
-  //       console.log(editId);
-  //       setcategoryName("");
-  //       setBtnBool(!btnBool);
-  //       setModal(!modal);
-  //       console.log(data);
-  //       db.collection("category")
-  //         .doc(editId)
-  //         .update({
-  //           categoryName: data.category,
-  //         })
-  //         .then(() => {
-  //           dispatch(updateCat(editId, data.category));
-  //           console.log("Document successfully updated!");
-  //         });
-  //     }
-  //   };
-
-  //   const editCat = (id) => {
-  //     setEditId(id);
-  //     let data = Data.find((x) => x.id === id);
-  //     if (data) {
-  //       setValue("category", data?.category);
-  //       setModal(!modal);
-  //       setBtnBool(true);
-  //     }
-  //   };
 
   return (
     <div>
@@ -154,7 +99,7 @@ const Vendor = () => {
                   <img src={ToggleMenu} />
                 </button>
               </div>
-              <div className="content-top">Vendors</div>
+              <div className="content-top">Bidders</div>
             </div>
 
             <div
@@ -183,7 +128,6 @@ const Vendor = () => {
                                 <td>{item?.name}</td>
                                 <td>{item?.email}</td>
                                 <td>
-                                 
                                   {!item?.status ? (
                                     <span className="status-active">
                                       Active
@@ -226,4 +170,4 @@ const Vendor = () => {
   );
 };
 
-export default Vendor;
+export default Users;

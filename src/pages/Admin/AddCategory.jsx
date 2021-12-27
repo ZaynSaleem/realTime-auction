@@ -12,12 +12,13 @@ import {
   ModalFooter,
   Table,
 } from "reactstrap";
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
 import { db } from "../../config/firebase/firebase";
 import { addCat, dltTodo, updateCat } from "../../store/actions";
+import Loader from "../../components/Loader/loader";
 
 const AddCategory = () => {
   const dispatch = useDispatch();
@@ -28,6 +29,9 @@ const AddCategory = () => {
   const [btnBool, setBtnBool] = useState(false);
   const [editId, setEditId] = useState("");
   const [categoryName, setcategoryName] = useState("");
+  const [dataCat, setDataCat] = useState([]);
+  const [loaderBool, setLoaderBool] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -36,9 +40,23 @@ const AddCategory = () => {
     setValue,
     getValues,
   } = useForm({});
-
+  let arr = [];
   useEffect(() => {
-    console.log(Data);
+    setLoaderBool(true);
+    db.collection("category")
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          let obj = {
+            id: doc?.id,
+            category: doc?.data()?.categoryName,
+          };
+          arr.push(obj);
+        });
+        setDataCat(arr);
+        setLoaderBool(false);
+      });
+    // console.log(Data);
   }, []);
 
   const toggleButton = () => {
@@ -69,7 +87,9 @@ const AddCategory = () => {
             id: docRef.id,
             category: data.category,
           };
-          dispatch(addCat(obj));
+          arr.push(obj);
+          setDataCat(arr);
+          // dispatch(addCat(obj));
           toast.success("New Category Added!");
           setModal(!modal);
         })
@@ -88,34 +108,40 @@ const AddCategory = () => {
           categoryName: data.category,
         })
         .then(() => {
-          dispatch(updateCat(editId, data.category));
-          console.log("Document successfully updated!");
+          let dup = [...dataCat];
+          let updated = dup.findIndex((x) => x.id === editId);
+          dup[updated].category = data.category;
+          console.log(dup);
+          setDataCat(dup);
         });
     }
   };
 
   const editCat = (id) => {
     setEditId(id);
-    let data = Data.find((x) => x.id === id);
-    if (data) {
-      setValue("category", data?.category);
+    let dataDup = dataCat.find((x) => x.id === id);
+    if (dataDup) {
+      setValue("category", dataDup?.category);
       setModal(!modal);
       setBtnBool(true);
     }
   };
 
   const deleteCat = (id) => {
-    db.collection("category")
-      .doc(id)
-      .delete()
-      .then(() => {
-        toast.success("Deleted Successfully");
-        dispatch(dltTodo(id));
-        console.log("Document successfully deleted!");
-      })
-      .catch((error) => {
-        console.error("Error removing document: ", error);
-      });
+    if (window.confirm("Are you sure you want to delete?")) {
+      db.collection("category")
+        .doc(id)
+        .delete()
+        .then(() => {
+          toast.success("Document successfully deleted!");
+          let dupData = [...dataCat];
+          let newArr = dupData.filter((x) => x.id !== id);
+          setDataCat(newArr);
+        })
+        .catch((error) => {
+          toast.error("Error removing document: ", error);
+        });
+    }
   };
 
   return (
@@ -127,7 +153,11 @@ const AddCategory = () => {
           className="dashboard-content"
           style={toggleBool === false ? { width: "80%" } : { width: "100%" }}
         >
-          <div className="dashboard-content-container">
+          <Loader bool={loaderBool} />
+          <div
+            className="dashboard-content-container"
+            style={{ display: loaderBool === true ? "none" : "block" }}
+          >
             <div className="dashboard-top-bar">
               <div className="button-toggle">
                 <button onClick={toggleButton}>
@@ -157,8 +187,8 @@ const AddCategory = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {Data && Data?.length ? (
-                          Data.map((item, index) => {
+                        {dataCat && dataCat?.length ? (
+                          dataCat.map((item, index) => {
                             return (
                               <tr key={index}>
                                 <th scope="row">{++index}</th>
@@ -166,7 +196,7 @@ const AddCategory = () => {
                                 <td className="button-action">
                                   <button
                                     className="btn btn-success"
-                                    onClick={() => editCat(item.id)}
+                                    onClick={() => editCat(item?.id)}
                                   >
                                     {" "}
                                     <FaRegEdit size={20} />
@@ -174,7 +204,7 @@ const AddCategory = () => {
 
                                   <button
                                     className="btn btn-danger"
-                                    onClick={() => deleteCat(item.id)}
+                                    onClick={() => deleteCat(item?.id)}
                                   >
                                     {" "}
                                     <FaTrashAlt size={20} />

@@ -23,42 +23,42 @@ const SignIn = () => {
   } = useForm();
 
   const onSubmit = (data) => {
-    // console.log(data);
+    console.log(data);
     setErrorMessages("");
     setBool(true);
     firebase
       .auth()
-      .signInWithEmailAndPassword(data.email, data.password)
+      .signInWithEmailAndPassword(data?.email, data?.password)
       .then((userCredential) => {
         // Signed in
         var user = userCredential.user;
-        if (data.email === "admin@admin.com" || data.password === "12345678") {
-          history.push("/dashboard");
+        if (data?.email === "admin@admin.com" && data?.password === "12345678") {
+          dispatch(login(data?.email));
           toast.success("Logged in successfully");
           setBool(false);
-          dispatch(login(data.email));
+          history.push("/dashboard");
         } else {
           db.collection("users")
-            .where("email", "==", data.email)
+            .where("email", "==", data?.email)
             .get()
             .then((querySnapshot) => {
               querySnapshot.forEach((doc) => {
                 dispatch(login(doc.data()));
-                console.log(doc.id, " => ", doc.data());
+                console.log(doc.id, " => ", doc?.data());
               });
             })
             .catch((error) => {
               console.log("Error getting documents: ", error);
             });
-          dispatch(login(data.email));
+          dispatch(login(data?.email));
           setBool(false);
           toast.success("Logged in successfully");
           history.push("/");
         }
       })
       .catch((error) => {
-        var errorCode = error.code;
-        var errorMessage = error.message;
+        var errorCode = error?.code;
+        var errorMessage = error?.message;
         // console.log(error);
         setBool(false);
 

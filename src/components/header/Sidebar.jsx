@@ -50,6 +50,9 @@ const Sidebar = ({ toggleBool }) => {
               <a href="/vendors"> Vendors </a>
             </div>
             <div className="sidebar-items">
+              <a href="/bidders"> Bidders </a>
+            </div>
+            <div className="sidebar-items">
               <button onClick={logoutUser}> logout </button>
             </div>
           </div>
