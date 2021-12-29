@@ -3,6 +3,9 @@ import "./style.css";
 import ToggleMenu from "../../assets/toggleMenu.png";
 import { FaRegEdit, FaTrashAlt } from "react-icons/fa";
 import { useState } from "react";
+
+import imgAvatar from "../../assets/img_avatar.png";
+
 import Sidebar from "../../components/header/Sidebar";
 import {
   Button,
@@ -154,7 +157,13 @@ const Vendor = () => {
                   <img src={ToggleMenu} />
                 </button>
               </div>
-              <div className="content-top">Vendors</div>
+
+              <div className="icon-sidebar">
+              <img src={imgAvatar} />
+            </div>
+            <div className="sidebar-name">
+              <p>Zain</p>
+            </div>              {/* <div className="content-top">Vendors</div> */}
             </div>
 
             <div

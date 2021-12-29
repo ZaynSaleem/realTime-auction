@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
-import { db } from "../../config/firebase/firebase";
+import firebase, { db } from "../../config/firebase/firebase";
 import VendorSidebar from "../../components/header/VendorSidebar";
 import { useHistory, useParams } from "react-router-dom";
 
@@ -62,6 +62,8 @@ const AddProduct = () => {
           setValue("start_time", doc?.data()?.startTime);
           setValue("end_time", doc?.data()?.endTime);
           setValue("starting_bid", doc?.data()?.startingBid);
+          setValue("image_file", doc?.data()?.imageUrl);
+
           setBtnUpdateBool(true);
         })
         .catch((error) => {
@@ -81,54 +83,66 @@ const AddProduct = () => {
   };
   const onSubmit = (data) => {
     setBtnBool(true);
-    // console.log(data);
-    if (btnUpdateBool === false) {
-      db.collection("products")
-        .add({
-          uid: auth[0]?.uid,
-          productName: data?.product_name,
-          catId: data?.product_cat,
-          startTime: data?.start_time,
-          endTime: data?.end_time,
-          startingBid: data?.starting_bid,
-          timerStatus: false,
-          adminStatus : false,
-          productStatus : true,
-          bids: [],
-        })
-        .then((docRef) => {
-          console.log(docRef);
-          setBtnBool(false);
-          toast.success("New Product Added!");
-          history.push("/vendor-dash");
-          // setModal(!modal);
-        })
-        .catch((error) => {
-          toast.error("Error adding document: ");
-        });
-    } else {
-      db.collection("products")
-        .doc(id.id)
-        .update({
-          productName: data?.product_name,
-          catId: data?.product_cat,
-          startTime: data?.start_time,
-          endTime: data?.end_time,
-          startingBid: data?.starting_bid,
-          
-          bids: [],
-        })
-        .then(() => {
-          setBtnUpdateBool(false);
-          setBtnBool(false);
-          toast.success("Document successfully updated!");
-          history.push("/vendor-dash");
-        })
-        .catch((error) => {
-          setBtnBool(false);
-          toast.error("Error adding document: ");
-        });
-    }
+    // console.log(data?.image_file[0]?.name);
+    let fileUpload = data?.image_file[0];
+
+    let storageRef = firebase
+      .storage()
+      .ref("productImages/" + fileUpload?.name);
+
+    storageRef.put(fileUpload).then(function () {
+      storageRef.getDownloadURL().then(function (url) {
+        // console.log(url);
+        if (btnUpdateBool === false) {
+          db.collection("products")
+            .add({
+              uid: auth[0]?.uid,
+              productName: data?.product_name,
+              catId: data?.product_cat,
+              startTime: data?.start_time,
+              endTime: data?.end_time,
+              startingBid: data?.starting_bid,
+              timerStatus: false,
+              adminStatus: false,
+              productStatus: false,
+              imageUrl: url,
+              bids: [],
+            })
+            .then((docRef) => {
+              console.log(docRef);
+              setBtnBool(false);
+              toast.success("New Product Added!");
+              history.push("/vendor-dash");
+              // setModal(!modal);
+            })
+            .catch((error) => {
+              toast.error("Error adding document: ");
+            });
+        } else {
+          db.collection("products")
+            .doc(id.id)
+            .update({
+              productName: data?.product_name,
+              catId: data?.product_cat,
+              startTime: data?.start_time,
+              endTime: data?.end_time,
+              startingBid: data?.starting_bid,
+              imageUrl: url,
+              bids: [],
+            })
+            .then(() => {
+              setBtnUpdateBool(false);
+              setBtnBool(false);
+              toast.success("Document successfully updated!");
+              history.push("/vendor-dash");
+            })
+            .catch((error) => {
+              setBtnBool(false);
+              toast.error("Error adding document: ");
+            });
+        }
+      });
+    });
   };
   return (
     <div>
@@ -223,6 +237,19 @@ const AddProduct = () => {
                     />
                     {errors.starting_bid &&
                       errors.starting_bid.type === "required" && (
+                        <p>This is required</p>
+                      )}
+                  </div>
+
+                  <div className="form-input-vendor">
+                    <span>Choose Image</span>
+                    <input
+                      type="file"
+                      // onChange={(e) => imageUpload(e)}
+                      {...register("image_file", { required: true })}
+                    />
+                    {errors.image_file &&
+                      errors.image_file.type === "required" && (
                         <p>This is required</p>
                       )}
                   </div>

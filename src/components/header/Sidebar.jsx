@@ -22,7 +22,10 @@ const Sidebar = ({ toggleBool }) => {
         <div className="sidebar-wrapper">
           <div className="sidebar-head">
             <h1>
+              <a href="/">
+
               <span>i</span>BID
+              </a>
             </h1>
           </div>
           <div className="sidebar-details">

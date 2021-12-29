@@ -22,23 +22,17 @@ const VendorSidebar = ({ toggleBool, name }) => {
       <div className="sidebar-container">
         <div className="sidebar-wrapper">
           <div className="sidebar-head">
-            <h1>
-              <span>i</span>BID
-            </h1>
+            <a href="/">
+              <h1>
+                <span>i</span>BID
+              </h1>
+            </a>
           </div>
-          <div className="sidebar-details">
-            <div className="icon-sidebar">
-              <img src={imgAvatar} />
-            </div>
-            <div className="sidebar-name">
-              <p>{name}</p>
-            </div>
-          </div>
+
           <div className="items-wrapper">
-            <div className="sidebar-items">
+            {/* <div className="sidebar-items">
               <div className="icon-dash-vendor">
                 <FaChartLine />
-    
               </div>
               <div className="text-dash-vendor">
                 <a href="/vendor-dash"> Dashboard </a>
@@ -52,7 +46,19 @@ const VendorSidebar = ({ toggleBool, name }) => {
               <div className="text-dash-vendor">
                 <a href="/add-product">Add Product</a>
               </div>
-     
+            </div> */}
+
+            <div className="sidebar-item">
+              <button className="button-sidebar">
+                <FaChartLine />
+                <span className="btn-text-vendor">Dashboard</span>
+              </button>
+            </div>
+            <div className="sidebar-item">
+              <button className="button-sidebar">
+                <FaRegPlusSquare />
+                <span className="btn-text-vendor"> Add Product</span>
+              </button>
             </div>
 
             <div className="sidebar-items">

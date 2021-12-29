@@ -13,6 +13,7 @@ import { dltProduct, getVendorProduct } from "../../store/actions/VendorAction";
 import VendorSidebar from "../../components/header/VendorSidebar";
 import Timer from "./timer";
 import { useHistory } from "react-router";
+import Topbar from "../../components/topbar/Topbar";
 
 const VendorDash = () => {
   const dispatch = useDispatch();
@@ -40,16 +41,17 @@ const VendorDash = () => {
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
           let obj = {
-            id: doc.id,
-            uid: doc.data()?.uid,
-            productName: doc.data()?.productName,
-            catId: doc.data()?.catId,
-            startTime: doc.data()?.startTime,
-            endTime: doc.data()?.endTime,
-            startingBid: doc.data()?.startingBid,
-            timerStatus: doc.data()?.timerStatus,
-            adminStatus: doc.data()?.adminStatus,
-            productStatus: doc.data().productStatus,
+            id: doc?.id,
+            uid: doc?.data()?.uid,
+            productName: doc?.data()?.productName,
+            catId: doc?.data()?.catId,
+            startTime: doc?.data()?.startTime,
+            endTime: doc?.data()?.endTime,
+            startingBid: doc?.data()?.startingBid,
+            timerStatus: doc?.data()?.timerStatus,
+            adminStatus: doc?.data()?.adminStatus,
+            productStatus: doc?.data().productStatus,
+            imageUrl : doc?.data()?.imageUrl,
             bids: [],
           };
           arr.push(obj);
@@ -125,7 +127,7 @@ const VendorDash = () => {
           className="vendor-dashboard-content"
           style={toggleBool === false ? { width: "85%" } : { width: "100%" }}
         >
-          <div className="vendor-dashboard-top-bar">
+          {/* <div className="vendor-dashboard-top-bar">
             <div className="vendor-top-container">
               <div className="vendor-button-toggle">
                 <button onClick={toggleButton}>
@@ -135,7 +137,8 @@ const VendorDash = () => {
               </div>
               <div className="content-top">Vendor-Dash</div>
             </div>
-          </div>
+          </div> */}
+          <Topbar togglebtn={toggleButton} img={ToggleMenu}/>
 
           <div className="vendor-dashboard-card-wrapper">
             <div className="vendor-container-category-wrapper">
@@ -160,11 +163,14 @@ const VendorDash = () => {
                       {dataProduct && dataProduct?.length ? (
                         dataProduct.map((item, index) => {
                           return (
-                            <tr key={index} style={{color : item.adminStatus ? "grey" : ""}}>
+                            <tr
+                              key={index}
+                              style={{ color: item?.adminStatus ? "grey" : "" }}
+                            >
                               <th scope="row">{++index}</th>
-                              <td>{item.productName}</td>
-                              <td>{item.startTime}</td>
-                              <td>{item.endTime}</td>
+                              <td>{item?.productName}</td>
+                              <td>{item?.startTime}</td>
+                              <td>{item?.endTime}</td>
                               <td>
                                 {new Date(item?.startTime).getTime() <
                                 new Date().getTime() ? (
@@ -176,12 +182,12 @@ const VendorDash = () => {
                                   "NOT STARTED"
                                 )}
                               </td>
-                              <td>{item.startingBid}</td>
-                              <td>{item.bids}</td>
+                              <td>{item?.startingBid}</td>
+                              <td>{item?.bids}</td>
                               <td>
                                 {" "}
-                                {!item.adminStatus ? (
-                                  !item.productStatus ? (
+                                {!item?.adminStatus ? (
+                                  !item?.productStatus ? (
                                     <span className="status-active">
                                       Active
                                     </span>
@@ -198,7 +204,7 @@ const VendorDash = () => {
                               </td>
                               <td className="button-action">
                                 {new Date(item?.startTime).getTime() <
-                                new Date().getTime() || item?.adminStatus ? (
+                                  new Date().getTime() || item?.adminStatus ? (
                                   <>
                                     <button
                                       className="btn btn-success"
@@ -217,7 +223,7 @@ const VendorDash = () => {
                                   <>
                                     <button
                                       className="btn btn-success"
-                                      onClick={() => editCat(item.id)}
+                                      onClick={() => editCat(item?.id)}
                                     >
                                       {" "}
                                       <FaRegEdit size={20} />
@@ -225,7 +231,7 @@ const VendorDash = () => {
 
                                     <button
                                       className="btn btn-danger"
-                                      onClick={() => deleteCat(item.id)}
+                                      onClick={() => deleteCat(item?.id)}
                                     >
                                       {" "}
                                       <FaTrashAlt size={20} />
@@ -235,18 +241,32 @@ const VendorDash = () => {
                               </td>
                               <td>
                                 {" "}
-                                <div className="btn-switch">
-                                  <label class="switch">
-                                    <input
-                                      checked={item.productStatus}
-                                      value={item?.id}
-                                      type="checkbox"
-                                      disabled
-                                      onChange={(e) => handleUpdate(e)}
-                                    />
-                                    <span class="slider-switch round"></span>
-                                  </label>
-                                </div>
+                                {item?.adminStatus ? (
+                                  <div className="btn-switch">
+                                    <label class="switch">
+                                      <input
+                                        checked={item?.productStatus}
+                                        value={item?.id}
+                                        type="checkbox"
+                                        disabled
+                                        onChange={(e) => handleUpdate(e)}
+                                      />
+                                      <span class="slider-switch round"></span>
+                                    </label>
+                                  </div>
+                                ) : (
+                                  <div className="btn-switch">
+                                    <label class="switch">
+                                      <input
+                                        checked={item?.productStatus}
+                                        value={item?.id}
+                                        type="checkbox"
+                                        onChange={(e) => handleUpdate(e)}
+                                      />
+                                      <span class="slider-switch round"></span>
+                                    </label>
+                                  </div>
+                                )}
                               </td>
                             </tr>
                           );

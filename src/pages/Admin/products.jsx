@@ -129,7 +129,8 @@ const VendorProducts = () => {
                                 <td>{item?.productName}</td>
                                 <td>{item?.categoryName}</td>
                                 <td>
-                                  {!item?.productStatus ? (
+                                  { !item?.adminStatus ? 
+                                   !item?.productStatus ? (
                                     <span className="status-active">
                                       Live
                                     </span>
@@ -137,6 +138,10 @@ const VendorProducts = () => {
                                     <span className="status-vendor">
                                       disabled
                                     </span>
+                                  ) : (
+                                    <span className="status-vendor">
+                                    blocked
+                                  </span>
                                   )}
                                 </td>
                                 <td>{item?.startingBid}</td>
@@ -155,7 +160,7 @@ const VendorProducts = () => {
                                   <div className="btn-switch">
                                     <label class="switch">
                                       <input
-                                        checked={item.status}
+                                        checked={item?.adminStatus}
                                         value={item?.id}
                                         type="checkbox"
                                         onChange={(e) => handleStatus(e)}

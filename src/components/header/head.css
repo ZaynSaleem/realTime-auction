@@ -123,7 +123,7 @@
   justify-content: center;
 }
 .sidebar-head {
-  border-bottom: 1px solid white;
+  border-bottom: 1px solid #3b546e;
   color: #77a6cb;
   padding: 4px;
   text-align: center;
@@ -138,13 +138,13 @@
 }
 
 .sidebar-details {
-  width: 100%;
+  width: 13%;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-evenly;
-  padding: 18px 0px;
-  border-bottom: 1px solid white;
+  /* padding: 18px 0px; */
+  /* border-bottom: 1px solid white;*/
 }
 .icon-sidebar {
   border-radius: 50%;
@@ -165,37 +165,48 @@
 .sidebar-name p {
   font-size: 22px;
   margin: 0;
-  color: white;
+  /* color: white; */
   font-weight: 600;
-    font-family: inherit;
-    text-transform: capitalize;
+  font-family: inherit;
+  text-transform: capitalize;
 }
 .items-wrapper {
   width: 100%;
   display: flex;
   flex-wrap: wrap;
+  padding: 45px 0px;
 }
-.sidebar-items {
+/* .sidebar-items {
   width: 100%;
-  padding: 20px;
-  font-size: 19px;
+  padding: 21px 27px;
+  font-size: 16px;
   border-bottom: 1px solid white;
   text-transform: capitalize;
-  color: white;
+  color: #e3e3e3 !important;
   display: flex;
   flex-wrap: wrap;
-  align-items: baseline;
-
+  align-items: self-end;
 }
-.icon-dash-vendor{
-  font-size: 24px;
+.icon-dash-vendor {
+  font-size: 19px;
   width: 19%;
+}
+.sidebar-items:active {
+  color: #4ada40 !important;
 }
 .sidebar-items a {
   text-decoration: none;
-  color: white;
+  color: #e3e3e3;
   font-weight: 600;
 }
+.sidebar-items a:hover,
+.sidebar-items:hover {
+  color: #48789f;
+  cursor: pointer;
+}
+.sidebar-head a {
+  text-decoration: none;
+} */
 .sidebar-items button {
   border: 0;
   text-align: center;
@@ -207,6 +218,35 @@
   text-transform: capitalize;
   font-weight: 600;
 }
-.sidebar-items button:hover{
-  background-color:#4ada40;
+.sidebar-items button:hover {
+  background-color: #4ada40;
+}
+
+/* New Css */
+.sidebar-item {
+  width: 100%;
+  border: 0px;
+  outline: 0px;
+  background: transparent;
+}
+.button-sidebar {
+  border: 0;
+  background: transparent;
+  color: lightgrey;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  padding: 21px 27px;
+  font-size: 17px;
+  font-weight: 500;
+}
+.button-sidebar:hover {
+  color: #9d9d9d;
+}
+.button-sidebar:focus {
+  outline: 0px;
+}
+.btn-text-vendor {
+  margin-left: 19px;
 }

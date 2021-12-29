@@ -13,6 +13,7 @@ import VendorDash from "./pages/Vendors/vendorDash";
 import AddProduct from "./pages/Vendors/addProduct";
 import Users from "./pages/Admin/users";
 import VendorProducts from "./pages/Admin/products";
+import ViewProductDetails from "./pages/Vendors/viewproductdetails";
 
 function App() {
   return (
@@ -38,7 +39,9 @@ function App() {
           <PrivateRoute path="/vendors" component={Vendor} />
           <PrivateRoute path="/bidders" component={Users} />
           <PrivateRoute path="/products" component={VendorProducts} />
+          <PrivateRoute path="/viewproduct" component={ViewProductDetails} />
 
+          
           
           <PrivateRoute path="/dashboard" component={Dashboard} />
           <Route path="/sign-in">
