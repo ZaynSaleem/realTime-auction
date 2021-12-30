@@ -1,6 +1,7 @@
 import React from "react";
 import "./style.css";
 import imgAvatar from "../../assets/img_avatar.png";
+import { FaBars, FaSignOutAlt } from "react-icons/fa";
 
 const Topbar = (props) => {
   return (
@@ -9,7 +10,8 @@ const Topbar = (props) => {
         <div className="vendor-button-toggle">
           <button onClick={props.togglebtn}>
             {" "}
-            <img src={props.img} />
+            <FaBars/>
+            {/* <img src={props.img} /> */}
           </button>
         </div>
         {/* <div className="content-top">Vendor-Dash</div> */}
@@ -20,6 +22,13 @@ const Topbar = (props) => {
           <div className="icon-sidebar">
             <img src={imgAvatar} />
           </div>
+          <div className="logout-icon">
+            <button>
+
+            <FaSignOutAlt/>
+            </button>
+          </div>
+          
         </div>
       </div>
     </div>

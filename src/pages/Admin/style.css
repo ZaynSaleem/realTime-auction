@@ -1,6 +1,4 @@
-.table-form {
-  overflow: auto;
-}
+
 
 .container-admin {
   display: flex;
@@ -19,7 +17,7 @@
   background-color: #051e34;
   background-image: url(//www.gstatic.com/mobilesdk/190424_mobilesdk/nav_nachos@2x.png);
   background-repeat: no-repeat;
-  background-size: 256px 556px;
+  /* background-size: 256px 556px; */
 }
 
 .dashboard-content {
@@ -156,14 +154,25 @@
 .table-form {
   width: 100%;
   padding: 30px 0px;
+  overflow: auto;
+}
+.table-form tbody{
+  font-size: 14px;
 }
 .table-form table {
   text-align: center;
 }
-.table-form table thead {
+/* .table-form table thead {
   color: white;
   background-color: #214162;
+} */
+.table-form .table-bordered>:not(caption)>* {
+  border-width: 1px 1px;
 }
+.table-form .table>:not(:first-child) {
+  border-top: 1px solid currentColor;
+}
+
 .button-action {
   display: flex;
   flex-wrap: wrap;

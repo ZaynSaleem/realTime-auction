@@ -3,7 +3,7 @@ import imgAvatar from "../../assets/img_avatar.png";
 import { useDispatch } from "react-redux";
 import { logout } from "../../store/actions/AuthAction";
 import { useHistory } from "react-router";
-import { FaChartLine, FaRegPlusSquare } from "react-icons/fa";
+import { FaChartLine, FaHeadset, FaRegPlusSquare, FaTruck } from "react-icons/fa";
 
 const VendorSidebar = ({ toggleBool, name }) => {
   let dispatch = useDispatch();
@@ -61,8 +61,23 @@ const VendorSidebar = ({ toggleBool, name }) => {
               </button>
             </div>
 
-            <div className="sidebar-items">
+            <div className="sidebar-item">
+              <button className="button-sidebar">
+                <FaTruck />
+                <span className="btn-text-vendor"> Delivered</span>
+              </button>
+            </div>
+
+            {/* <div className="sidebar-items">
               <button onClick={logoutUser}> logout </button>
+            </div> */}
+          </div>
+          <div className="end-wrapper">
+          <div className="sidebar-item">
+              <button className="button-sidebar">
+                <FaHeadset />
+                <span className="btn-text-vendor"> Support</span>
+              </button>
             </div>
           </div>
         </div>
