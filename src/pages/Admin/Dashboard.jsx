@@ -1,9 +1,16 @@
 import "./style.css";
 import ToggleMenu from "../../assets/toggleMenu.png";
-import { FaGavel, FaListAlt, FaProductHunt, FaUserAlt } from "react-icons/fa";
+import {
+  FaAngleDoubleRight,
+  FaGavel,
+  FaListAlt,
+  FaProductHunt,
+  FaUserAlt,
+} from "react-icons/fa";
 import DashboardCard from "../../components/Cards/DashboardCard";
 import { useState } from "react";
 import Sidebar from "../../components/header/Sidebar";
+import Topbar from "../../components/topbar/Topbar";
 
 const Dashboard = () => {
   const [toggleBool, setToggleBool] = useState(false);
@@ -21,29 +28,37 @@ const Dashboard = () => {
       <Sidebar toggleBool={toggleBool} />
 
       <div
-        className="dashboard-content"
-        style={toggleBool === false ? { width: "80%" } : { width: "100%" }}
+        className={
+          toggleBool === false
+            ? "vendor-dashboard-content"
+            : "vendor-dashboard-content-toggle"
+        }
       >
-        <div className="dashboard-content-container">
-          <div className="dashboard-top-bar">
-            <div className="button-toggle">
-              <button onClick={toggleButton}>
-                {" "}
-                <img src={ToggleMenu} />
-              </button>
+        <Topbar togglebtn={toggleButton} img={ToggleMenu} />
+
+        <div className="vendor-dashboard-card-wrapper">
+          <div className="vendor-container-category-wrapper">
+            <div className="container-card-wrapper">
+              <div className="breadcumbs-text">
+                iBid <FaAngleDoubleRight /> Dashboard
+              </div>
+              <div className="breadcumbs-text">
+               Dashboard
+              </div>
+              
+              {/*  */}
             </div>
-            <div className="content-top">Dashboard</div>
           </div>
 
-          <div className="dashboard-card-wrapper">
+          <div className="vendor-container-category-wrapper">
             <div className="container-card-wrapper">
               <DashboardCard
                 icon={<FaUserAlt />}
                 headText="No Of Vendors"
                 count="457"
-                colorIcon="#28a745"
+                colorIcon="#81d3a1"
                 color="#ffff"
-                cardBgColor="rgb(143 225 135)"
+                textColor="#499b75"
               />
               <DashboardCard
                 icon={<FaGavel />}
@@ -51,7 +66,7 @@ const Dashboard = () => {
                 count="34895"
                 colorIcon="#dc3545"
                 color="#ffff"
-                cardBgColor="rgb(255 114 129)"
+                textColor=""
               />
               <DashboardCard
                 icon={<FaListAlt />}
@@ -59,7 +74,7 @@ const Dashboard = () => {
                 count="65"
                 colorIcon="#ffc107"
                 color="#ffff"
-                cardBgColor="rgb(255 223 110)"
+                textColor=""
               />
               <DashboardCard
                 icon={<FaProductHunt />}
@@ -67,7 +82,7 @@ const Dashboard = () => {
                 count="45700"
                 colorIcon="#007bff"
                 color="#ffff"
-                cardBgColor="rgb(175 199 255)"
+                textColor=""
               />
 
               <DashboardCard
@@ -76,7 +91,7 @@ const Dashboard = () => {
                 count="457"
                 colorIcon="rgb(23 178 184)"
                 color="#ffff"
-                cardBgColor="rgb(124 209 215)"
+                textColor=""
               />
 
               <DashboardCard
@@ -85,7 +100,7 @@ const Dashboard = () => {
                 count="457"
                 colorIcon="#343a40"
                 color="#ffff"
-                cardBgColor="rgb(153 153 153)"
+                textColor=""
               />
             </div>
           </div>

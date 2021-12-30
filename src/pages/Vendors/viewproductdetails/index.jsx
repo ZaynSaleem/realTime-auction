@@ -123,6 +123,7 @@ const ViewProductDetails = () => {
       <div className="container-admin">
         <VendorSidebar
           toggleBool={toggleBool}
+          togglebtn={toggleButton}
           name={auth[0]?.email?.split("@")[0]}
         />
         <div

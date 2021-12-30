@@ -121,11 +121,12 @@ const VendorDash = () => {
       <div className="container-admin">
         <VendorSidebar
           toggleBool={toggleBool}
+          togglebtn={toggleButton}
           name={auth[0]?.email?.split("@")[0]}
         />
         <div
-          className="vendor-dashboard-content"
-          style={toggleBool === false ? { width: "85%" } : { width: "100%" }}
+          className={toggleBool === false ?  "vendor-dashboard-content"  : "vendor-dashboard-content-toggle"}
+          // style={toggleBool === false ? { width: "85%" } : { width: "100%" }}
         >
           {/* <div className="vendor-dashboard-top-bar">
             <div className="vendor-top-container">

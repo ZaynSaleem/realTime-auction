@@ -21,6 +21,7 @@ import { addCat, dltTodo, updateCat } from "../../store/actions";
 import { getVendor } from "../../store/actions/VendorAction";
 
 import Loader from "../../components/Loader/loader";
+import Topbar from "../../components/topbar/Topbar";
 
 const VendorProducts = () => {
   const dispatch = useDispatch();
@@ -45,7 +46,7 @@ const VendorProducts = () => {
             productName: doc.data()?.productName,
             categoryName: doc.data()?.catId,
             productStatus: doc.data()?.productStatus,
-            adminStatus : doc.data()?.adminStatus,
+            adminStatus: doc.data()?.adminStatus,
             startingBid: doc.data()?.startingBid,
           };
           arr.push(obj);
@@ -86,23 +87,20 @@ const VendorProducts = () => {
         <Sidebar toggleBool={toggleBool} />
 
         <div
-          className="dashboard-content"
-          style={toggleBool === false ? { width: "80%" } : { width: "100%" }}
+          className={
+            toggleBool === false
+              ? "vendor-dashboard-content"
+              : "vendor-dashboard-content-toggle"
+          }
         >
-          <Loader bool={loaderBool} />
-          <div className="dashboard-content-container">
-            <div className="dashboard-top-bar">
-              <div className="button-toggle">
-                <button onClick={toggleButton}>
-                  {" "}
-                  <img src={ToggleMenu} />
-                </button>
-              </div>
-              <div className="content-top">Products</div>
-            </div>
+          <Topbar togglebtn={toggleButton} img={ToggleMenu} />
 
+          <div className="vendor-dashboard-card-wrapper">
+
+
+            <Loader bool={loaderBool} />
             <div
-              className="dashboard-card-wrapper"
+              className="vendor-container-category-wrapper"
               style={{ display: loaderBool === true ? "none" : "block" }}
             >
               <div className="container-category-wrapper">
@@ -129,19 +127,20 @@ const VendorProducts = () => {
                                 <td>{item?.productName}</td>
                                 <td>{item?.categoryName}</td>
                                 <td>
-                                  { !item?.adminStatus ? 
-                                   !item?.productStatus ? (
-                                    <span className="status-active">
-                                      Live
-                                    </span>
+                                  {!item?.adminStatus ? (
+                                    !item?.productStatus ? (
+                                      <span className="status-active">
+                                        Live
+                                      </span>
+                                    ) : (
+                                      <span className="status-vendor">
+                                        disabled
+                                      </span>
+                                    )
                                   ) : (
                                     <span className="status-vendor">
-                                      disabled
+                                      blocked
                                     </span>
-                                  ) : (
-                                    <span className="status-vendor">
-                                    blocked
-                                  </span>
                                   )}
                                 </td>
                                 <td>{item?.startingBid}</td>

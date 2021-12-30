@@ -1,62 +1,92 @@
 import "./head.css";
-import imgAvatar from "../../assets/img_avatar.png";
+
 import { useDispatch } from "react-redux";
 import { logout } from "../../store/actions/AuthAction";
 import { useHistory } from "react-router";
+import {
+  FaChartLine,
+  FaHeadset,
+  FaRegPlusSquare,
+  FaTruck,
+  FaTimes,
+  FaUser,
+  FaUsers,
+  FaProductHunt,
+} from "react-icons/fa";
 
-const Sidebar = ({ toggleBool }) => {
+const Sidebar = ({ toggleBool, togglebtn }) => {
   let dispatch = useDispatch();
   let history = useHistory();
 
-  const logoutUser = () => {
-    dispatch(logout());
-    history.push("/sign-in");
-  };
+
 
   return (
     <div
-      className="dashboard-sidebar"
-      style={toggleBool === false ? { width: "20%" } : { width: "0%" }}
+      className={
+        toggleBool === false ? "dashboard-sidebar" : "dashboard-sidebar-toggle"
+      }
+      // style={toggleBool === false ? { width: "15%" } : { width: "0%" }}
     >
       <div className="sidebar-container">
+        <div className="close-btn-sidebar">
+          <button onClick={togglebtn}>
+            <FaTimes />
+          </button>
+        </div>
         <div className="sidebar-wrapper">
           <div className="sidebar-head">
-            <h1>
-              <a href="/">
+            <a href="/">
+              <h1>
+                <span>i</span>BID
+              </h1>
+            </a>
+          </div>
 
-              <span>i</span>BID
-              </a>
-            </h1>
-          </div>
-          <div className="sidebar-details">
-            <div className="icon-sidebar">
-              <img src={imgAvatar} />
-            </div>
-            <div className="sidebar-name">
-              <p>Welcome</p>
-              <p>John Doe</p>
-            </div>
-          </div>
           <div className="items-wrapper">
-            <div className="sidebar-items">
-              <a href="/dashboard"> Dashboard </a>
+            <div className="sidebar-item">
+              <button className="button-sidebar"  onClick={() => history.push('/dashboard')}>
+                <FaChartLine />
+                <span className="btn-text-vendor">Dashboard</span>
+              </button>
+            </div>
+            <div className="sidebar-item">
+              <button className="button-sidebar" onClick={() => history.push('/add-category')}>
+                <FaRegPlusSquare />
+                <span className="btn-text-vendor"> Add Category</span>
+              </button>
             </div>
 
-            <div className="sidebar-items">
-              <a href="add-category"> Add category </a>
+            <div className="sidebar-item">
+              <button className="button-sidebar" onClick={() => history.push('/products')}>
+                <FaProductHunt />
+                <span className="btn-text-vendor"> Products</span>
+              </button>
             </div>
 
-            <div className="sidebar-items">
-              <a href="/products"> Products </a>
+            <div className="sidebar-item">
+              <button className="button-sidebar"onClick={() => history.push('/vendors')}>
+                <FaUser />
+                <span className="btn-text-vendor"> Vendors</span>
+              </button>
             </div>
-            <div className="sidebar-items">
-              <a href="/vendors"> Vendors </a>
+
+            <div className="sidebar-item">
+              <button className="button-sidebar"onClick={() => history.push('/bidders')}>
+                <FaUsers />
+                <span className="btn-text-vendor"> Users</span>
+              </button>
             </div>
-            <div className="sidebar-items">
-              <a href="/bidders"> Users </a>
-            </div>
-            <div className="sidebar-items">
+
+            {/* <div className="sidebar-items">
               <button onClick={logoutUser}> logout </button>
+            </div> */}
+          </div>
+          <div className="end-wrapper">
+            <div className="sidebar-item">
+              <button className="button-sidebar">
+                <FaHeadset />
+                <span className="btn-text-vendor"> Support</span>
+              </button>
             </div>
           </div>
         </div>

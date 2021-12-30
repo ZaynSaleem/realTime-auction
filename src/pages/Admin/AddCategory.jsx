@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import "./style.css";
 import ToggleMenu from "../../assets/toggleMenu.png";
-import { FaRegEdit, FaTrashAlt } from "react-icons/fa";
+import { FaPlusCircle, FaRegEdit, FaTrashAlt } from "react-icons/fa";
 import { useState } from "react";
 import Sidebar from "../../components/header/Sidebar";
 import {
@@ -19,6 +19,7 @@ import { toast } from "react-toastify";
 import { db } from "../../config/firebase/firebase";
 import { addCat, dltTodo, updateCat } from "../../store/actions";
 import Loader from "../../components/Loader/loader";
+import Topbar from "../../components/topbar/Topbar";
 
 const AddCategory = () => {
   const dispatch = useDispatch();
@@ -150,29 +151,25 @@ const AddCategory = () => {
         <Sidebar toggleBool={toggleBool} />
 
         <div
-          className="dashboard-content"
-          style={toggleBool === false ? { width: "80%" } : { width: "100%" }}
-        >
+        className={
+          toggleBool === false
+            ? "vendor-dashboard-content"
+            : "vendor-dashboard-content-toggle"
+        }
+      >
+          <Topbar togglebtn={toggleButton} img={ToggleMenu} />
           <Loader bool={loaderBool} />
           <div
-            className="dashboard-content-container"
+            className="vendor-dashboard-card-wrapper"
             style={{ display: loaderBool === true ? "none" : "block" }}
           >
-            <div className="dashboard-top-bar">
-              <div className="button-toggle">
-                <button onClick={toggleButton}>
-                  {" "}
-                  <img src={ToggleMenu} />
-                </button>
-              </div>
-              <div className="content-top">Add-Category</div>
-            </div>
+          
 
-            <div className="dashboard-card-wrapper">
+            <div className="vendor-container-category-wrapper">
               <div className="container-category-wrapper">
                 <div className="add-button">
-                  <button className="btn btn-success" onClick={toggle}>
-                    Add Category
+                  <button className="btn btn-success " onClick={toggle}>
+                    <FaPlusCircle/>
                   </button>
                 </div>
 

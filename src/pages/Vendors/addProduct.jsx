@@ -150,6 +150,7 @@ const AddProduct = () => {
         {/* <VendorSidebar toggleBool={toggleBool} /> */}
         <VendorSidebar
           toggleBool={toggleBool}
+          togglebtn={toggleButton}
           name={auth[0]?.email?.split("@")[0]}
         />
         <div

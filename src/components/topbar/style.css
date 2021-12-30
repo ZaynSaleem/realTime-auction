@@ -13,6 +13,7 @@
   width: 100%;
   align-items: center;
   justify-content: space-between;
+  padding: 1px 0px;
 }
 .vendor-content-top {
   font-size: 21px;
@@ -88,3 +89,20 @@
   outline: 1px solid rgb(94, 159, 185);
   border-radius: 3px;
 }
+@media (max-width:1221px) {
+  .sidebar-details{
+    width: 21%;
+  }
+}
+@media (max-width:619px) {
+  .sidebar-details{
+    width: 31%;
+  }
+}
+@media (max-width:498px) {
+  .sidebar-details{
+    width: 40%;
+  }
+}
+
+

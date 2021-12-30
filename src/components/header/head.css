@@ -136,7 +136,14 @@
 .sidebar-head span {
   color: white;
 }
-
+.sidebar-head a {
+  text-decoration: none;
+  color: #77a6cb;
+}
+.sidebar-head a:hover {
+  /* text-decoration: none; */
+  color: #3f6583;
+}
 
 .items-wrapper {
   width: 100%;
@@ -171,8 +178,8 @@
 .sidebar-items:hover {
   color: #48789f;
   cursor: pointer;
-}
-.sidebar-head a {
+} */
+/* .sidebar-head a {
   text-decoration: none;
 } */
 .sidebar-items button {
@@ -200,7 +207,7 @@
 .button-sidebar {
   border: 0;
   background: transparent;
-  color: lightgrey;
+  color: #efefef;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -224,5 +231,23 @@
   flex-wrap: wrap;
   /* padding: 45px 0px; */
   border-top: 1px solid #3b546e;
-  
+}
+.close-btn-sidebar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: end;
+  padding: 9px 14px;
+  display: none;
+  border-bottom: 1px solid #3b546e;
+  /* font-size: 25px; */
+  /* color: white; */
+}
+.close-btn-sidebar button {
+  border: 0;
+  background: transparent;
+  /* padding: 9px 14px; */
+  /* border-bottom: 1px solid #3b546e; */
+  font-size: 25px;
+  color: white;
 }

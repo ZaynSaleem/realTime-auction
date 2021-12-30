@@ -3,9 +3,9 @@ import imgAvatar from "../../assets/img_avatar.png";
 import { useDispatch } from "react-redux";
 import { logout } from "../../store/actions/AuthAction";
 import { useHistory } from "react-router";
-import { FaChartLine, FaHeadset, FaRegPlusSquare, FaTruck } from "react-icons/fa";
+import { FaChartLine, FaHeadset, FaRegPlusSquare, FaTruck,FaTimes } from "react-icons/fa";
 
-const VendorSidebar = ({ toggleBool, name }) => {
+const VendorSidebar = ({ toggleBool, name, togglebtn }) => {
   let dispatch = useDispatch();
   let history = useHistory();
 
@@ -16,10 +16,16 @@ const VendorSidebar = ({ toggleBool, name }) => {
 
   return (
     <div
-      className="dashboard-sidebar"
-      style={toggleBool === false ? { width: "15%" } : { width: "0%" }}
+      className={toggleBool === false ?  "dashboard-sidebar"  :  "dashboard-sidebar-toggle" }
+      // style={toggleBool === false ? { width: "15%" } : { width: "0%" }}
     >
       <div className="sidebar-container">
+          <div className="close-btn-sidebar">
+            <button onClick={togglebtn}>
+
+            <FaTimes/>
+            </button>
+          </div>
         <div className="sidebar-wrapper">
           <div className="sidebar-head">
             <a href="/">
