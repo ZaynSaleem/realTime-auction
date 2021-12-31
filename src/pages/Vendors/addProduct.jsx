@@ -2,13 +2,15 @@ import React, { useEffect } from "react";
 import "./style.css";
 import ToggleMenu from "../../assets/toggleMenu.png";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
 import firebase, { db } from "../../config/firebase/firebase";
 import VendorSidebar from "../../components/header/VendorSidebar";
 import { useHistory, useParams } from "react-router-dom";
+import Topbar from "../../components/topbar/Topbar";
+import { FaTimesCircle } from "react-icons/fa";
 
 const AddProduct = () => {
   const id = useParams();
@@ -27,6 +29,7 @@ const AddProduct = () => {
   const [startTime, setStartTime] = useState("");
   const [minEndTime, setMinEndTime] = useState("");
   const [btnUpdateBool, setBtnUpdateBool] = useState(false);
+  const [imageArr, setImageArr] = useState([]);
 
   const {
     register,
@@ -36,10 +39,10 @@ const AddProduct = () => {
     setValue,
     getValues,
   } = useForm({});
+
   let arr = [];
   const d = new Date();
   let text = d?.toISOString();
-
   useEffect(() => {
     if (startTime && startTime !== "") {
       let stDate = new Date(startTime);
@@ -81,18 +84,20 @@ const AddProduct = () => {
       setToggleBool(!toggleBool);
     }
   };
-  const onSubmit = (data) => {
+
+  const onSubmit = async (data) => {
     setBtnBool(true);
     // console.log(data?.image_file[0]?.name);
-    let fileUpload = data?.image_file[0];
-
-    let storageRef = firebase
-      .storage()
-      .ref("productImages/" + fileUpload?.name);
-
-    storageRef.put(fileUpload).then(function () {
-      storageRef.getDownloadURL().then(function (url) {
-        // console.log(url);
+    let fileUpload = [...imageArr];
+    let urlArr = [];
+    // let imageFunc = imageUploadHandler();
+    if (fileUpload && fileUpload?.length) {
+      for (let i = 0; i < fileUpload?.length; i++) {
+        let imageFunc = await imageUploadHandler(fileUpload[i]);
+        console.log(imageFunc, "url");
+        urlArr.push(imageFunc);
+      }
+      if (urlArr && urlArr?.length) {
         if (btnUpdateBool === false) {
           db.collection("products")
             .add({
@@ -105,7 +110,7 @@ const AddProduct = () => {
               timerStatus: false,
               adminStatus: false,
               productStatus: false,
-              imageUrl: url,
+              imageUrl: urlArr,
               bids: [],
             })
             .then((docRef) => {
@@ -127,7 +132,7 @@ const AddProduct = () => {
               startTime: data?.start_time,
               endTime: data?.end_time,
               startingBid: data?.starting_bid,
-              imageUrl: url,
+              imageUrl: urlArr,
               bids: [],
             })
             .then(() => {
@@ -141,9 +146,96 @@ const AddProduct = () => {
               toast.error("Error adding document: ");
             });
         }
-      });
+      }
+    }
+    // console.log(imageArr)
+
+    // let storageRef = firebase
+    //   .storage()
+    //   .ref("productImages/" + fileUpload?.name);
+
+    // storageRef.put(fileUpload).then(function () {
+    //   storageRef.getDownloadURL().then(function (url) {
+    //     // console.log(url);
+    //     if (btnUpdateBool === false) {
+    //       db.collection("products")
+    //         .add({
+    //           uid: auth[0]?.uid,
+    //           productName: data?.product_name,
+    //           catId: data?.product_cat,
+    //           startTime: data?.start_time,
+    //           endTime: data?.end_time,
+    //           startingBid: data?.starting_bid,
+    //           timerStatus: false,
+    //           adminStatus: false,
+    //           productStatus: false,
+    //           imageUrl: url,
+    //           bids: [],
+    //         })
+    //         .then((docRef) => {
+    //           console.log(docRef);
+    //           setBtnBool(false);
+    //           toast.success("New Product Added!");
+    //           history.push("/vendor-dash");
+    //           // setModal(!modal);
+    //         })
+    //         .catch((error) => {
+    //           toast.error("Error adding document: ");
+    //         });
+    //     } else {
+    //       db.collection("products")
+    //         .doc(id.id)
+    //         .update({
+    //           productName: data?.product_name,
+    //           catId: data?.product_cat,
+    //           startTime: data?.start_time,
+    //           endTime: data?.end_time,
+    //           startingBid: data?.starting_bid,
+    //           imageUrl: url,
+    //           bids: [],
+    //         })
+    //         .then(() => {
+    //           setBtnUpdateBool(false);
+    //           setBtnBool(false);
+    //           toast.success("Document successfully updated!");
+    //           history.push("/vendor-dash");
+    //         })
+    //         .catch((error) => {
+    //           setBtnBool(false);
+    //           toast.error("Error adding document: ");
+    //         });
+    //     }
+    //   });
+    // });
+  };
+  const imageHandlerOnchange = (e) => {
+    let file = e?.target?.files;
+    setImageArr([...imageArr, ...file]);
+  };
+  const deleteImageHandler = (i) => {
+    let dup = [...imageArr];
+    let filtData = dup.filter((x, index) => index !== i);
+
+    setImageArr(filtData);
+  };
+
+  const imageUploadHandler = (data) => {
+    return new Promise((resolve, reject) => {
+      try {
+        let storageRef = firebase.storage().ref("productImages/" + data?.name);
+        storageRef.put(data).then(function () {
+          storageRef.getDownloadURL().then(function (url) {
+            // return url;
+            resolve(url);
+          });
+        });
+        // resolve(storageRef);
+      } catch (error) {
+        reject(error);
+      }
     });
   };
+
   return (
     <div>
       <div className="container-admin">
@@ -154,20 +246,13 @@ const AddProduct = () => {
           name={auth[0]?.email?.split("@")[0]}
         />
         <div
-          className="vendor-dashboard-content"
-          style={toggleBool === false ? { width: "85%" } : { width: "100%" }}
+          className={
+            toggleBool === false
+              ? "vendor-dashboard-content"
+              : "vendor-dashboard-content-toggle"
+          }
         >
-          <div className="vendor-dashboard-top-bar">
-            <div className="vendor-top-container">
-              <div className="vendor-button-toggle">
-                <button onClick={toggleButton}>
-                  {" "}
-                  <img src={ToggleMenu} />
-                </button>
-              </div>
-              <div className="vendor-content-top">Add Product</div>
-            </div>
-          </div>
+          <Topbar togglebtn={toggleButton} img={ToggleMenu} />
 
           <div className="vendor-dashboard-card-wrapper">
             <div className="vendor-container-category-wrapper">
@@ -234,6 +319,7 @@ const AddProduct = () => {
                     <span>Starting Bid</span>
                     <input
                       type="number"
+                      onChange={(e) => console.log(e)}
                       {...register("starting_bid", { required: true })}
                     />
                     {errors.starting_bid &&
@@ -246,8 +332,13 @@ const AddProduct = () => {
                     <span>Choose Image</span>
                     <input
                       type="file"
-                      // onChange={(e) => imageUpload(e)}
-                      {...register("image_file", { required: true })}
+                      multiple
+                      accept="image/*"
+                      {...register("image_file", {
+                        required: true,
+                        onChange: (e) => imageHandlerOnchange(e),
+                        // accept:"image/*"
+                      })}
                     />
                     {errors.image_file &&
                       errors.image_file.type === "required" && (
@@ -284,8 +375,28 @@ const AddProduct = () => {
               </form>
             </div>
           </div>
-
-          {/*  */}
+          {imageArr && imageArr.length ? (
+            <div className="vendor-container-category-wrapper">
+              <div className="image-form">
+                {imageArr.map((item, index) => {
+                  // console.log(item);
+                  return (
+                    <div className="image-card" key={index}>
+                      <div className="image-overlay-icon">
+                        <button
+                          className="btn-close"
+                          onClick={() => deleteImageHandler(index)}
+                        >
+                          <FaTimesCircle />
+                        </button>
+                      </div>
+                      <img src={URL.createObjectURL(item)} alt="image" />
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          ) : null}
         </div>
       </div>
     </div>

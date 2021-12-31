@@ -9,10 +9,6 @@ const VendorSidebar = ({ toggleBool, name, togglebtn }) => {
   let dispatch = useDispatch();
   let history = useHistory();
 
-  const logoutUser = () => {
-    dispatch(logout());
-    history.push("/sign-in");
-  };
 
   return (
     <div
@@ -55,20 +51,20 @@ const VendorSidebar = ({ toggleBool, name, togglebtn }) => {
             </div> */}
 
             <div className="sidebar-item">
-              <button className="button-sidebar">
+              <button className="button-sidebar" onClick={() => {history.push("/vendor-dash")}}>
                 <FaChartLine />
                 <span className="btn-text-vendor">Dashboard</span>
               </button>
             </div>
             <div className="sidebar-item">
-              <button className="button-sidebar">
+              <button className="button-sidebar" onClick={() => {history.push("/add-product")}}>
                 <FaRegPlusSquare />
                 <span className="btn-text-vendor"> Add Product</span>
               </button>
             </div>
 
             <div className="sidebar-item">
-              <button className="button-sidebar">
+              <button className="button-sidebar" onClick={() => {history.push("/vendor-dash")}}>
                 <FaTruck />
                 <span className="btn-text-vendor"> Delivered</span>
               </button>
