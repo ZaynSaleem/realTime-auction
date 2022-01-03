@@ -30,6 +30,7 @@ const AddProduct = () => {
   const [minEndTime, setMinEndTime] = useState("");
   const [btnUpdateBool, setBtnUpdateBool] = useState(false);
   const [imageArr, setImageArr] = useState([]);
+  const [category, setCategory] = useState([]);
 
   const {
     register,
@@ -54,26 +55,34 @@ const AddProduct = () => {
   }, [startTime]);
 
   useEffect(() => {
+    categoryCaller();
     if (id.id && id.id !== "") {
+      setBtnUpdateBool(true);
       db.collection("products")
         .doc(id.id)
         .get()
         .then((doc) => {
-          console.log(doc.data());
+          // console.log(doc.data());
           setValue("product_name", doc?.data()?.productName);
           setValue("product_cat", doc?.data()?.catId);
           setValue("start_time", doc?.data()?.startTime);
           setValue("end_time", doc?.data()?.endTime);
           setValue("starting_bid", doc?.data()?.startingBid);
           setValue("image_file", doc?.data()?.imageUrl);
-
-          setBtnUpdateBool(true);
+          setImageArr(doc?.data()?.imageUrl);
         })
         .catch((error) => {
           toast.error("Error getting documents: ", error);
         });
     } else {
-      console.log("no Id");
+      setValue("product_name", "");
+      setValue("product_cat", "");
+      setValue("start_time", "");
+      setValue("end_time", "");
+      setValue("starting_bid", "");
+      setImageArr([]);
+      setBtnUpdateBool(false);
+      // console.log("no Id");
     }
   }, [id.id]);
 
@@ -85,6 +94,22 @@ const AddProduct = () => {
     }
   };
 
+  const categoryCaller = () => {
+    let catArr = [];
+    db.collection("category")
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          let obj = {
+            catId: doc?.id,
+            categoryname: doc?.data()?.categoryName,
+          };
+          catArr.push(obj);
+        });
+        setCategory(catArr);
+      });
+  };
+
   const onSubmit = async (data) => {
     setBtnBool(true);
     // console.log(data?.image_file[0]?.name);
@@ -94,7 +119,7 @@ const AddProduct = () => {
     if (fileUpload && fileUpload?.length) {
       for (let i = 0; i < fileUpload?.length; i++) {
         let imageFunc = await imageUploadHandler(fileUpload[i]);
-        console.log(imageFunc, "url");
+        // console.log(imageFunc, "url");
         urlArr.push(imageFunc);
       }
       if (urlArr && urlArr?.length) {
@@ -107,14 +132,14 @@ const AddProduct = () => {
               startTime: data?.start_time,
               endTime: data?.end_time,
               startingBid: data?.starting_bid,
-              timerStatus: false,
+              timerStatus: "",
               adminStatus: false,
               productStatus: false,
               imageUrl: urlArr,
               bids: [],
             })
             .then((docRef) => {
-              console.log(docRef);
+              // console.log(docRef);
               setBtnBool(false);
               toast.success("New Product Added!");
               history.push("/vendor-dash");
@@ -133,17 +158,16 @@ const AddProduct = () => {
               endTime: data?.end_time,
               startingBid: data?.starting_bid,
               imageUrl: urlArr,
-              bids: [],
             })
             .then(() => {
+              history.push("/vendor-dash");
+              toast.success("Document successfully updated!");
               setBtnUpdateBool(false);
               setBtnBool(false);
-              toast.success("Document successfully updated!");
-              history.push("/vendor-dash");
             })
             .catch((error) => {
-              setBtnBool(false);
               toast.error("Error adding document: ");
+              setBtnBool(false);
             });
         }
       }
@@ -212,11 +236,38 @@ const AddProduct = () => {
     let file = e?.target?.files;
     setImageArr([...imageArr, ...file]);
   };
-  const deleteImageHandler = (i) => {
-    let dup = [...imageArr];
-    let filtData = dup.filter((x, index) => index !== i);
+  const deleteImageHandler = (item, i) => {
+    if (window.confirm("Are you sure you want to delete?")) {
+      let dup = [...imageArr];
+      let filtData = dup.filter((x, index) => index !== i);
+      setImageArr(filtData);
 
-    setImageArr(filtData);
+      if (btnUpdateBool) {
+        let storageRef = firebase.storage().refFromURL(item);
+
+        storageRef
+          .delete()
+          .then(() => {
+            toast.success("deleted");
+
+            db.collection("products")
+              .doc(id.id)
+              .update({
+                imageUrl: filtData,
+              })
+              .catch((error) => {
+                setBtnBool(false);
+                toast.error(error);
+              });
+          })
+          .catch((error) => {
+            toast.error(error);
+          });
+        setImageArr(filtData);
+      }
+
+      setImageArr(filtData);
+    }
   };
 
   const imageUploadHandler = (data) => {
@@ -279,7 +330,15 @@ const AddProduct = () => {
                       <option value="" disabled selected hidden>
                         Select Category
                       </option>
-                      <option value="abc">abc</option>
+                      {category && category?.length
+                        ? category?.map((item, index) => {
+                            return (
+                              <option key={index} value={item?.catId}>
+                                {item?.categoryname}
+                              </option>
+                            );
+                          })
+                        : ""}
                     </select>
                     {errors.product_cat &&
                       errors.product_cat.type === "required" && (
@@ -319,7 +378,7 @@ const AddProduct = () => {
                     <span>Starting Bid</span>
                     <input
                       type="number"
-                      onChange={(e) => console.log(e)}
+                      // onChange={(e) => console.log(e)}
                       {...register("starting_bid", { required: true })}
                     />
                     {errors.starting_bid &&
@@ -367,7 +426,7 @@ const AddProduct = () => {
                         <div className="spinner-border spinner-border-sm">
                           {" "}
                         </div>{" "}
-                        Update Product
+                        Updating
                       </button>
                     )}
                   </div>
@@ -375,22 +434,33 @@ const AddProduct = () => {
               </form>
             </div>
           </div>
-          {imageArr && imageArr.length ? (
+          {imageArr && imageArr?.length ? (
             <div className="vendor-container-category-wrapper">
               <div className="image-form">
-                {imageArr.map((item, index) => {
+                {imageArr?.map((item, index) => {
                   // console.log(item);
                   return (
                     <div className="image-card" key={index}>
                       <div className="image-overlay-icon">
                         <button
                           className="btn-close"
-                          onClick={() => deleteImageHandler(index)}
+                          onClick={() => deleteImageHandler(item, index)}
                         >
                           <FaTimesCircle />
                         </button>
                       </div>
-                      <img src={URL.createObjectURL(item)} alt="image" />
+                      {
+                        !btnUpdateBool ? (
+                          // console.log("eeee")
+                          // <img src={item} alt="image" />
+
+                          <img src={URL.createObjectURL(item)} alt="image" />
+                        ) : item && item?.length ? (
+                          <img src={item} alt="image" />
+                        ) : (
+                          <img src={URL.createObjectURL(item)} alt="image" />
+                        ) // console.log("eeee")
+                      }
                     </div>
                   );
                 })}

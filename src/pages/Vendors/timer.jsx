@@ -10,27 +10,33 @@ const Timer = (props) => {
   const [status, setStatus] = useState("");
 
   useEffect(() => {
-    if (props?.endTime) {
-      let countDownDate = new Date(props?.endTime).getTime();
+    if (new Date(props?.startTime).getTime() < new Date().getTime()) {
+      if (props?.endTime) {
+        let countDownDate = new Date(props?.endTime).getTime();
 
-      let x = setInterval(function () {
-        let now = new Date().getTime();
+        props.statusHandler(props.id, "Ongoing");
+        let x = setInterval(function () {
+          let now = new Date().getTime();
 
-        let distance = countDownDate - now;
+          let distance = countDownDate - now;
 
-        setDay(Math.floor(distance / (1000 * 60 * 60 * 24)));
-        setHour(
-          Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
-        );
-        setMin(Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)));
-        setSec(Math.floor((distance % (1000 * 60)) / 1000));
+          setDay(Math.floor(distance / (1000 * 60 * 60 * 24)));
+          setHour(
+            Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+          );
+          setMin(Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)));
+          setSec(Math.floor((distance % (1000 * 60)) / 1000));
 
-        if (distance < 0) {
-          clearInterval(x);
-          console.log("ss");
-          setStatus("EXPIRED");
-        }
-      }, 1000);
+          if (distance < 0) {
+            clearInterval(x);
+            setStatus("EXPIRED");
+            props.statusHandler(props.id, "Expired");
+          }
+        }, 1000);
+      }
+    } else {
+      props.statusHandler(props.id, "Not Started");
+      setStatus("Not Started");
     }
   }, [props.endTime]);
 

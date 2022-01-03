@@ -32,8 +32,11 @@ const SignIn = () => {
       .then((userCredential) => {
         // Signed in
         var user = userCredential.user;
-        if (data?.email === "admin@admin.com" && data?.password === "12345678") {
-          dispatch(login(data?.email));
+        if (
+          data?.email === "admin@admin.com" &&
+          data?.password === "12345678"
+        ) {
+          dispatch(login(data));
           toast.success("Logged in successfully");
           setBool(false);
           history.push("/dashboard");
@@ -43,17 +46,22 @@ const SignIn = () => {
             .get()
             .then((querySnapshot) => {
               querySnapshot.forEach((doc) => {
-                dispatch(login(doc.data()));
-                console.log(doc.id, " => ", doc?.data());
+                if (!doc?.data()?.status) {
+                  dispatch(login(doc.data()));
+                  console.log(doc.id, " => ", doc?.data());
+                  setBool(false);
+                  toast.success("Logged in successfully");
+                  history.push("/");
+                } else {
+                  setBool(false);
+                  toast.error("Your account is blocked by admin");
+                }
               });
             })
             .catch((error) => {
               console.log("Error getting documents: ", error);
             });
-          dispatch(login(data?.email));
-          setBool(false);
-          toast.success("Logged in successfully");
-          history.push("/");
+          // dispatch(login(data?.email));
         }
       })
       .catch((error) => {

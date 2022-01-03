@@ -233,6 +233,7 @@
   background-size: 300px 300px;
   background-repeat: no-repeat;
   border-radius: 5px;
+  object-fit: cover;
   height: 100%;
 }
 .image-overlay-icon {

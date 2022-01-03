@@ -23,6 +23,7 @@ const VendorDash = () => {
   const [toggleBool, setToggleBool] = useState(false);
   const [dataProduct, setDataProduct] = useState([]);
   const [editId, setEditId] = useState("");
+  const [status, setStatus] = useState("");
 
   const {
     register,
@@ -51,7 +52,7 @@ const VendorDash = () => {
             timerStatus: doc?.data()?.timerStatus,
             adminStatus: doc?.data()?.adminStatus,
             productStatus: doc?.data().productStatus,
-            imageUrl : doc?.data()?.imageUrl,
+            imageUrl: doc?.data()?.imageUrl,
             bids: [],
           };
           arr.push(obj);
@@ -115,6 +116,19 @@ const VendorDash = () => {
         toast.error("Error removing document: ", error);
       });
   };
+  const updateTimerStatus = (id, result) => {
+    // console.log(id, " => ", result);
+    db.collection("products")
+      .doc(id)
+      .update({
+        timerStatus: result,
+      })
+      .catch((error) => {
+        toast.error(error);
+      });
+
+    // console.log(status);
+  };
 
   return (
     <div>
@@ -125,7 +139,11 @@ const VendorDash = () => {
           name={auth[0]?.email?.split("@")[0]}
         />
         <div
-          className={toggleBool === false ?  "vendor-dashboard-content"  : "vendor-dashboard-content-toggle"}
+          className={
+            toggleBool === false
+              ? "vendor-dashboard-content"
+              : "vendor-dashboard-content-toggle"
+          }
           // style={toggleBool === false ? { width: "85%" } : { width: "100%" }}
         >
           {/* <div className="vendor-dashboard-top-bar">
@@ -139,7 +157,7 @@ const VendorDash = () => {
               <div className="content-top">Vendor-Dash</div>
             </div>
           </div> */}
-          <Topbar togglebtn={toggleButton} img={ToggleMenu}/>
+          <Topbar togglebtn={toggleButton} img={ToggleMenu} />
 
           <div className="vendor-dashboard-card-wrapper">
             <div className="vendor-container-category-wrapper">
@@ -163,6 +181,7 @@ const VendorDash = () => {
                     <tbody>
                       {dataProduct && dataProduct?.length ? (
                         dataProduct.map((item, index) => {
+                          // console.log(item);
                           return (
                             <tr
                               key={index}
@@ -173,15 +192,21 @@ const VendorDash = () => {
                               <td>{item?.startTime}</td>
                               <td>{item?.endTime}</td>
                               <td>
-                                {new Date(item?.startTime).getTime() <
-                                new Date().getTime() ? (
-                                  <Timer
+                                {
+                                  !item?.adminStatus ? (
+
+                                    <Timer
+                                    statusUpdate={setStatus}
+                                    statusTimer={status}
                                     startTime={item?.startTime}
                                     endTime={item?.endTime}
-                                  />
-                                ) : (
-                                  "NOT STARTED"
-                                )}
+                                    id={item?.id}
+                                    statusHandler={updateTimerStatus}
+                                    />
+                                    ):(
+                                      "00:00:00"
+                                    )
+                                }
                               </td>
                               <td>{item?.startingBid}</td>
                               <td>{item?.bids}</td>
