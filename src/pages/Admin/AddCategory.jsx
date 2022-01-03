@@ -89,7 +89,7 @@ const AddCategory = () => {
             category: data.category,
           };
           arr.push(obj);
-          setDataCat(arr);
+          setDataCat([...dataCat, ...arr]);
           // dispatch(addCat(obj));
           toast.success("New Category Added!");
           setModal(!modal);
