@@ -36,3 +36,13 @@
     transform: rotate(360deg);
   }
 }
+
+
+
+
+
+
+.slick-thumb li {
+  width: 60px !important;
+  height: 45px !important;
+}

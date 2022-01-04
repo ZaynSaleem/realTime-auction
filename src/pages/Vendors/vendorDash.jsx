@@ -11,7 +11,7 @@ import { db } from "../../config/firebase/firebase";
 
 import { dltProduct, getVendorProduct } from "../../store/actions/VendorAction";
 import VendorSidebar from "../../components/header/VendorSidebar";
-import Timer from "./timer";
+import Timer from "../../components/timer/timer";
 import { useHistory } from "react-router";
 import Topbar from "../../components/topbar/Topbar";
 

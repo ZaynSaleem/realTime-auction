@@ -1,26 +1,27 @@
 import React from "react";
+import Timer from "../timer/timer";
 import "./style.css";
 
-const Card = ({ image }) => {
+const Card = (props) => {
   return (
-  
-      <div className="card-home">
-        <div className="card-home-image">
-          <img src={image} />
-        </div>
-        <div className="card-home-content">
-          <div className="card-home-timer">2d 7h 56m 16s</div>
-          <div className="card-home-title">MacBook 15-Inch Laptop</div>
-          <div className="card-home-text">
-            <div className="category">Electronic</div>
-            <div className="bid">10 Bids</div>
-          </div>
-        </div>
-          <div className="card-home-button">
-            <button>Submit bid</button>
-          </div>
+    <div className="card-home">
+      <div className="card-home-image">
+        <img src={props?.image} />
       </div>
-   
+      <div className="card-home-content">
+        <div className="card-home-timer">
+          <Timer startTime={props?.startTime} endTime={props?.endTime} />
+        </div>
+        <div className="card-home-title">{props.productname}</div>
+        <div className="card-home-text">
+          <div className="category">{props.category}</div>
+          <div className="bid">{props?.bids}</div>
+        </div>
+      </div>
+      <div className="card-home-button">
+        <button>Submit bid</button>
+      </div>
+    </div>
   );
 };
 

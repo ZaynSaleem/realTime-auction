@@ -1,6 +1,8 @@
+// import "slick-carousel/slick/slick.css"; 
+// import "slick-carousel/slick/slick-theme.css";
+import "./App.css";
 import React from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import "./App.css";
 import SignUp from "./components/Auth/SignUp";
 import SignIn from "./components/Auth/SignIn";
 import Home from "./pages/Main/home";
@@ -14,7 +16,8 @@ import AddProduct from "./pages/Vendors/addProduct";
 import Users from "./pages/Admin/users";
 import VendorProducts from "./pages/Admin/products";
 import ViewProductDetails from "./pages/Vendors/viewproductdetails";
-
+import Product from "./pages/Main/product";
+ 
 function App() {
   return (
     <>
@@ -40,6 +43,7 @@ function App() {
           <PrivateRoute path="/bidders" component={Users} />
           <PrivateRoute path="/products" component={VendorProducts} />
           <PrivateRoute path="/viewproduct" component={ViewProductDetails} />
+          <PrivateRoute path="/product" component={Product} />
 
           
           

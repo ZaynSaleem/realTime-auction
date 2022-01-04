@@ -151,25 +151,23 @@ const AddCategory = () => {
         <Sidebar toggleBool={toggleBool} />
 
         <div
-        className={
-          toggleBool === false
-            ? "vendor-dashboard-content"
-            : "vendor-dashboard-content-toggle"
-        }
-      >
+          className={
+            toggleBool === false
+              ? "vendor-dashboard-content"
+              : "vendor-dashboard-content-toggle"
+          }
+        >
           <Topbar togglebtn={toggleButton} img={ToggleMenu} />
           <Loader bool={loaderBool} />
           <div
             className="vendor-dashboard-card-wrapper"
             style={{ display: loaderBool === true ? "none" : "block" }}
           >
-          
-
             <div className="vendor-container-category-wrapper">
               <div className="container-category-wrapper">
                 <div className="add-button">
                   <button className="btn btn-success " onClick={toggle}>
-                    <FaPlusCircle/>
+                    <FaPlusCircle />
                   </button>
                 </div>
 

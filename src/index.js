@@ -9,6 +9,9 @@ import { Provider } from "react-redux";
 import { persistor, store } from "./store";
 import { PersistGate } from "redux-persist/integration/react";
 
+import "slick-carousel/slick/slick.css"; 
+import "slick-carousel/slick/slick-theme.css";
+
 ReactDOM.render(
   <React.StrictMode>
   <Provider store={store}>

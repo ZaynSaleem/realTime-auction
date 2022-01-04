@@ -1,3 +1,5 @@
+import React, { useEffect, useState } from "react";
+
 import Navbar from "../../components/header/Navbar";
 import Slider from "../../components/Slider/Slider";
 import card1 from "../../assets/card1.jpg";
@@ -16,8 +18,38 @@ import {
 import StepsCard from "../../components/Cards/StepsCard";
 import Footer from "../../components/footer/Footer";
 import sliderImage from "../../assets/sliderHome.jpg";
+import { db } from "../../config/firebase/firebase";
 
 const Home = () => {
+  const [productData, setProductData] = useState([]);
+
+  useEffect(() => {
+    productsHandler();
+  }, []);
+
+  const productsHandler = () => {
+    let arr = [];
+
+    db.collection("products")
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          if (
+            doc?.data()?.timerStatus === "Ongoing" &&
+            !doc?.data()?.productStatus
+          ) {
+            // console.log(doc.data());
+            let obj = doc.data();
+            obj.id = doc?.id;
+            console.log(obj);
+
+            arr.push(obj);
+          }
+        });
+        setProductData(arr);
+      });
+  };
+
   return (
     <div>
       <Navbar />
@@ -33,12 +65,25 @@ const Home = () => {
           </div>
 
           <div className="card-main">
-            <Card image={card1} />
-            <Card image={card2} />
-            <Card image={card3} />
-            <Card image={card4} />
-            <Card image={card1} />
-            <Card image={card1} />
+            {productData && productData?.length
+              ? productData.map((item, index) => {
+                  return (
+                    <Card
+                      image={item?.imageUrl[0]}
+                      productname={item?.productName}
+                      category={item?.catId}
+                      bids={item?.bids?.length}
+                      startTime={item?.startTime}
+                      endTime={item?.endTime}
+                    />
+                  );
+                })
+              : "No product in current"}
+            {/* <Card image={card2} /> */}
+            {/* <Card image={card3} /> */}
+            {/* <Card image={card4} /> */}
+            {/* <Card image={card1} /> */}
+            {/* <Card image={card1} /> */}
           </div>
         </div>
       </div>
