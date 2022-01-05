@@ -19,8 +19,11 @@ import StepsCard from "../../components/Cards/StepsCard";
 import Footer from "../../components/footer/Footer";
 import sliderImage from "../../assets/sliderHome.jpg";
 import { db } from "../../config/firebase/firebase";
+import { useHistory } from "react-router-dom";
 
 const Home = () => {
+  let history = useHistory();
+
   const [productData, setProductData] = useState([]);
 
   useEffect(() => {
@@ -49,6 +52,12 @@ const Home = () => {
         setProductData(arr);
       });
   };
+  const toggleProduct = (item) => {
+    let str = item?.productName;
+    str = str.replace(/\s+/g, "-").toLowerCase();
+    // console.log(str); 
+    history.push(`/product/${item?.id}/${str}`);
+  };
 
   return (
     <div>
@@ -75,6 +84,8 @@ const Home = () => {
                       bids={item?.bids?.length}
                       startTime={item?.startTime}
                       endTime={item?.endTime}
+                      items={item}
+                      toggleProduct={toggleProduct}
                     />
                   );
                 })

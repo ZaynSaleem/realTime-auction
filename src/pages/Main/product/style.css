@@ -3,7 +3,7 @@
   display: flex;
   flex-wrap: wrap;
   /* align-items: center; */
-  padding: 20px;
+  padding: 38px 0px;
   gap: 10px;
 }
 .lazy-slider {
@@ -18,18 +18,16 @@
   box-shadow: 0px 0px 25px rgb(0 0 0 / 10%);
 }
 .content-product {
-    width: 55%;
-    padding: 1px 29px;
-    color: #8d8a8a;
-  
-
+  width: 55%;
+  padding: 1px 29px;
+  color: #6e6e6e;
 }
 .content-head {
   border-bottom: 1px solid #dfdfdf;
 }
 .content-head h2 {
-    padding: 0px 0px 28px 0px;
-    font-weight: 800;
+  padding: 0px 0px 28px 0px;
+  font-weight: 800;
 }
 .lazy-slider .slick-slider {
   /* background: aqua; */
@@ -56,30 +54,167 @@
   color: #6e6e6e;
   padding: 25px 0px;
   /* font-size: 15px; */
-    /* letter-spacing: 0.5px; */
+  /* letter-spacing: 0.5px; */
 }
 
-.auction-countdown{
-    font-weight: 600;
-    text-transform: uppercase;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    box-shadow: 0px 0px 25px rgb(0 0 0 / 10%);
-    /* -webkit-box-shadow: 0px 0px 25px rgb(0 0 0 / 10%); */
-    padding: 20px;
-    text-align: center;
-    margin-top: 10px;
-    /* padding-bottom: 15px; */
-    /* margin-top: 8px; */
+.auction-countdown {
+  font-weight: 600;
+  text-transform: uppercase;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-around;
+  box-shadow: 0px 0px 25px rgb(0 0 0 / 10%);
+  /* -webkit-box-shadow: 0px 0px 25px rgb(0 0 0 / 10%); */
+  padding: 20px;
+  text-align: center;
+  margin-top: 10px;
+  /* padding-bottom: 15px; */
+  /* margin-top: 8px; */
+  font-size: 12px;
 }
-.auction-countdown h4{
-margin: 0;
+.auction-countdown h4 {
+  margin: 0;
 }
-.auction-timezone{
-padding: 20px 0px;
+.auction-timezone {
+  padding: 20px 0px;
 }
-.auction-timezone p{
-    margin: 0;
+.auction-timezone p {
+  margin: 0;
+}
+.make-a-bid {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  width: 75%;
+  justify-content: space-between;
+}
+.form-bid {
+  flex: 1;
+}
+.form-bid input {
+  border-radius: 5px;
+  border: 1px solid #cfcfcf;
+  text-align: center;
+  color: #484848;
+  font-size: 20px;
+}
+.form-bid input:focus {
+  outline: none;
+}
+.btn-bid {
+  flex: 1;
+}
+.btn-bid button {
+  border: 1px solid #2695ff;
+  border-radius: 50px;
+  width: 27%;
+  outline: 0px;
+  font-weight: 700;
+  color: white;
+  background: #2695ff;
+  padding: 7px 0px;
+}
+.btn-bid button:hover {
+  box-shadow: 0px 0px 17px rgb(0 0 0 / 13%);
+  transition: 0.3s ease-in-out;
+  background-color: white;
+  color: #2695ff;
+  border-color: white;
+}
+.auction-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+  box-shadow: 0px 0px 25px rgb(114 114 114 / 38%);
+  background: #4d95ff;
+}
+
+.button-description,
+.button-addition,
+.button-history,
+.button-vendorinfo {
+  flex: 1;
+}
+
+.button-description button,
+.button-history button,
+.button-addition button,
+.button-vendorinfo button {
+  width: 100%;
+  border: 0;
+  border-right: 1px solid white;
+  font-weight: 700;
+  color: white;
+  padding: 10px 0px;
+  background: transparent;
+  text-transform: uppercase;
+  outline: none;
+  transition: 0.3s ease-in-out;
+  padding: 15px;
+}
+
+.button-description button:hover,
+.button-history button:hover,
+.button-addition button:hover,
+.button-vendorinfo button:hover {
+  background: white;
+  color: #2695ff;
+  border-right: 1px solid #2695ff;
+}
+
+.button-description .active,
+.button-history .active,
+.button-addition .active,
+.button-vendorinfo .active {
+  background: white;
+  color: #2695ff;
+}
+
+.content-description {
+  color: #787878;
+  font-size: 18px;
+  font-family: inherit;
+}
+.auction-tabcontent {
+  padding: 30px 0px;
+}
+.content-information table {
+  border: 1px solid #d5d5d5;
+}
+.content-information table .td-custom {
+  border: 1px solid lightgrey;
+  width: 25%;
+  padding: 20px;
+  text-align: left;
+  font-weight: 700;
+  font-style: inherit;
+  color: black;
+}
+.content-information table td {
+  border: 1px solid lightgrey;
+  padding: 20px;
+  text-align: left;
+  color: grey;
+  font-style: italic;
+}
+.auction-history table {
+  width: 100%;
+  border: 1px solid lightgray;
+}
+.auction-history table thead td {
+  border: 1px solid lightgrey;
+  text-align: left;
+  padding: 6px 9px;
+  font-weight: 700;
+}
+.auction-history table tbody td {
+  text-align: left;
+  padding: 6px 9px;
+}
+.table-bid-price {
+  color: #2695ff;
+  font-weight: 700;
 }

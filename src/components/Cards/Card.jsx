@@ -19,7 +19,7 @@ const Card = (props) => {
         </div>
       </div>
       <div className="card-home-button">
-        <button>Submit bid</button>
+        <button onClick={() => props.toggleProduct(props.items)}>Submit bid</button>
       </div>
     </div>
   );

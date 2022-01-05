@@ -14,30 +14,30 @@ const Footer = () => {
           </div>
 
           <div className="footer-card">
-            <h2>Information</h2>
-            <h4>About us</h4>
-            <h4>My Account</h4>
-            <h4>Price List</h4>
-            <h4>Contacts</h4>
-            <h4>Registration</h4>
+            <h4>Information</h4>
+            <span className="footer-subtext">About us</span>
+            <span className="footer-subtext">My Account</span>
+            <span className="footer-subtext">Price List</span>
+            <span className="footer-subtext">Contacts</span>
+            <span className="footer-subtext">Registration</span>
           </div>
 
           <div className="footer-card">
-            <h2>Help Center</h2>
-            <h4>Assistance</h4>
-            <h4>FAQ</h4>
-            <h4>Testimonials</h4>
-            <h4>Account Refill</h4>
-            <h4>Payments</h4>
+            <h4>Help Center</h4>
+            <span className="footer-subtext">Assistance</span>
+            <span className="footer-subtext">FAQ</span>
+            <span className="footer-subtext">Testimonials</span>
+            <span className="footer-subtext">Account Refill</span>
+            <span className="footer-subtext">Payments</span>
           </div>
 
           <div className="footer-card">
-            <h2>Partners</h2>
-            <h4>iStep</h4>
-            <h4>Artex</h4>
-            <h4>Style Shop</h4>
-            <h4>CrystalTech</h4>
-            <h4>VIP Fashion</h4>
+            <h4>Partners</h4>
+            <span className="footer-subtext">iStep</span>
+            <span className="footer-subtext">Artex</span>
+            <span className="footer-subtext">Style Shop</span>
+            <span className="footer-subtext">CrystalTech</span>
+            <span className="footer-subtext">VIP Fashion</span>
           </div>
         </div>
       </div>

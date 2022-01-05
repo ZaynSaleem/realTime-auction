@@ -43,7 +43,7 @@ function App() {
           <PrivateRoute path="/bidders" component={Users} />
           <PrivateRoute path="/products" component={VendorProducts} />
           <PrivateRoute path="/viewproduct" component={ViewProductDetails} />
-          <PrivateRoute path="/product" component={Product} />
+          <PrivateRoute path="/product/:id/:name" component={Product} />
 
           
           
