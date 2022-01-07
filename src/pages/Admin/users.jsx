@@ -38,7 +38,7 @@ const Users = () => {
   useEffect(() => {
     setLoaderBool(true);
     db.collection("users")
-      .where("role", "==", "bidder")
+      .where("role", "==", "user")
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {

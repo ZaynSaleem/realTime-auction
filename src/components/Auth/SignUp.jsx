@@ -34,7 +34,7 @@ const SignUp = () => {
             name: data.username,
             email: data.email,
             role: data.role,
-            status : "active"
+            status : false
           })
           .then((docRef) => {
             setBool(false);
@@ -124,7 +124,7 @@ const SignUp = () => {
                     Select Role
                   </option>
                   <option value="vendor">Vendor</option>
-                  <option value="bidder">Bidder</option>
+                  <option value="user">User</option>
                 </select>
                 {errors.role &&
                   errors.role.type === "required" && (

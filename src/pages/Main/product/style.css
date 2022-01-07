@@ -4,7 +4,11 @@
   flex-wrap: wrap;
   /* align-items: center; */
   padding: 38px 0px;
+  grid-gap: 10px;
+  /* flex-direction: column; */
   gap: 10px;
+  width: 100%;
+  justify-content: center;
 }
 .lazy-slider {
   width: 40%;
@@ -21,9 +25,14 @@
   width: 55%;
   padding: 1px 29px;
   color: #6e6e6e;
+  padding: 1px 29px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
 }
 .content-head {
   border-bottom: 1px solid #dfdfdf;
+  width: 100%;
 }
 .content-head h2 {
   padding: 0px 0px 28px 0px;
@@ -48,17 +57,25 @@
 .auction-condition {
   /* padding: 15px 0px; */
   color: #8d8a8a;
+  width: 100%;
   /* font-size: 14px; */
 }
 .auction-description {
   color: #6e6e6e;
   padding: 25px 0px;
+  width: 100%;
+
   /* font-size: 15px; */
   /* letter-spacing: 0.5px; */
+}
+.auction-timer {
+  width: 100%;
 }
 
 .auction-countdown {
   font-weight: 600;
+  width: 100%;
+
   text-transform: uppercase;
   display: flex;
   flex-wrap: wrap;
@@ -78,6 +95,7 @@
 }
 .auction-timezone {
   padding: 20px 0px;
+  width: 100%;
 }
 .auction-timezone p {
   margin: 0;
@@ -86,7 +104,8 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  width: 75%;
+  width: 100%;
+
   justify-content: space-between;
 }
 .form-bid {
@@ -108,12 +127,16 @@
 .btn-bid button {
   border: 1px solid #2695ff;
   border-radius: 50px;
-  width: 27%;
+  width: 107px;
   outline: 0px;
   font-weight: 700;
   color: white;
   background: #2695ff;
   padding: 7px 0px;
+}
+.btn-bid button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 .btn-bid button:hover {
   box-shadow: 0px 0px 17px rgb(0 0 0 / 13%);
@@ -200,6 +223,9 @@
   color: grey;
   font-style: italic;
 }
+.auction-history {
+  overflow: auto;
+}
 .auction-history table {
   width: 100%;
   border: 1px solid lightgray;
@@ -217,4 +243,75 @@
 .table-bid-price {
   color: #2695ff;
   font-weight: 700;
+}
+@media (max-width: 997px) {
+  .auction-tabs {
+    font-size: 13px;
+  }
+}
+@media (max-width: 839px) {
+  .auction-tabs {
+    font-size: 11px;
+  }
+}
+@media (max-width: 762px) {
+  .product-detail-wrapper {
+    flex-direction: column;
+  }
+  .lazy-slider {
+    width: 100%;
+  }
+  .content-product {
+    width: 100%;
+    margin-top: 30px;
+  }
+  .auction-history {
+    width: 100%;
+    overflow: scroll;
+  }
+  .auction-tabs {
+    flex-direction: column;
+    font-size: 15px;
+  }
+  .button-description,
+  .button-history,
+  .button-addition,
+  .button-vendorinfo {
+    width: 100%;
+  }
+  .button-description button,
+  .button-history button,
+  .button-addition button,
+  .button-vendorinfo button {
+    width: 100%;
+    border: 0;
+    border-top: 1px solid white;
+
+    padding: 10px 0px;
+    background: transparent;
+    text-transform: uppercase;
+    outline: none;
+    transition: 0.3s ease-in-out;
+    padding: 15px;
+  }
+  .button-description button:hover,
+  .button-history button:hover,
+  .button-addition button:hover,
+  .button-vendorinfo button:hover {
+    background: white;
+    color: #2695ff;
+    border-right: 0px;
+    border-top: 1px solid #2695ff;
+  }
+}
+@media (max-width:432px) {
+  .auction-countdown{
+    font-size: 10px;
+    padding: 6px 0px;
+
+  }
+  .auction-countdown h4{
+    font-size: 16px;
+  }
+  
 }

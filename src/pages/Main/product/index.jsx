@@ -9,10 +9,21 @@ import BreadCrumb from "../../../components/breadCrumb";
 import Footer from "../../../components/footer/Footer";
 import "./style.css";
 import { useParams } from "react-router-dom";
+import { db } from "../../../config/firebase/firebase";
+import { useSelector } from "react-redux";
 
 const Product = () => {
+  const params = useParams();
+  const Data = useSelector((state) => state?.auth.auth);
+
   const [tabId, setTabId] = useState("history");
-  const { id, name } = useParams();
+  const [product, setProduct] = useState("");
+  const [day, setDay] = useState("00");
+  const [hour, setHour] = useState("00");
+  const [min, setMin] = useState("00");
+  const [sec, setSec] = useState("00");
+  const [status, setStatus] = useState("");
+  const [bidValue, setBidValue] = useState("");
   //   const settings = {
   //     dots: true,
   //     infinite: true,
@@ -22,10 +33,88 @@ const Product = () => {
   //   };
 
   useEffect(() => {
-  console.log(id)
-  console.log(name);
-  
+    console.log(Data);
+    console.log(new Date().toString());
+    db.collection("products")
+      .doc(params?.id)
+      .get()
+      .then((doc) => {
+        // console.log("Function Useeffect Up");
+
+        // setProduct(doc?.data())
+        // console.log(doc?.data());
+        db.collection("category")
+          .doc(doc?.data()?.catId)
+          .get()
+          .then((item) => {
+            let dup = doc.data();
+            dup.catId = item?.data()?.categoryName;
+            setProduct(dup);
+            // console.log("Function Useeffect");
+            timerCountdown(doc.data()?.startTime, doc.data()?.endTime);
+            // console.log(dup);
+          });
+      });
+    // console.log(params?.id);
+    // console.log(params);
+    // console.log(role, "Product");
   }, []);
+
+  const timerCountdown = (startTime, endTime) => {
+    if (new Date(startTime).getTime() < new Date().getTime()) {
+      if (endTime) {
+        let countDownDate = new Date(endTime).getTime();
+
+        // statusHandler(id, "Ongoing");
+        let x = setInterval(function () {
+          let now = new Date().getTime();
+
+          let distance = countDownDate - now;
+
+          setDay(Math.floor(distance / (1000 * 60 * 60 * 24)));
+          setHour(
+            Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+          );
+          setMin(Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)));
+          setSec(Math.floor((distance % (1000 * 60)) / 1000));
+
+          if (distance < 0) {
+            clearInterval(x);
+            // setStatus("EXPIRED");
+            // statusHandler(props.id, "Expired");
+          }
+        }, 1000);
+      }
+    }
+  };
+  const bidsHandler = () => {
+    // let arr = [];
+    if (bidValue > product?.startingBid) {
+      let dupProduct = product;
+      let obj = {
+        uid: Data[0]?.uid,
+        bidPrice: +bidValue,
+        bidDate: new Date().toString(),
+        userName: Data[0]?.name,
+      };
+      // arr.push(obj);
+      dupProduct?.bids?.push(obj);
+      setProduct(dupProduct);
+      // product?.bids?.push(obj);
+      // console.log(dupProduct?.bids, "Dup PRoduct");
+      db.collection("products")
+        .doc(params?.id)
+        .update({
+          bids: dupProduct?.bids,
+        })
+        .then(() => {
+          alert("Bid Submitted");
+        });
+    } else {
+      alert("Must be greater than starting bid");
+      return false;
+    }
+  };
 
   const settings = {
     customPaging: function (i) {
@@ -47,8 +136,9 @@ const Product = () => {
   };
   return (
     <div>
+      {/* {console.log(product?.productName)} */}
       <Navbar />
-      <BreadCrumb title="product" />
+      <BreadCrumb title={product?.productName} />
       <div className="main-content">
         <div className="custom_container">
           <div className="product-detail-wrapper">
@@ -70,7 +160,12 @@ const Product = () => {
               <div className="content-head">
                 <h2>
                   Starting bid:{" "}
-                  <span style={{ color: "#2695ff" }}>$4,233,434.00</span>
+                  <span style={{ color: "#2695ff" }}>
+                    $
+                    {product?.startingBid
+                      ?.toString()
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                  </span>
                 </h2>
               </div>
 
@@ -84,7 +179,7 @@ const Product = () => {
                 <div className="auction-category">
                   Categories:{" "}
                   <span style={{ fontWeight: "700", color: "#686868" }}>
-                    Electronics
+                    {product?.catId}
                   </span>
                 </div>
               </div>
@@ -92,7 +187,7 @@ const Product = () => {
               <div className="auction-timer">
                 Time left:
                 <div className="auction-countdown">
-                  <div className="auction-months">
+                  {/* <div className="auction-months">
                     <h4>4</h4>
                     <span>Months</span>
                   </div>{" "}
@@ -100,39 +195,55 @@ const Product = () => {
                     <span>
                       <h4>3</h4>Weeks
                     </span>
-                  </div>{" "}
+                  </div>{" "} */}
                   <div className="auction-days">
                     <span>
-                      <h4>6</h4>days
+                      <h4>{day}</h4>days
                     </span>
                   </div>
                   <div className="auction-hours">
                     <span>
-                      <h4>5</h4>hours
+                      <h4>{hour}</h4>hours
                     </span>
                   </div>{" "}
                   <div className="auction-mintues">
                     <span>
-                      <h4>42</h4>mintues
+                      <h4>{min}</h4>mintues
                     </span>
                   </div>
                   <div className="auction-seconds">
                     <span>
-                      <h4>30</h4>second
+                      <h4>{sec}</h4>second
                     </span>
                   </div>
                 </div>
               </div>
               <div className="auction-timezone">
-                <p>Auction ends: June 1, 2022 12:00:00 am</p>
-                <p>Timezone: UTC +3</p>
+                <p>Auction ends: {product?.endTime}</p>
+                <p>Timezone: GMT + 5</p>
               </div>
               <div className="make-a-bid">
                 <div className="form-bid">
-                  <input type="number" min="99" defaultValue="$99" size="4" />
+                  <input
+                    type="number"
+                    onChange={(e) => setBidValue(e.target.value)}
+                    min={product?.startingBid}
+                    defaultValue={product?.startingBid}
+                    size="4"
+                  />
                 </div>
                 <div className="btn-bid">
-                  <button>BID</button>
+                  {Data[0]?.role && Data[0]?.role === "user" ? (
+                    <button onClick={bidsHandler}>BID</button>
+                  ) : (
+                    <button
+                      disabled
+                      dataToggle="tooltip"
+                      title="sign-in as a user to submit a bid"
+                    >
+                      BID
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
@@ -238,12 +349,20 @@ const Product = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>August 20, 2021 06:49:15 pm</td>
-                    <td className="table-bid-price">$295.00</td>
-                    <td>s************************m</td>
-                    <td></td>
-                  </tr>
+                  {product?.bids?.length ? (
+                    product?.bids?.map((item, index) => {
+                      return (
+                        <tr key={index}>
+                          <td>{new Date(item?.bidDate).toDateString()}</td>
+                          <td className="table-bid-price">${item?.bidPrice}</td>
+                          <td>{item?.userName ? item?.userName : "na"}</td>
+                          <td></td>
+                        </tr>
+                      );
+                    })
+                  ) : (
+                    <tr>No bids</tr>
+                  )}
                 </tbody>
               </table>
             </div>

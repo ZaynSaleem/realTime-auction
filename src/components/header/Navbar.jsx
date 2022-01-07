@@ -5,9 +5,13 @@ import { useHistory } from "react-router";
 import { logout } from "../../store/actions/AuthAction";
 import "./head.css";
 
-const Navbar = () => {
+const Navbar = (props) => {
   const Data = useSelector((state) => state?.auth.auth);
-  console.log(Data);
+  // console.log(Data);
+  // if (props?.role) {
+  //   props?.role(Data[0]?.role);
+  // }
+
   let dispatch = useDispatch();
   let history = useHistory();
   const logoutUser = () => {

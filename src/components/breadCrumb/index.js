@@ -14,7 +14,7 @@ const BreadCrumb = (props) => {
             <Breadcrumb.Item active>{props.title}</Breadcrumb.Item>
           </Breadcrumb>
           <div className="product-name">
-            <h3>Dual SIM Smartphone</h3>
+            <h3>{props?.title}</h3>
           </div>
         </div>
       </div>

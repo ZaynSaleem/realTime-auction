@@ -20,14 +20,18 @@ import Footer from "../../components/footer/Footer";
 import sliderImage from "../../assets/sliderHome.jpg";
 import { db } from "../../config/firebase/firebase";
 import { useHistory } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Home = () => {
   let history = useHistory();
+  const Data = useSelector((state) => state?.auth.auth);
+
 
   const [productData, setProductData] = useState([]);
-
+  // const [role, setRole] = useState("");
   useEffect(() => {
     productsHandler();
+    // console.log(role);
   }, []);
 
   const productsHandler = () => {
@@ -44,7 +48,7 @@ const Home = () => {
             // console.log(doc.data());
             let obj = doc.data();
             obj.id = doc?.id;
-            console.log(obj);
+            // console.log(obj);
 
             arr.push(obj);
           }
@@ -55,7 +59,7 @@ const Home = () => {
   const toggleProduct = (item) => {
     let str = item?.productName;
     str = str.replace(/\s+/g, "-").toLowerCase();
-    // console.log(str); 
+    // console.log(str);
     history.push(`/product/${item?.id}/${str}`);
   };
 
@@ -78,6 +82,7 @@ const Home = () => {
               ? productData.map((item, index) => {
                   return (
                     <Card
+                      roles={Data[0]?.role}
                       image={item?.imageUrl[0]}
                       productname={item?.productName}
                       category={item?.catId}

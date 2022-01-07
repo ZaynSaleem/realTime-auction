@@ -18,8 +18,13 @@ const Card = (props) => {
           <div className="bid">{props?.bids}</div>
         </div>
       </div>
-      <div className="card-home-button">
+      <div className="card-home-button">{props?.roles === "user" ? (
+        
         <button onClick={() => props.toggleProduct(props.items)}>Submit bid</button>
+      ) : (
+        <button onClick={() => props.toggleProduct(props.items)}>View product</button>
+
+      )} 
       </div>
     </div>
   );
