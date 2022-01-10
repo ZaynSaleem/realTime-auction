@@ -47,7 +47,7 @@ const AddProduct = () => {
   useEffect(() => {
     if (startTime && startTime !== "") {
       let stDate = new Date(startTime);
-      stDate.setHours(stDate.getHours() + 7);
+      stDate.setHours(stDate.getHours() + 0);
       let end_t = stDate.toISOString();
       let et = end_t.split(".")[0];
       setMinEndTime(et);
@@ -69,6 +69,7 @@ const AddProduct = () => {
           setValue("end_time", doc?.data()?.endTime);
           setValue("starting_bid", doc?.data()?.startingBid);
           setValue("image_file", doc?.data()?.imageUrl);
+          setValue("description", doc?.data()?.description);
           setImageArr(doc?.data()?.imageUrl);
         })
         .catch((error) => {
@@ -80,6 +81,7 @@ const AddProduct = () => {
       setValue("start_time", "");
       setValue("end_time", "");
       setValue("starting_bid", "");
+      setValue("description", "");
       setImageArr([]);
       setBtnUpdateBool(false);
       // console.log("no Id");
@@ -137,6 +139,8 @@ const AddProduct = () => {
               productStatus: false,
               imageUrl: urlArr,
               bids: [],
+              winner: "",
+              description: data?.description,
             })
             .then((docRef) => {
               // console.log(docRef);
@@ -157,6 +161,7 @@ const AddProduct = () => {
               startTime: data?.start_time,
               endTime: data?.end_time,
               startingBid: data?.starting_bid,
+              description: data?.description,
               imageUrl: urlArr,
             })
             .then(() => {
@@ -403,6 +408,25 @@ const AddProduct = () => {
                       errors.image_file.type === "required" && (
                         <p>This is required</p>
                       )}
+                  </div>
+
+                  <div className="form-input-vendor">
+                    <span>Description</span>
+                    <textarea
+                      className="form-control"
+                      name="description"
+                      {...register("description", { required: true })}
+                      type="text"
+                    ></textarea>
+                    {errors.description &&
+                      errors.description.type === "required" && (
+                        <p>This is required</p>
+                      )}
+                    {/* <input
+                      type="textarea"
+                      // onChange={(e) => console.log(e)}
+                      {...register("description", { required: true })}
+                    />*/}
                   </div>
 
                   <div className="form-input-vendor">

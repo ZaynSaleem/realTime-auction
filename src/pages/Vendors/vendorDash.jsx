@@ -41,21 +41,28 @@ const VendorDash = () => {
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
-          let obj = {
-            id: doc?.id,
-            uid: doc?.data()?.uid,
-            productName: doc?.data()?.productName,
-            catId: doc?.data()?.catId,
-            startTime: doc?.data()?.startTime,
-            endTime: doc?.data()?.endTime,
-            startingBid: doc?.data()?.startingBid,
-            timerStatus: doc?.data()?.timerStatus,
-            adminStatus: doc?.data()?.adminStatus,
-            productStatus: doc?.data().productStatus,
-            imageUrl: doc?.data()?.imageUrl,
-            bids: [],
-          };
-          arr.push(obj);
+          let dup = doc?.data();
+          // console.log(du);
+          if (dup) {
+            dup.id = doc?.id;
+            arr.push(dup);
+          }
+          // dup.id = doc?.id;
+          // let obj = {
+          //   id: doc?.id,
+          //   uid: doc?.data()?.uid,
+          //   productName: doc?.data()?.productName,
+          //   catId: doc?.data()?.catId,
+          //   startTime: doc?.data()?.startTime,
+          //   endTime: doc?.data()?.endTime,
+          //   startingBid: doc?.data()?.startingBid,
+          //   timerStatus: doc?.data()?.timerStatus,
+          //   adminStatus: doc?.data()?.adminStatus,
+          //   productStatus: doc?.data().productStatus,
+          //   imageUrl: doc?.data()?.imageUrl,
+          //   bids: [],
+          // };
+          // arr.push(obj);
         });
         setDataProduct(arr);
       })
@@ -117,17 +124,46 @@ const VendorDash = () => {
       });
   };
   const updateTimerStatus = (id, result) => {
-    // console.log(id, " => ", result);
-    db.collection("products")
-      .doc(id)
-      .update({
-        timerStatus: result,
-      })
-      .catch((error) => {
-        toast.error(error);
-      });
-
-    // console.log(status);
+    console.log(id, " => ", result);
+    // if (result === "Expired") {
+    let dupArr = [...dataProduct];
+    let filtArr = dupArr.filter((x) => x.id === id);
+    // console.log(filtArr[0].bids);
+    if (filtArr && filtArr[0]?.bids.length) {
+      let shots = filtArr[0]?.bids;
+      let max = shots?.reduce((max, obj) =>
+        max?.bidPrice > obj?.bidPrice ? max : obj
+      );
+      db.collection("products")
+        .doc(id)
+        .update({
+          timerStatus: result,
+          winner: max,
+        })
+        .catch((error) => {
+          toast.error(error);
+        });
+      // console.log(max);
+    } else {
+      db.collection("products")
+        .doc(id)
+        .update({
+          timerStatus: result,
+        })
+        .catch((error) => {
+          toast.error(error);
+        });
+    }
+    // } else {
+    // db.collection("products")
+    //   .doc(id)
+    //   .update({
+    //     timerStatus: result,
+    //   })
+    //   .catch((error) => {
+    //     toast.error(error);
+    //   });
+    // }
   };
 
   return (
@@ -192,24 +228,21 @@ const VendorDash = () => {
                               <td>{item?.startTime}</td>
                               <td>{item?.endTime}</td>
                               <td>
-                                {
-                                  !item?.adminStatus ? (
-
-                                    <Timer
+                                {!item?.adminStatus ? (
+                                  <Timer
                                     statusUpdate={setStatus}
                                     statusTimer={status}
                                     startTime={item?.startTime}
                                     endTime={item?.endTime}
                                     id={item?.id}
                                     statusHandler={updateTimerStatus}
-                                    />
-                                    ):(
-                                      "00:00:00"
-                                    )
-                                }
+                                  />
+                                ) : (
+                                  "00:00:00"
+                                )}
                               </td>
                               <td>{item?.startingBid}</td>
-                              <td>{item?.bids}</td>
+                              <td>{item?.bids.length}</td>
                               <td>
                                 {" "}
                                 {!item?.adminStatus ? (
