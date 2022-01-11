@@ -11,6 +11,8 @@ import "./style.css";
 import { useParams } from "react-router-dom";
 import { db } from "../../../config/firebase/firebase";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import Loader from "../../../components/Loader/loader";
 
 const Product = () => {
   const params = useParams();
@@ -24,40 +26,37 @@ const Product = () => {
   const [sec, setSec] = useState("00");
   const [status, setStatus] = useState("");
   const [bidValue, setBidValue] = useState("");
-  //   const settings = {
-  //     dots: true,
-  //     infinite: true,
-  //     speed: 500,
-  //     slidesToShow: 1,
-  //     slidesToScroll: 1,
-  //   };
+  const [maxBid, setMaxBid] = useState("");
+  const [loaderBool, setLoaderBool] = useState(false);
 
   useEffect(() => {
-    console.log(Data);
-    console.log(new Date().toString());
+    setLoaderBool(true);
     db.collection("products")
       .doc(params?.id)
       .get()
       .then((doc) => {
-        // console.log("Function Useeffect Up");
+        if (doc?.data()?.bids && doc?.data()?.bids.length) {
+          let shots = doc?.data()?.bids;
+          let max = shots?.reduce((max, obj) =>
+            max?.bidPrice > obj?.bidPrice ? max : obj
+          );
+          setMaxBid(max?.bidPrice);
+        } else {
+          setMaxBid(doc?.data()?.startingBid);
+        }
 
-        // setProduct(doc?.data())
-        // console.log(doc?.data());
         db.collection("category")
           .doc(doc?.data()?.catId)
           .get()
           .then((item) => {
-            let dup = doc.data();
+            let dup = doc?.data();
             dup.catId = item?.data()?.categoryName;
             setProduct(dup);
-            // console.log("Function Useeffect");
-            timerCountdown(doc.data()?.startTime, doc.data()?.endTime);
-            // console.log(dup);
+
+            timerCountdown(doc?.data()?.startTime, doc?.data()?.endTime);
+            setLoaderBool(false);
           });
       });
-    // console.log(params?.id);
-    // console.log(params);
-    // console.log(role, "Product");
   }, []);
 
   const timerCountdown = (startTime, endTime) => {
@@ -65,7 +64,6 @@ const Product = () => {
       if (endTime) {
         let countDownDate = new Date(endTime).getTime();
 
-        // statusHandler(id, "Ongoing");
         let x = setInterval(function () {
           let now = new Date().getTime();
 
@@ -80,16 +78,21 @@ const Product = () => {
 
           if (distance < 0) {
             clearInterval(x);
-            // setStatus("EXPIRED");
-            // statusHandler(props.id, "Expired");
+            db.collection("products")
+              .doc(params?.id)
+              .update({
+                timerStatus: "Expired",
+              })
+              .catch((error) => {
+                toast.error(error);
+              });
           }
         }, 1000);
       }
     }
   };
   const bidsHandler = () => {
-    // let arr = [];
-    if (bidValue > product?.startingBid) {
+    if (bidValue > maxBid) {
       let dupProduct = product;
       let obj = {
         uid: Data[0]?.uid,
@@ -97,11 +100,10 @@ const Product = () => {
         bidDate: new Date().toString(),
         userName: Data[0]?.name,
       };
-      // arr.push(obj);
+
       dupProduct?.bids?.push(obj);
       setProduct(dupProduct);
-      // product?.bids?.push(obj);
-      // console.log(dupProduct?.bids, "Dup PRoduct");
+
       db.collection("products")
         .doc(params?.id)
         .update({
@@ -111,7 +113,7 @@ const Product = () => {
           alert("Bid Submitted");
         });
     } else {
-      alert("Must be greater than starting bid");
+      alert("Must be greater than " + maxBid);
       return false;
     }
   };
@@ -120,10 +122,13 @@ const Product = () => {
     customPaging: function (i) {
       return (
         <a>
-          <img
-            src={`https://s3.amazonaws.com/static.neostack.com/img/react-slick/abstract01.jpg`}
-            width={50}
-          />
+          {product?.imageUrl ? (
+            product?.imageUrl?.map((item, index) => {
+              return <img src={item} key={index} alt="image" width={50} />;
+            })
+          ) : (
+            <img alt="No Image" width={50} />
+          )}
         </a>
       );
     },
@@ -134,9 +139,12 @@ const Product = () => {
     slidesToShow: 1,
     slidesToScroll: 1,
   };
-  return (
+  return loaderBool && loaderBool ? (
     <div>
-      {/* {console.log(product?.productName)} */}
+      <Loader />
+    </div>
+  ) : (
+    <div>
       <Navbar />
       <BreadCrumb title={product?.productName} />
       <div className="main-content">
@@ -145,13 +153,13 @@ const Product = () => {
             <div className="lazy-slider">
               <Slider {...settings}>
                 <div>
-                  <img src={card1} />
-                </div>
-                <div>
-                  <img src={card2} />
-                </div>
-                <div>
-                  <img src={card3} />
+                  {product?.imageUrl ? (
+                    product?.imageUrl?.map((item, index) => {
+                      return <img src={item} key={index} alt="image" />;
+                    })
+                  ) : (
+                    <img alt="No Image" />
+                  )}
                 </div>
               </Slider>
             </div>
@@ -169,8 +177,6 @@ const Product = () => {
                 </h2>
               </div>
 
-              {/* <p className="auction-condition">Item condition: New</p> */}
-
               <div className="auction-description">
                 <div className="auction-condition">Item condition: New</div>
                 <div className="auction-sku">
@@ -187,15 +193,6 @@ const Product = () => {
               <div className="auction-timer">
                 Time left:
                 <div className="auction-countdown">
-                  {/* <div className="auction-months">
-                    <h4>4</h4>
-                    <span>Months</span>
-                  </div>{" "}
-                  <div className="auction-weeks">
-                    <span>
-                      <h4>3</h4>Weeks
-                    </span>
-                  </div>{" "} */}
                   <div className="auction-days">
                     <span>
                       <h4>{day}</h4>days
@@ -298,12 +295,7 @@ const Product = () => {
               }
             >
               <p>
-                Going forward knowledge is power or we need to button up our
-                approach old boys club. Please use “solutionise” instead of
-                solution ideas! 🙂 draw a line in the sand, for take five, punch
-                the tree, and come back in here with a clear head. Out of scope
-                data-point work flows , nor critical mass, and time to open the
-                kimono yet move the needle.
+                {product?.description ? product?.description : "No description"}
               </p>
             </div>
             <div

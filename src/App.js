@@ -17,6 +17,7 @@ import Users from "./pages/Admin/users";
 import VendorProducts from "./pages/Admin/products";
 import ViewProductDetails from "./pages/Vendors/viewproductdetails";
 import Product from "./pages/Main/product";
+import UserDash from "./pages/Users/dashboard";
  
 function App() {
   return (
@@ -45,6 +46,7 @@ function App() {
           <PrivateRoute path="/viewproduct" component={ViewProductDetails} />
           <PrivateRoute path="/product/:id/:name" component={Product} />
 
+          <PrivateRoute path="/user-dash" component={UserDash} />
           
           
           <PrivateRoute path="/dashboard" component={Dashboard} />

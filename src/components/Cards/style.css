@@ -66,7 +66,7 @@
   padding: 12px 0px;
   font-size: 16px;
   width: 100%;
-  background-color: #6ba6d5;
+  background-color: #2695ff;
   font-family: inherit;
   font-weight: 500;
   color: white;
@@ -80,12 +80,12 @@
 /* STEPS CARD */
 
 .steps-card {
-  padding: 14px 13px 56px 14px;
+  /* padding: 14px 13px 56px 14px; */
   width: 260px;
   display: flex;
   flex-wrap: wrap;
-  min-height: 300px;
-  max-height: 300px;
+  min-height: 280px;
+  max-height: 280px;
 }
 .steps-icons {
   width: 100%;
@@ -104,19 +104,19 @@
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  background: #6ba6d5;
+  background: #2695ffb0;
   color: #fff;
-  font-size: 44px;
+  font-size: 39px;
 }
 .steps-card-text {
   width: 100%;
 }
 .steps-card-text p {
   color: #999999;
-  font-size: 17px;
+  font-size: 14.5px;
 }
 .steps-card-text h3 {
-  font-size: 22px;
+  font-size: 19px;
   font-weight: 500;
   font-family: inherit;
 }

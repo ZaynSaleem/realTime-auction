@@ -21,20 +21,20 @@ import sliderImage from "../../assets/sliderHome.jpg";
 import { db } from "../../config/firebase/firebase";
 import { useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
+import Loader from "../../components/Loader/loader";
 
 const Home = () => {
   let history = useHistory();
   const Data = useSelector((state) => state?.auth.auth);
 
-
   const [productData, setProductData] = useState([]);
-  // const [role, setRole] = useState("");
+  const [loaderBool, setLoaderBool] = useState(false);
   useEffect(() => {
     productsHandler();
-    // console.log(role);
   }, []);
 
   const productsHandler = () => {
+    setLoaderBool(true);
     let arr = [];
 
     db.collection("products")
@@ -45,29 +45,31 @@ const Home = () => {
             doc?.data()?.timerStatus === "Ongoing" &&
             !doc?.data()?.productStatus
           ) {
-            // console.log(doc.data());
             let obj = doc.data();
             obj.id = doc?.id;
-            // console.log(obj);
 
             arr.push(obj);
           }
         });
         setProductData(arr);
+        setLoaderBool(false);
       });
   };
   const toggleProduct = (item) => {
     let str = item?.productName;
     str = str.replace(/\s+/g, "-").toLowerCase();
-    // console.log(str);
+
     history.push(`/product/${item?.id}/${str}`);
   };
 
-  return (
+  return loaderBool && loaderBool ? (
+    <div>
+      <Loader />
+    </div>
+  ) : (
     <div>
       <Navbar />
-      {/* <FaAngleRight/> */}
-      {/* <FaUserAlt/> */}
+
       <Slider image={sliderImage} />
       <div className="main-content">
         <div className="custom_container">
@@ -95,11 +97,6 @@ const Home = () => {
                   );
                 })
               : "No product in current"}
-            {/* <Card image={card2} /> */}
-            {/* <Card image={card3} /> */}
-            {/* <Card image={card4} /> */}
-            {/* <Card image={card1} /> */}
-            {/* <Card image={card1} /> */}
           </div>
         </div>
       </div>

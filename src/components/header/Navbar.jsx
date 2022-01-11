@@ -63,7 +63,7 @@ const Navbar = (props) => {
             </div>
             <div className="navbar-menu">
               <div className="nav-items">
-                <a href="#">Home</a>
+                <a href="/">Home</a>
               </div>
               <div className="nav-items">
                 <a href="#">About</a>
@@ -81,7 +81,9 @@ const Navbar = (props) => {
                 <div className="nav-items">
                   <a href="/vendor-dash">Dashboard</a>
                 </div>
-              ) : null}
+              ) :   <div className="nav-items">
+              <a href="/user-dash">Dashboard</a>
+            </div>}
             </div>
           </div>
         </div>
