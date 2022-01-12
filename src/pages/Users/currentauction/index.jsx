@@ -9,7 +9,7 @@ import VendorSidebar from "../../../components/header/VendorSidebar";
 import Topbar from "../../../components/topbar/Topbar";
 import WiningCard from "../../../components/Cards/winingcard";
 
-const UserDash = () => {
+const CurrentAuction = () => {
   const dispatch = useDispatch();
   let history = useHistory();
   const Data = useSelector((state) => state?.auth.auth);
@@ -26,13 +26,19 @@ const UserDash = () => {
         querySnapshot.forEach((doc) => {
           let data = doc?.data();
           if (
-            data?.winner?.uid === Data[0]?.uid &&
-            data?.timerStatus === "Expired"
+            data?.bids &&
+            data?.bids.length &&
+            data?.timerStatus === "Ongoing"
           ) {
-            let dup = data;
-            dup.id = doc?.id;
-            arr.push(dup);
-            // console.log(dup);
+            for (let i = 0; i < data?.bids.length; i++) {
+              if (data?.bids[i].uid === Data[0]?.uid) {
+                let dup = data;
+                dup.id = doc?.id;
+                arr.push(dup);
+                console.log(dup);
+                break;
+              }
+            }
           }
         });
         setDataProduct(arr);
@@ -85,4 +91,4 @@ const UserDash = () => {
   );
 };
 
-export default UserDash;
+export default CurrentAuction;

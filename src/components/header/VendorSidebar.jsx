@@ -86,6 +86,15 @@ const VendorSidebar = ({ toggleBool, name, togglebtn }) => {
                   <FaChartLine />
                   <span className="btn-text-vendor">Dashboard</span>
                 </button>
+                <button
+                  className="button-sidebar"
+                  onClick={() => {
+                    history.push("/current-auction");
+                  }}
+                >
+                  <FaChartLine />
+                  <span className="btn-text-vendor">Current Auction</span>
+                </button>
               </div>
               {/* <div className="sidebar-item">
               <button

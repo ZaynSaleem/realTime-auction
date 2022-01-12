@@ -28,6 +28,7 @@ const Product = () => {
   const [bidValue, setBidValue] = useState("");
   const [maxBid, setMaxBid] = useState("");
   const [loaderBool, setLoaderBool] = useState(false);
+  const [timerbool, setTimerbool] = useState(false);
 
   useEffect(() => {
     setLoaderBool(true);
@@ -52,7 +53,11 @@ const Product = () => {
             let dup = doc?.data();
             dup.catId = item?.data()?.categoryName;
             setProduct(dup);
-
+            if (item?.data()?.timerStatus === "Expired") {
+              setTimerbool(true);
+            } else {
+              setTimerbool(false);
+            }
             timerCountdown(doc?.data()?.startTime, doc?.data()?.endTime);
             setLoaderBool(false);
           });
@@ -78,6 +83,14 @@ const Product = () => {
 
           if (distance < 0) {
             clearInterval(x);
+            setTimerbool(true)
+            setDay(0);
+            setHour(
+              Math.floor("0")
+            );
+            setMin("0");
+            setSec("0");
+  
             db.collection("products")
               .doc(params?.id)
               .update({
@@ -190,31 +203,34 @@ const Product = () => {
                 </div>
               </div>
 
-              <div className="auction-timer">
-                Time left:
-                <div className="auction-countdown">
-                  <div className="auction-days">
-                    <span>
-                      <h4>{day}</h4>days
-                    </span>
-                  </div>
-                  <div className="auction-hours">
-                    <span>
-                      <h4>{hour}</h4>hours
-                    </span>
-                  </div>{" "}
-                  <div className="auction-mintues">
-                    <span>
-                      <h4>{min}</h4>mintues
-                    </span>
-                  </div>
-                  <div className="auction-seconds">
-                    <span>
-                      <h4>{sec}</h4>second
-                    </span>
+              {!timerbool ? (
+                <div className="auction-timer">
+                  <span>Time left:</span>
+                  <div className="auction-countdown">
+                    <div className="auction-days">
+                      <span>
+                        <h4>{day}</h4>days
+                      </span>
+                    </div>
+                    <div className="auction-hours">
+                      <span>
+                        <h4>{hour}</h4>hours
+                      </span>
+                    </div>{" "}
+                    <div className="auction-mintues">
+                      <span>
+                        <h4>{min}</h4>mintues
+                      </span>
+                    </div>
+                    <div className="auction-seconds">
+                      <span>
+                        <h4>{sec}</h4>second
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </div>
+              ) : ""}
+
               <div className="auction-timezone">
                 <p>Auction ends: {product?.endTime}</p>
                 <p>Timezone: GMT + 5</p>
@@ -230,7 +246,8 @@ const Product = () => {
                   />
                 </div>
                 <div className="btn-bid">
-                  {Data[0]?.role && Data[0]?.role === "user" ? (
+                  {Data[0]?.role && Data[0]?.role === "user" && !timerbool ? (
+
                     <button onClick={bidsHandler}>BID</button>
                   ) : (
                     <button
