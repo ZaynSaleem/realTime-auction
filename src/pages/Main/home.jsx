@@ -6,6 +6,7 @@ import card1 from "../../assets/card1.jpg";
 import card2 from "../../assets/card2.jpg";
 import card3 from "../../assets/card3.jpg";
 import card4 from "../../assets/card4.jpg";
+import logo from "../../assets/logo-ibid.png";
 import "./style.css";
 import Card from "../../components/Cards/Card";
 import {
@@ -14,6 +15,9 @@ import {
   FaGlassMartini,
   FaTrophy,
   FaRegMoneyBillAlt,
+  FaGavel,
+  FaEnvelope,
+  FaPhone,
 } from "react-icons/fa";
 import StepsCard from "../../components/Cards/StepsCard";
 import Footer from "../../components/footer/Footer";
@@ -68,19 +72,135 @@ const Home = () => {
     </div>
   ) : (
     <div>
-      <Navbar />
+      {/* <Navbar /> */}
+      <div className="navbar-tops">
+        <div className="custom_container">
+          <div className="navbar-top-content">
+            <div className="call-us">Call us toll free: +1-541-754-3010</div>
+            <div className="send-email">
+              Send us an email: contact@example.com
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="navbar-wrapper">
+        <div className="custom_container">
+          <div className="navbar-content">
+            <div className="navbar-content-logo">
+              <img src={logo} />
+            </div>
+            <div className="navbar-content-items">
+              <div className="item-link">
+                <a href="#">Home</a>
+              </div>
+              <div className="item-link">
+                <a href="#">Products</a>
+              </div>
+              <div className="item-link">
+                <a href="#">Buy</a>
+              </div>
+              <div className="item-link">
+                <a href="#">Sell</a>
+              </div>
+              <div className="item-link">
+                <a href="#">About</a>
+              </div>
+            </div>
+            <div className="sign-in-button">
+              <button>SignIn</button>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <Slider image={sliderImage} />
       <div className="main-content">
         <div className="custom_container">
           <div className="main-content-head">
             <div className="text-content">
-              Current <span>Auctions</span>
+              <h1>LATEST AUCTION</h1>
+            </div>
+            <div className="line-gavel-wrapper">
+              <div className="line-gavel">
+                <hr />
+              </div>
+              <div className="icon-gavel">
+                <FaGavel />
+              </div>
             </div>
           </div>
 
           <div className="card-main">
-            {productData && productData?.length
+            <div className="home-card">
+              <div className="card-image">
+                <img src={card1} />
+                <div className="timer-card">20d 6h 26m 26s</div>
+                <div className="gavel-bid">
+                  <button>
+                    <FaGavel />
+                  </button>
+                </div>
+              </div>
+              <div className="content-card">
+                <div className="title-card">Dual Sim Smartphone</div>
+                <div className="price-card">
+                  current bid:<span>$151</span>
+                </div>
+              </div>
+            </div>
+            <div className="home-card">
+              <div className="card-image">
+                <img src={card2} />
+                <div className="timer-card">20d 6h 26m 26s</div>
+                <div className="gavel-bid">
+                  <button>
+                    <FaGavel />
+                  </button>
+                </div>
+              </div>
+              <div className="content-card">
+                <div className="title-card">Dual Sim Smartphone</div>
+                <div className="price-card">
+                  current bid:<span>$151</span>
+                </div>
+              </div>
+            </div>
+            <div className="home-card">
+              <div className="card-image">
+                <img src={card3} />
+                <div className="timer-card">20d 6h 26m 26s</div>
+                <div className="gavel-bid">
+                  <button>
+                    <FaGavel />
+                  </button>
+                </div>
+              </div>
+              <div className="content-card">
+                <div className="title-card">Dual Sim Smartphone</div>
+                <div className="price-card">
+                  current bid:<span>$151</span>
+                </div>
+              </div>
+            </div>
+            <div className="home-card">
+              <div className="card-image">
+                <img src={card4} />
+                <div className="timer-card">20d 6h 26m 26s</div>
+                <div className="gavel-bid">
+                  <button>
+                    <FaGavel />
+                  </button>
+                </div>
+              </div>
+              <div className="content-card">
+                <div className="title-card">Dual Sim Smartphone</div>
+                <div className="price-card">
+                  current bid:<span>$151</span>
+                </div>
+              </div>
+            </div>
+
+            {/* {productData && productData?.length
               ? productData.map((item, index) => {
                   return (
                     <Card
@@ -96,7 +216,7 @@ const Home = () => {
                     />
                   );
                 })
-              : "No product in current"}
+              : "No product in current"} */}
           </div>
         </div>
       </div>

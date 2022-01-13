@@ -75,7 +75,7 @@ const Navbar = (props) => {
                 <a href="#">Buy</a>
               </div>
               <div className="nav-items">
-                <a href="#">Products</a>
+                <a href="/allproducts">Products</a>
               </div>
               {Data && Data?.length && Data[0]?.role === "vendor" ? (
                 <div className="nav-items">

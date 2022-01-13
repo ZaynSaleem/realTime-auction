@@ -1,15 +1,10 @@
 .slider {
   width: 100%;
-  background-color: #c1cad3;
-  height: 500px;
+  background-color: white;
+
 }
 .slider img {
   width: 100%;
-  object-fit: cover;
-  height: 500px;
-}
-.custom_container {
-  max-width: 1400px;
-  margin: 0 auto;
-  width: 100%;
+  object-fit: contain;
+
 }

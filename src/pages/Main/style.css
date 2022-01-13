@@ -5,16 +5,47 @@
   padding: 0px 15px;
 }
 .main-content-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
   font-size: 30px;
   width: 100%;
+  padding: 50px 0px;
   background-color: transparent;
 }
 .text-content {
-  padding: 70px;
+  /* padding: 70px; */
+  text-align: center;
+  width: 100%;
+}
+.text-content h1 {
+  font-weight: 800;
 }
 .main-content-head span {
   font-weight: 700;
   color: #48789f;
+}
+.line-gavel-wrapper {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.line-gavel {
+  width: 40%;
+  position: absolute;
+}
+.icon-gavel {
+  background: #ffffff;
+  z-index: 1;
+  padding: 9px 12px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  color: cornflowerblue;
 }
 .custom_container {
   max-width: 1400px;
@@ -26,9 +57,8 @@
   flex-wrap: wrap;
   align-items: center;
   width: 100%;
-  grid-gap: 12px;
-  gap: 9px;
-  justify-content: space-around;
+  gap: 34px;
+  justify-content: start;
 }
 .steps-wrapper {
   width: 100%;
@@ -122,4 +152,412 @@
   background-color: white;
   color: #2695ff;
   border-color: white;
+}
+/* New Card Css */
+
+.home-card {
+  width: 23%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  /* justify-content: center; */
+  /* height: 401px; */
+  /* position: relative; */
+  text-align: center;
+  box-shadow: 0 0 25px rgb(0 0 0 / 10%);
+}
+.card-image {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+  position: relative;
+}
+.card-image img {
+  /* width: 100%; */
+  object-fit: contain;
+  background-repeat: no-repeat;
+  background-size: 200px 200px;
+  height: 300px;
+  width: 300px;
+  /* transition: 0.2s ease-in-out; */
+  padding: 23px 0px;
+}
+
+.card-image img:hover {
+  cursor: pointer;
+  overflow: hidden;
+  transform: scale(1.09);
+  width: 284px;
+}
+.content-card {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  border-top: 1px solid #b3b3b373;
+  justify-content: center;
+  padding: 21px;
+}
+.timer-card {
+  width: 65%;
+  font-weight: 600;
+  color: #464646;
+  position: absolute;
+  bottom: -17px;
+  background: white;
+  padding: 8px;
+  box-shadow: 0 0 10px rgb(0 0 0 / 12%);
+  letter-spacing: 1px;
+  display: block;
+}
+.title-card {
+  width: 100%;
+  font-size: 23px;
+  font-weight: 700;
+  transition: 0.3s ease-in-out;
+}
+.title-card:hover {
+  color: cornflowerblue;
+  cursor: pointer;
+}
+.price-card {
+  width: 100%;
+  font-size: 14px;
+  text-transform: capitalize;
+  color: grey;
+}
+.price-card span {
+  color: cornflowerblue;
+  font-weight: 600;
+}
+.gavel-bid {
+  position: absolute;
+  left: 7px;
+  padding: 10px 10px;
+  top: 8px;
+}
+.gavel-bid button {
+  background: cornflowerblue;
+  border: 0;
+  font-size: 15px;
+  padding: 8px;
+  display: flex;
+  border-radius: 50%;
+  color: white;
+  box-shadow: 0 0 5px rgb(0 0 0 / 22%);
+  transition: 0.4s ease-in-out;
+}
+.gavel-bid button:hover {
+  background: white;
+  color: cornflowerblue;
+  box-shadow: 0px 0px 7px;
+}
+
+@media (max-width: 1338px) {
+  .custom_container {
+    max-width: 1300px;
+  }
+  .home-card {
+    width: 22.5%;
+  }
+  .card-image img {
+    /* width: 100%; */
+
+    /* height: 300px; */
+    width: 100%;
+  }
+  .title-card {
+    font-size: 20px;
+  }
+}
+@media (max-width: 1136px) {
+  .custom_container {
+    max-width: 1100px;
+  }
+  .home-card {
+    width: 22.5%;
+  }
+  .card-image img {
+    /* width: 100%; */
+
+    height: 250px;
+    width: 100%;
+  }
+  .title-card {
+    font-size: 17px;
+  }
+  .timer-card {
+    width: 63%;
+    padding: 6px;
+    box-shadow: 0 0 10px rgb(0 0 0 / 12%);
+    letter-spacing: 0px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 1050px) {
+  .custom_container {
+    max-width: 1000px;
+  }
+  .home-card {
+    width: 22%;
+  }
+  .card-image img {
+    height: 220px;
+    width: 100%;
+  }
+  .title-card {
+    font-size: 15px;
+  }
+  .timer-card {
+    width: 63%;
+    padding: 6px;
+    box-shadow: 0 0 10px rgb(0 0 0 / 12%);
+    letter-spacing: 0px;
+    font-size: 13px;
+  }
+}
+@media (max-width: 923px) {
+  .custom_container {
+    max-width: 900px;
+  }
+  .home-card {
+    width: 22%;
+  }
+  .card-image img {
+    height: 180px;
+    width: 100%;
+  }
+  .title-card {
+    font-size: 13px;
+  }
+  .timer-card {
+    width: 63%;
+    padding: 6px;
+    box-shadow: 0 0 10px rgb(0 0 0 / 12%);
+    letter-spacing: 0px;
+    font-size: 13px;
+  }
+  .gavel-bid {
+    left: 7px;
+    padding: 10px 10px;
+    top: 2px;
+  }
+  .card-main {
+    width: 100%;
+    gap: 20px;
+    justify-content: space-between;
+  }
+  .gavel-bid button {
+    font-size: 12px;
+    padding: 6px;
+  }
+}
+
+@media (max-width: 900px) {
+  .home-card {
+    width: 40%;
+  }
+  .line-gavel {
+    width: 60%;
+    position: absolute;
+  }
+  .card-image img {
+    height: 300px;
+    width: 100%;
+  }
+  .title-card {
+    width: 100%;
+    font-size: 23px;
+  }
+  .timer-card {
+    width: 65%;
+    bottom: -17px;
+    padding: 8px;
+    letter-spacing: 1px;
+  }
+  .gavel-bid {
+    left: 7px;
+    padding: 10px 10px;
+    top: 8px;
+  }
+  .gavel-bid button {
+    font-size: 15px;
+    padding: 8px;
+  }
+  .card-main {
+    gap: 34px;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 727px) {
+  .line-gavel {
+    width: 60%;
+    position: absolute;
+  }
+  .card-image img {
+    background-size: 200px 200px;
+    height: 270px;
+    width: 100%;
+  }
+  .title-card {
+    width: 100%;
+    font-size: 18px;
+  }
+  .gavel-bid {
+    left: 7px;
+    padding: 10px 10px;
+    top: 8px;
+  }
+}
+
+@media (max-width: 614px) {
+  .line-gavel {
+    width: 60%;
+    position: absolute;
+  }
+  .home-card {
+    width: 45%;
+  }
+  .card-image img {
+    height: 240px;
+    width: 100%;
+  }
+  .title-card {
+    width: 100%;
+    font-size: 16px;
+  }
+}
+@media (max-width: 544px) {
+  .line-gavel {
+    width: 70%;
+    position: absolute;
+  }
+  .card-image img {
+    height: 200px;
+    width: 100%;
+  }
+  .title-card {
+    font-size: 14px;
+  }
+  .gavel-bid button {
+    font-size: 12px;
+    padding: 6px;
+    display: flex;
+    border-radius: 50%;
+    color: white;
+    box-shadow: 0 0 5px rgb(0 0 0 / 22%);
+  }
+  .gavel-bid {
+    left: 7px;
+    padding: 10px 10px;
+    top: 0px;
+  }
+  .timer-card {
+    width: 62%;
+    letter-spacing: 0px;
+    font-size: 12px;
+  }
+}
+@media (max-width: 487px) {
+  .home-card {
+    width: 90%;
+  }
+  .timer-card {
+    width: 65%;
+    font-size: 14px;
+  }
+  .title-card {
+    font-size: 23px;
+    width: 100%;
+  }
+  .content-card {
+    width: 100%;
+  }
+  .card-image img {
+    width: 100%;
+    height: 300px;
+  }
+  .gavel-bid {
+    left: 7px;
+    top: 8px;
+  }
+  .gavel-bid button {
+    font-size: 15px;
+    padding: 8px;
+  }
+}
+
+@media (max-width: 373px) {
+  .line-gavel {
+    width: 90%;
+    position: absolute;
+  }
+  .card-image img {
+    width: 100%;
+    height: 260px;
+  }
+  .title-card {
+    font-size: 18px;
+    width: 100%;
+  }
+}
+
+/* New Css Navbar */
+.navbar-wrapper {
+  width: 100%;
+  background-color: white;
+}
+.navbar-tops {
+  width: 100%;
+  border-bottom: 1px solid lightgrey;
+}
+.navbar-top-content {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  grid-gap: 37px;
+  gap: 37px;
+  padding: 13px 0px;
+  color: #747474;
+}
+.navbar-content {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 23px 0px;
+}
+.navbar-content-logo {
+  flex: 2;
+}
+.navbar-content-logo img {
+  height: 34px;
+  object-fit: contain;
+}
+.navbar-content-items {
+  flex: 3;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  /* width: 40%; */
+  justify-content: space-evenly;
+}
+.sign-in-button {
+  flex: 2;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: end;
+}
+.item-link{
+  padding: 8px 26px;
+  border: 1px solid cornflowerblue;
+}
+.item-link a {
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 700;
+  font-family: sans-serif;
+  color: #2695ff;
 }

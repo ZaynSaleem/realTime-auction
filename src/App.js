@@ -19,6 +19,7 @@ import ViewProductDetails from "./pages/Vendors/viewproductdetails";
 import Product from "./pages/Main/product";
 import UserDash from "./pages/Users/dashboard";
 import CurrentAuction from "./pages/Users/currentauction";
+import MultipleProducts from "./pages/Main/multipleproducts";
  
 function App() {
   return (
@@ -46,6 +47,7 @@ function App() {
           <PrivateRoute path="/products" component={VendorProducts} />
           <PrivateRoute path="/viewproduct" component={ViewProductDetails} />
           <PrivateRoute path="/product/:id/:name" component={Product} />
+          <PrivateRoute path="/allproducts" component={MultipleProducts} />
 
           <PrivateRoute path="/user-dash" component={UserDash} />
           

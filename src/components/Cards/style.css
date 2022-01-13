@@ -145,3 +145,81 @@
 h2 {
   margin: 0;
 }
+@media (max-width: 1135px) {
+  .steps-card {
+    width: 230px;
+  }
+}
+@media (max-width: 999px) {
+  .steps-card {
+    width: 200px;
+  }
+}
+@media (max-width: 999px) {
+  .steps-card {
+    width: 300px;
+  }
+  .steps-card-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    /* grid-gap: 10px; */
+    gap: 63px;
+    padding: 11px 22px;
+  }
+  .head-text {
+    padding: 47px 0px 32px 30px;
+  }
+}
+@media (max-width: 708px) {
+  .steps-card {
+    width: 250px;
+  }
+  .steps-card-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    /* grid-gap: 10px; */
+    gap: 53px;
+    padding: 11px 22px;
+  }
+}
+
+@media (max-width: 606px) {
+  .steps-card {
+    width: 220px;
+  }
+  .steps-card-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    grid-gap: 33px;
+    gap: 33px;
+    padding: 11px 22px;
+  }
+}
+
+@media (max-width: 515px) {
+  .steps-card {
+    width:300px;
+    box-shadow: 0px 0px 20px #0000000f;
+  }
+  .right-angle-icons{
+    display: none;
+  }
+  .steps-card-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    grid-gap: 33px;
+    gap: 33px;
+    padding: 11px 22px;
+  }
+  .steps-icons{
+    align-items: center;
+    justify-content: center;
+  }
+  .steps-card-text{
+    text-align: center;
+  }
+}

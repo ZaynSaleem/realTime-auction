@@ -1,0 +1,9 @@
+.card-wrapper-product {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  grid-gap: 12px;
+  gap: 9px;
+}
