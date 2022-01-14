@@ -1,9 +1,3 @@
-.custom_container {
-  max-width: 1400px;
-  margin: 0 auto;
-  width: 100%;
-}
-
 .footer-wrapper {
   width: 100%;
   display: flex;
@@ -11,7 +5,7 @@
   justify-content: center;
   align-items: end;
   border-top: 1px solid lightgrey;
-  height: 437px;
+  height: 300px;
 }
 .footer-card-wrapper {
   width: 100%;
@@ -19,18 +13,15 @@
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 20px;
-  padding: 30px 0px;
+  padding: 0px 10px;
 }
 .footer-card {
-  /* width: 280px; */
-  flex: 1;
+  flex: 1 1;
   display: flex;
-    flex-wrap: wrap;
-    /* align-items: baseline; */
-    line-height: 31px;
-    /* font-weight: 500; */
-    font-size: 18px;
-    font-family: revert;
+  flex-wrap: wrap;
+  font-size: 14px;
+  color: #787878;
+  line-height: 2.4;
 }
 .footer-card h1 {
   font-family: fantasy;
@@ -45,22 +36,44 @@
 }
 .footer-bottom {
   width: 100%;
-  border-top: 1px solid #2695ff;
+  background: #f9f9f9;
 }
 .footer-text {
-  padding: 21px 5px;
-  color: #1c4566;
-  text-align: center;
+  padding: 14px 5px;
+  color: #afafaf;
+  text-align: start;
 }
-.footer-card h4{
-    font-weight: 500;
-    margin: 0;
-    line-height:35px
+.footer-card h4 {
+  margin: 0;
+  line-height: 35px;
+  color: #000000c2;
+  font-weight: 800;
 }
-.footer-card h4:hover{
-    color: #48789f;
-    cursor: pointer;
+.footer-card h4:hover,
+.footer-subtext:hover {
+  color: #4d95ff;
+  cursor: pointer;
 }
-.footer-subtext{
+.footer-subtext {
   width: 100%;
+}
+
+/* New Css */
+.footer-call-us {
+  width: 100%;
+}
+.footer-send-email {
+  width: 100%;
+}
+@media (max-width: 700px) {
+  .footer-card {
+    width: 45% !important;
+    flex: 1 45%;
+  }
+  .footer-card-wrapper {
+    padding: 20px 10px;
+  }
+  .footer-text {
+    text-align: center;
+  }
 }

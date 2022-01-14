@@ -2,13 +2,9 @@ import React, { useEffect, useState } from "react";
 
 import Navbar from "../../components/header/Navbar";
 import Slider from "../../components/Slider/Slider";
-import card1 from "../../assets/card1.jpg";
-import card2 from "../../assets/card2.jpg";
-import card3 from "../../assets/card3.jpg";
-import card4 from "../../assets/card4.jpg";
-import logo from "../../assets/logo-ibid.png";
+
 import "./style.css";
-import Card from "../../components/Cards/Card";
+
 import {
   FaAngleRight,
   FaUserAlt,
@@ -16,8 +12,6 @@ import {
   FaTrophy,
   FaRegMoneyBillAlt,
   FaGavel,
-  FaEnvelope,
-  FaPhone,
 } from "react-icons/fa";
 import StepsCard from "../../components/Cards/StepsCard";
 import Footer from "../../components/footer/Footer";
@@ -26,6 +20,12 @@ import { db } from "../../config/firebase/firebase";
 import { useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Loader from "../../components/Loader/loader";
+import ProductCard from "../../components/Cards/productscard";
+import InformationLine from "../../components/informationline";
+import supportIcon from "../../assets/support.png";
+import trackingIcon from "../../assets/tracking.png";
+import moneyIcon from "../../assets/money_icons.png";
+import deliveryIcon from "../../assets/deliveries.png";
 
 const Home = () => {
   let history = useHistory();
@@ -33,6 +33,7 @@ const Home = () => {
 
   const [productData, setProductData] = useState([]);
   const [loaderBool, setLoaderBool] = useState(false);
+
   useEffect(() => {
     productsHandler();
   }, []);
@@ -52,18 +53,17 @@ const Home = () => {
             let obj = doc.data();
             obj.id = doc?.id;
 
-            arr.push(obj);
+            if (arr && arr?.length > 3) {
+              return false;
+            } else {
+              arr.push(obj);
+            }
           }
         });
+
         setProductData(arr);
         setLoaderBool(false);
       });
-  };
-  const toggleProduct = (item) => {
-    let str = item?.productName;
-    str = str.replace(/\s+/g, "-").toLowerCase();
-
-    history.push(`/product/${item?.id}/${str}`);
   };
 
   return loaderBool && loaderBool ? (
@@ -72,50 +72,53 @@ const Home = () => {
     </div>
   ) : (
     <div>
-      {/* <Navbar /> */}
-      <div className="navbar-tops">
-        <div className="custom_container">
-          <div className="navbar-top-content">
-            <div className="call-us">Call us toll free: +1-541-754-3010</div>
-            <div className="send-email">
-              Send us an email: contact@example.com
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="navbar-wrapper">
-        <div className="custom_container">
-          <div className="navbar-content">
-            <div className="navbar-content-logo">
-              <img src={logo} />
-            </div>
-            <div className="navbar-content-items">
-              <div className="item-link">
-                <a href="#">Home</a>
-              </div>
-              <div className="item-link">
-                <a href="#">Products</a>
-              </div>
-              <div className="item-link">
-                <a href="#">Buy</a>
-              </div>
-              <div className="item-link">
-                <a href="#">Sell</a>
-              </div>
-              <div className="item-link">
-                <a href="#">About</a>
-              </div>
-            </div>
-            <div className="sign-in-button">
-              <button>SignIn</button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <Navbar />
 
       <Slider image={sliderImage} />
       <div className="main-content">
         <div className="custom_container">
+          <div className="detail-card-wrapper">
+            <div className="detail-card">
+              <div className="detail-card-image">
+                <img src={supportIcon} />
+              </div>
+              <div className="detail-text-wrapper">
+                <h4>Call Centerssss</h4>
+                <p>Objectively empowered</p>
+              </div>
+            </div>
+
+            <div className="detail-card">
+              <div className="detail-card-image">
+                <img src={trackingIcon} />
+              </div>
+              <div className="detail-text-wrapper">
+                <h4>Order Tracking</h4>
+                <p>Objectively empowered</p>
+              </div>
+            </div>
+
+            <div className="detail-card">
+              <div className="detail-card-image">
+                <img src={deliveryIcon} />
+              </div>
+              <div className="detail-text-wrapper">
+                <h4>Fatest Delivery</h4>
+                <p>Efficiently unleash media</p>
+              </div>
+            </div>
+
+            <div className="detail-card">
+              <div className="detail-card-image">
+                <img src={moneyIcon} />
+              </div>
+              <div className="detail-text-wrapper">
+                <h4>Instant Buying</h4>
+                <p>Podcasting operational</p>
+              </div>
+            </div>
+          </div>
+
           <div className="main-content-head">
             <div className="text-content">
               <h1>LATEST AUCTION</h1>
@@ -129,97 +132,32 @@ const Home = () => {
               </div>
             </div>
           </div>
-
           <div className="card-main">
-            <div className="home-card">
-              <div className="card-image">
-                <img src={card1} />
-                <div className="timer-card">20d 6h 26m 26s</div>
-                <div className="gavel-bid">
-                  <button>
-                    <FaGavel />
-                  </button>
-                </div>
-              </div>
-              <div className="content-card">
-                <div className="title-card">Dual Sim Smartphone</div>
-                <div className="price-card">
-                  current bid:<span>$151</span>
-                </div>
-              </div>
-            </div>
-            <div className="home-card">
-              <div className="card-image">
-                <img src={card2} />
-                <div className="timer-card">20d 6h 26m 26s</div>
-                <div className="gavel-bid">
-                  <button>
-                    <FaGavel />
-                  </button>
-                </div>
-              </div>
-              <div className="content-card">
-                <div className="title-card">Dual Sim Smartphone</div>
-                <div className="price-card">
-                  current bid:<span>$151</span>
-                </div>
-              </div>
-            </div>
-            <div className="home-card">
-              <div className="card-image">
-                <img src={card3} />
-                <div className="timer-card">20d 6h 26m 26s</div>
-                <div className="gavel-bid">
-                  <button>
-                    <FaGavel />
-                  </button>
-                </div>
-              </div>
-              <div className="content-card">
-                <div className="title-card">Dual Sim Smartphone</div>
-                <div className="price-card">
-                  current bid:<span>$151</span>
-                </div>
-              </div>
-            </div>
-            <div className="home-card">
-              <div className="card-image">
-                <img src={card4} />
-                <div className="timer-card">20d 6h 26m 26s</div>
-                <div className="gavel-bid">
-                  <button>
-                    <FaGavel />
-                  </button>
-                </div>
-              </div>
-              <div className="content-card">
-                <div className="title-card">Dual Sim Smartphone</div>
-                <div className="price-card">
-                  current bid:<span>$151</span>
-                </div>
-              </div>
-            </div>
-
-            {/* {productData && productData?.length
-              ? productData.map((item, index) => {
-                  return (
-                    <Card
-                      roles={Data[0]?.role}
-                      image={item?.imageUrl[0]}
-                      productname={item?.productName}
-                      category={item?.catId}
-                      bids={item?.bids?.length}
-                      startTime={item?.startTime}
-                      endTime={item?.endTime}
-                      items={item}
-                      toggleProduct={toggleProduct}
-                    />
-                  );
-                })
-              : "No product in current"} */}
+            {productData && productData?.length ? (
+              productData.map((item, index) => {
+                return (
+                  <ProductCard
+                    roles={Data[0]?.role}
+                    image={
+                      item?.imageUrl && item?.imageUrl?.length
+                        ? item?.imageUrl[0]
+                        : ""
+                    }
+                    productname={item?.productName}
+                    bids={item?.bids?.length}
+                    startTime={item?.startTime}
+                    endTime={item?.endTime}
+                    items={item}
+                  />
+                );
+              })
+            ) : (
+              <InformationLine title="No Product in latest Auction" />
+            )}
           </div>
         </div>
       </div>
+
       <div className="steps-wrapper">
         <div className="custom_container">
           <div className="steps-head">
@@ -265,7 +203,7 @@ const Home = () => {
               <h1> Create an account and start Buy, Bid or Sell Now!</h1>
             </div>
             <div className="register-now-button">
-              <button>Register</button>
+              <button onClick={() => history.push("/sign-up")}>Register</button>
             </div>
           </div>
         </div>

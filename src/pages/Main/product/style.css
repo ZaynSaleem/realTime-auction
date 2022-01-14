@@ -2,10 +2,8 @@
 .product-detail-wrapper {
   display: flex;
   flex-wrap: wrap;
-  /* align-items: center; */
   padding: 38px 0px;
   grid-gap: 10px;
-  /* flex-direction: column; */
   gap: 10px;
   width: 100%;
   justify-content: center;
@@ -16,9 +14,7 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  /* background: black; */
   padding: 33px;
-
   box-shadow: 0px 0px 25px rgb(0 0 0 / 10%);
 }
 .content-product {
@@ -39,7 +35,6 @@
   font-weight: 800;
 }
 .lazy-slider .slick-slider {
-  /* background: aqua; */
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -55,18 +50,13 @@
   color: rgb(0, 0, 0) !important;
 }
 .auction-condition {
-  /* padding: 15px 0px; */
   color: #8d8a8a;
   width: 100%;
-  /* font-size: 14px; */
 }
 .auction-description {
   color: #6e6e6e;
   padding: 25px 0px;
   width: 100%;
-
-  /* font-size: 15px; */
-  /* letter-spacing: 0.5px; */
 }
 .auction-timer {
   width: 100%;
@@ -75,19 +65,15 @@
 .auction-countdown {
   font-weight: 600;
   width: 100%;
-
   text-transform: uppercase;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-around;
   box-shadow: 0px 0px 25px rgb(0 0 0 / 10%);
-  /* -webkit-box-shadow: 0px 0px 25px rgb(0 0 0 / 10%); */
   padding: 20px;
   text-align: center;
   margin-top: 10px;
-  /* padding-bottom: 15px; */
-  /* margin-top: 8px; */
   font-size: 12px;
 }
 .auction-countdown h4 {
@@ -105,7 +91,6 @@
   flex-wrap: wrap;
   align-items: center;
   width: 100%;
-
   justify-content: space-between;
 }
 .form-bid {
@@ -304,14 +289,12 @@
     border-top: 1px solid #2695ff;
   }
 }
-@media (max-width:432px) {
-  .auction-countdown{
+@media (max-width: 432px) {
+  .auction-countdown {
     font-size: 10px;
     padding: 6px 0px;
-
   }
-  .auction-countdown h4{
+  .auction-countdown h4 {
     font-size: 16px;
   }
-  
 }

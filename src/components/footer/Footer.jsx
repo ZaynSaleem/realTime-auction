@@ -1,49 +1,87 @@
 import React from "react";
 import "./footer.css";
+import logo from "../../assets/logo-ibid.png";
+import {
+  FaAngleDoubleRight,
+  FaFacebook,
+  FaInstagram,
+  FaTwitter,
+} from "react-icons/fa";
+
 const Footer = () => {
   return (
     <div className="footer-wrapper">
       <div className="custom_container">
         <div className="footer-card-wrapper">
           <div className="footer-card">
-            <h1> <span>i</span>BID</h1>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae
-              nemo minima qui dolor, iusto iure
-            </p>
+            <div className="navbar-content-logo">
+              <img src={logo} />
+            </div>
+            <div className="footer-call-us">
+              Call us toll free: +1-541-754-3010
+            </div>
+            <div className="footer-send-email">
+              Send us an email: contact@example.com
+            </div>
+            <div className="navbar-social-content">
+              <button>
+                <FaFacebook />
+              </button>
+              <button>
+                <FaInstagram />
+              </button>
+              <button>
+                <FaTwitter />
+              </button>
+            </div>
           </div>
 
           <div className="footer-card">
-            <h4>Information</h4>
-            <span className="footer-subtext">About us</span>
-            <span className="footer-subtext">My Account</span>
-            <span className="footer-subtext">Price List</span>
-            <span className="footer-subtext">Contacts</span>
-            <span className="footer-subtext">Registration</span>
+            <h4>Useful Links</h4>
+            <span className="footer-subtext">
+              {" "}
+              <FaAngleDoubleRight /> Mobile Phone
+            </span>
+            <span className="footer-subtext">
+              {" "}
+              <FaAngleDoubleRight /> Headphones
+            </span>
+            <span className="footer-subtext">
+              {" "}
+              <FaAngleDoubleRight /> Laptop
+            </span>
           </div>
 
           <div className="footer-card">
-            <h4>Help Center</h4>
-            <span className="footer-subtext">Assistance</span>
-            <span className="footer-subtext">FAQ</span>
-            <span className="footer-subtext">Testimonials</span>
-            <span className="footer-subtext">Account Refill</span>
-            <span className="footer-subtext">Payments</span>
+            <h4>Our Policy</h4>
+            <span className="footer-subtext">
+              <FaAngleDoubleRight /> Homepage
+            </span>
+            <span className="footer-subtext">
+              <FaAngleDoubleRight /> Blog
+            </span>
+            <span className="footer-subtext">
+              <FaAngleDoubleRight /> Services
+            </span>
           </div>
 
           <div className="footer-card">
             <h4>Partners</h4>
-            <span className="footer-subtext">iStep</span>
-            <span className="footer-subtext">Artex</span>
-            <span className="footer-subtext">Style Shop</span>
-            <span className="footer-subtext">CrystalTech</span>
-            <span className="footer-subtext">VIP Fashion</span>
+            <span className="footer-subtext">
+              <FaAngleDoubleRight /> iStep
+            </span>
+            <span className="footer-subtext">
+              <FaAngleDoubleRight /> Artex
+            </span>
+            <span className="footer-subtext">
+              <FaAngleDoubleRight /> Style Shop
+            </span>
           </div>
         </div>
       </div>
       <div className="footer-bottom">
         <div className="custom_container">
-          <div className="footer-text">©  2021 iBID. Privacy Policy</div>
+          <div className="footer-text">© 2021 iBID. Privacy Policy</div>
         </div>
       </div>
     </div>

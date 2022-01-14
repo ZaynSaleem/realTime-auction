@@ -1,6 +1,5 @@
 import "./style.css";
 import React, { useEffect, useState } from "react";
-import card1 from "../../../assets/card1.jpg";
 
 const WiningCard = (props) => {
   const [maxBid, setMaxBid] = useState("");

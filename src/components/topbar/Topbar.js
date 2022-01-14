@@ -23,10 +23,8 @@ const Topbar = (props) => {
           <button onClick={props.togglebtn}>
             {" "}
             <FaBars />
-            {/* <img src={props.img} /> */}
           </button>
         </div>
-        {/* <div className="content-top">Vendor-Dash</div> */}
         <div className="sidebar-details">
           <div className="sidebar-name">
             <p>{auth[0]?.email?.split("@")[0]}</p>

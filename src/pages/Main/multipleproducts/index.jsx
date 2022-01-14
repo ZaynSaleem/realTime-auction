@@ -3,11 +3,13 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import BreadCrumb from "../../../components/breadCrumb";
 import Navbar from "../../../components/header/Navbar";
-import Card from "../../../components/Cards/Card";
 import Loader from "../../../components/Loader/loader";
 import { db } from "../../../config/firebase/firebase";
 import { useHistory } from "react-router-dom";
-import './style.css'
+import "./style.css";
+import InformationLine from "../../../components/informationline";
+import ProductCard from "../../../components/Cards/productscard";
+import Footer from "../../../components/footer/Footer";
 const MultipleProducts = () => {
   const Data = useSelector((state) => state?.auth.auth);
   let history = useHistory();
@@ -54,27 +56,32 @@ const MultipleProducts = () => {
       <BreadCrumb title="Products" />
       <div className="main-content">
         <div className="custom_container">
-          <div className="card-wrapper-product">
-            {product && product?.length
-              ? product.map((item, index) => {
-                  return (
-                    <Card
-                      roles={Data[0]?.role}
-                      image={item?.imageUrl[0]}
-                      productname={item?.productName}
-                      category={item?.catId}
-                      bids={item?.bids?.length}
-                      startTime={item?.startTime}
-                      endTime={item?.endTime}
-                      items={item}
-                      toggleProduct={toggleProduct}
-                    />
-                  );
-                })
-              : "No product in current"}
+          <div className="card-main">
+            {product && product?.length ? (
+              product.map((item, index) => {
+                return (
+                  <ProductCard
+                    roles={Data[0]?.role}
+                    image={
+                      item?.imageUrl && item?.imageUrl?.length
+                        ? item?.imageUrl[0]
+                        : ""
+                    }
+                    productname={item?.productName}
+                    bids={item?.bids?.length}
+                    startTime={item?.startTime}
+                    endTime={item?.endTime}
+                    items={item}
+                  />
+                );
+              })
+            ) : (
+              <InformationLine title="No Product in latest Auction" />
+            )}
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

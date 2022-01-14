@@ -6,10 +6,8 @@
   background-color: #efefef;
 }
 .vendor-dashboard-sidebar {
-  /* background-color: rgb(0 0 24); */
   position: fixed;
   height: 100vh;
-
   top: 0;
   bottom: 0;
   display: flex;
@@ -46,28 +44,6 @@
   height: 100%;
 }
 
-/* .vendor-dashboard-top-bar {
-  background: white;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-
-  box-shadow: 0px -10px 17px #3b546e;
-}
-.vendor-top-container {
-  display: flex;
-  max-width: 1300px;
-  flex-wrap: wrap;
-  width: 100%;
-  align-items: center;
-  justify-content: space-between;
-}
-.vendor-content-top {
-  font-size: 21px;
-  font-weight: 600;
-  font-family: sans-serif;
-  padding: 10px; 
-}*/
 .vendor-button-toggle {
   padding: 10px;
 }
@@ -79,7 +55,6 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  /* margin-top: 45px; */
 }
 .vendor-container-category-wrapper {
   display: flex;
@@ -197,7 +172,6 @@
 .form-input-vendor button {
   width: 100%;
   padding: 7px;
-  /* border: 1px solid #008fff; */
   border: 0;
   border-radius: 5px;
   background-color: #77a6cb;
@@ -276,6 +250,9 @@
   opacity: 1;
   color: red;
 }
+.table-form tbody td a {
+  cursor: pointer;
+}
 
 /* SIDE BAR */
 
@@ -303,20 +280,10 @@
   .dashboard-sidebar {
     width: 0%;
     visibility: hidden;
-
-    /* position: fixed; */
-    /* visibility: hidden; */
-    /* transition: 0.5s ease-in-out; */
-    /* display: none; */
-
-    /* top: 0; */
-    /* left:0; */
     z-index: 1;
   }
   .dashboard-sidebar .sidebar-wrapper {
     display: none;
-    /* opacity: 0;
-    transition: visibility 0s, opacity 0.5s linear; */
   }
   .vendor-dashboard-content {
     width: 100%;
@@ -325,10 +292,8 @@
     transition: visibility 1s, opacity 0.5s linear;
   }
   .dashboard-sidebar-toggle {
-    /* transition: 0.5s ease-in-out; */
     width: 250px;
     z-index: 1;
-
     visibility: visible;
     opacity: 1;
     display: block;
@@ -337,11 +302,9 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    /* transition: 0.5s ease-in-out; */
     background-color: #051e34;
     background-image: url(//www.gstatic.com/mobilesdk/190424_mobilesdk/nav_nachos@2x.png);
     position: fixed;
     background-repeat: no-repeat;
-    /* display: none; */
   }
 }

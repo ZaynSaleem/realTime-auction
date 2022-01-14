@@ -16,16 +16,10 @@ const AddProduct = () => {
   const id = useParams();
   const dispatch = useDispatch();
   const history = useHistory();
-  const products = useSelector((state) => state?.vendor.products);
 
   const auth = useSelector((state) => state?.auth.auth);
-  // console.log(auth[0]?.email?.split("@")[0]);
-  // console.log(auth);
   const [toggleBool, setToggleBool] = useState(false);
-  // const [modal, setModal] = useState(false);
   const [btnBool, setBtnBool] = useState(false);
-  // const [editId, setEditId] = useState("");
-  // const [categoryName, setcategoryName] = useState("");
   const [startTime, setStartTime] = useState("");
   const [minEndTime, setMinEndTime] = useState("");
   const [btnUpdateBool, setBtnUpdateBool] = useState(false);
@@ -62,7 +56,6 @@ const AddProduct = () => {
         .doc(id.id)
         .get()
         .then((doc) => {
-          // console.log(doc.data());
           setValue("product_name", doc?.data()?.productName);
           setValue("product_cat", doc?.data()?.catId);
           setValue("start_time", doc?.data()?.startTime);
@@ -84,7 +77,6 @@ const AddProduct = () => {
       setValue("description", "");
       setImageArr([]);
       setBtnUpdateBool(false);
-      // console.log("no Id");
     }
   }, [id.id]);
 
@@ -114,14 +106,14 @@ const AddProduct = () => {
 
   const onSubmit = async (data) => {
     setBtnBool(true);
-    // console.log(data?.image_file[0]?.name);
+
     let fileUpload = [...imageArr];
     let urlArr = [];
-    // let imageFunc = imageUploadHandler();
+
     if (fileUpload && fileUpload?.length) {
       for (let i = 0; i < fileUpload?.length; i++) {
         let imageFunc = await imageUploadHandler(fileUpload[i]);
-        // console.log(imageFunc, "url");
+
         urlArr.push(imageFunc);
       }
       if (urlArr && urlArr?.length) {
@@ -143,11 +135,9 @@ const AddProduct = () => {
               description: data?.description,
             })
             .then((docRef) => {
-              // console.log(docRef);
               setBtnBool(false);
               toast.success("New Product Added!");
               history.push("/vendor-dash");
-              // setModal(!modal);
             })
             .catch((error) => {
               toast.error("Error adding document: ");
@@ -177,65 +167,6 @@ const AddProduct = () => {
         }
       }
     }
-    // console.log(imageArr)
-
-    // let storageRef = firebase
-    //   .storage()
-    //   .ref("productImages/" + fileUpload?.name);
-
-    // storageRef.put(fileUpload).then(function () {
-    //   storageRef.getDownloadURL().then(function (url) {
-    //     // console.log(url);
-    //     if (btnUpdateBool === false) {
-    //       db.collection("products")
-    //         .add({
-    //           uid: auth[0]?.uid,
-    //           productName: data?.product_name,
-    //           catId: data?.product_cat,
-    //           startTime: data?.start_time,
-    //           endTime: data?.end_time,
-    //           startingBid: data?.starting_bid,
-    //           timerStatus: false,
-    //           adminStatus: false,
-    //           productStatus: false,
-    //           imageUrl: url,
-    //           bids: [],
-    //         })
-    //         .then((docRef) => {
-    //           console.log(docRef);
-    //           setBtnBool(false);
-    //           toast.success("New Product Added!");
-    //           history.push("/vendor-dash");
-    //           // setModal(!modal);
-    //         })
-    //         .catch((error) => {
-    //           toast.error("Error adding document: ");
-    //         });
-    //     } else {
-    //       db.collection("products")
-    //         .doc(id.id)
-    //         .update({
-    //           productName: data?.product_name,
-    //           catId: data?.product_cat,
-    //           startTime: data?.start_time,
-    //           endTime: data?.end_time,
-    //           startingBid: data?.starting_bid,
-    //           imageUrl: url,
-    //           bids: [],
-    //         })
-    //         .then(() => {
-    //           setBtnUpdateBool(false);
-    //           setBtnBool(false);
-    //           toast.success("Document successfully updated!");
-    //           history.push("/vendor-dash");
-    //         })
-    //         .catch((error) => {
-    //           setBtnBool(false);
-    //           toast.error("Error adding document: ");
-    //         });
-    //     }
-    //   });
-    // });
   };
   const imageHandlerOnchange = (e) => {
     let file = e?.target?.files;
@@ -281,11 +212,9 @@ const AddProduct = () => {
         let storageRef = firebase.storage().ref("productImages/" + data?.name);
         storageRef.put(data).then(function () {
           storageRef.getDownloadURL().then(function (url) {
-            // return url;
             resolve(url);
           });
         });
-        // resolve(storageRef);
       } catch (error) {
         reject(error);
       }
@@ -295,7 +224,6 @@ const AddProduct = () => {
   return (
     <div>
       <div className="container-admin">
-        {/* <VendorSidebar toggleBool={toggleBool} /> */}
         <VendorSidebar
           toggleBool={toggleBool}
           togglebtn={toggleButton}
@@ -383,7 +311,6 @@ const AddProduct = () => {
                     <span>Starting Bid</span>
                     <input
                       type="number"
-                      // onChange={(e) => console.log(e)}
                       {...register("starting_bid", { required: true })}
                     />
                     {errors.starting_bid &&
@@ -401,7 +328,6 @@ const AddProduct = () => {
                       {...register("image_file", {
                         required: true,
                         onChange: (e) => imageHandlerOnchange(e),
-                        // accept:"image/*"
                       })}
                     />
                     {errors.image_file &&
@@ -422,11 +348,6 @@ const AddProduct = () => {
                       errors.description.type === "required" && (
                         <p>This is required</p>
                       )}
-                    {/* <input
-                      type="textarea"
-                      // onChange={(e) => console.log(e)}
-                      {...register("description", { required: true })}
-                    />*/}
                   </div>
 
                   <div className="form-input-vendor">
@@ -462,7 +383,6 @@ const AddProduct = () => {
             <div className="vendor-container-category-wrapper">
               <div className="image-form">
                 {imageArr?.map((item, index) => {
-                  // console.log(item);
                   return (
                     <div className="image-card" key={index}>
                       <div className="image-overlay-icon">
@@ -473,18 +393,13 @@ const AddProduct = () => {
                           <FaTimesCircle />
                         </button>
                       </div>
-                      {
-                        !btnUpdateBool ? (
-                          // console.log("eeee")
-                          // <img src={item} alt="image" />
-
-                          <img src={URL.createObjectURL(item)} alt="image" />
-                        ) : item && item?.length ? (
-                          <img src={item} alt="image" />
-                        ) : (
-                          <img src={URL.createObjectURL(item)} alt="image" />
-                        ) // console.log("eeee")
-                      }
+                      {!btnUpdateBool ? (
+                        <img src={URL.createObjectURL(item)} alt="image" />
+                      ) : item && item?.length ? (
+                        <img src={item} alt="image" />
+                      ) : (
+                        <img src={URL.createObjectURL(item)} alt="image" />
+                      )}
                     </div>
                   );
                 })}

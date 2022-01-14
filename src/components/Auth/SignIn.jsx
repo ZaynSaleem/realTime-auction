@@ -59,18 +59,13 @@ const SignIn = () => {
               });
             })
             .catch((error) => {
-              console.log("Error getting documents: ", error);
+              toast.error("Error adding document: ", error);
             });
-          // dispatch(login(data?.email));
         }
       })
       .catch((error) => {
-        var errorCode = error?.code;
-        var errorMessage = error?.message;
-        // console.log(error);
+        toast.error("Error adding document: ", error?.message);
         setBool(false);
-
-        // console.log(errorCode);
         setErrorMessages(error);
       });
   };
@@ -89,7 +84,9 @@ const SignIn = () => {
             <h1>Discover the world’s top Designers & Creatives.</h1>
           </div>
         </div>
-        <div className="image_left_signIn">{/* <img src={LoginImg} /> */}</div>
+        <div className="image_left_signIn">
+          <img src={LoginImg} />
+        </div>
       </div>
 
       <div className="flex_right_signIn">

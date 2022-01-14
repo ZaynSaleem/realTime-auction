@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 
-// import "./style.css";
-
 const Timer = (props) => {
   const [day, setDay] = useState("00");
   const [hour, setHour] = useState("00");
@@ -44,7 +42,7 @@ const Timer = (props) => {
         if (props?.endTime) {
           let countDownDate = new Date(props?.endTime).getTime();
 
-          // props?.statusHandler(props?.id, "Ongoing");
+        
           let x = setInterval(function () {
             let now = new Date().getTime();
 
@@ -60,7 +58,7 @@ const Timer = (props) => {
             if (distance < 0) {
               clearInterval(x);
               setStatus("EXPIRED");
-              // props?.statusHandler(props.id, "Expired");
+           
             }
           }, 1000);
         }

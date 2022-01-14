@@ -1,27 +1,15 @@
 import React, { useEffect } from "react";
 import "./style.css";
 import ToggleMenu from "../../assets/toggleMenu.png";
-import { FaRegEdit, FaTrashAlt } from "react-icons/fa";
+
 import { useState } from "react";
 
-import imgAvatar from "../../assets/img_avatar.png";
-
 import Sidebar from "../../components/header/Sidebar";
-import {
-  Button,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Table,
-} from "reactstrap";
-import { set, useForm } from "react-hook-form";
+import { Table } from "reactstrap";
+import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
 
 import { db } from "../../config/firebase/firebase";
-import { addCat, dltTodo, updateCat } from "../../store/actions";
-import { getVendor } from "../../store/actions/VendorAction";
 
 import Loader from "../../components/Loader/loader";
 import Topbar from "../../components/topbar/Topbar";
@@ -33,7 +21,6 @@ const Vendor = () => {
   const [toggleBool, setToggleBool] = useState(false);
   const [loaderBool, setLoaderBool] = useState(false);
   const [vendorData, setVendorData] = useState([]);
-  // const [btnStatusBool, setBtnStatusBool] = useState("")
 
   const {
     formState: { errors },
@@ -47,8 +34,6 @@ const Vendor = () => {
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
-          // console.log(doc.data());
-
           let obj = {
             id: doc.id,
             email: doc.data()?.email,
@@ -59,7 +44,7 @@ const Vendor = () => {
           };
           arr.push(obj);
         });
-        // dispatch(getVendor(arr));
+
         setVendorData(arr);
         setLoaderBool(false);
       });
@@ -92,54 +77,6 @@ const Vendor = () => {
       });
   };
 
-  //   const onSubmit = (data) => {
-  //     setcategoryName("");
-  //     if (!editId) {
-  //       db.collection("category")
-  //         .add({
-  //           categoryName: data.category,
-  //         })
-  //         .then((docRef) => {
-  //           console.log("Document written with ID: ", docRef.id);
-  //           let obj = {
-  //             id: docRef.id,
-  //             category: data.category,
-  //           };
-  //           dispatch(addCat(obj));
-  //           toast.success("New Category Added!");
-  //           setModal(!modal);
-  //         })
-  //         .catch((error) => {
-  //           console.error("Error adding document: ", error);
-  //         });
-  //     } else {
-  //       console.log(editId);
-  //       setcategoryName("");
-  //       setBtnBool(!btnBool);
-  //       setModal(!modal);
-  //       console.log(data);
-  //       db.collection("category")
-  //         .doc(editId)
-  //         .update({
-  //           categoryName: data.category,
-  //         })
-  //         .then(() => {
-  //           dispatch(updateCat(editId, data.category));
-  //           console.log("Document successfully updated!");
-  //         });
-  //     }
-  //   };
-
-  //   const editCat = (id) => {
-  //     setEditId(id);
-  //     let data = Data.find((x) => x.id === id);
-  //     if (data) {
-  //       setValue("category", data?.category);
-  //       setModal(!modal);
-  //       setBtnBool(true);
-  //     }
-  //   };
-
   return (
     <div>
       <div className="container-admin">
@@ -153,10 +90,9 @@ const Vendor = () => {
           }
         >
           <Topbar togglebtn={toggleButton} img={ToggleMenu} />
-          
+
           <div className="vendor-dashboard-card-wrapper">
-          <Loader bool={loaderBool} />
-        
+            <Loader bool={loaderBool} />
 
             <div
               className="vendor-container-category-wrapper"

@@ -1,26 +1,17 @@
-import React, { useEffect, useState } from "react";
 import "./style.css";
-import ToggleMenu from "../../../assets/toggleMenu.png";
-import { FaRegEdit, FaTrashAlt } from "react-icons/fa";
-import { Table } from "reactstrap";
-import { useForm } from "react-hook-form";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-
+import { useForm } from "react-hook-form";
+import ToggleMenu from "../../../assets/toggleMenu.png";
 import { db } from "../../../config/firebase/firebase";
-
-import {
-  dltProduct,
-  getVendorProduct,
-} from "../../../store/actions/VendorAction";
 import VendorSidebar from "../../../components/header/VendorSidebar";
-// import Timer from "./timer";
 import { useHistory } from "react-router";
 
 const ViewProductDetails = () => {
   const dispatch = useDispatch();
   let history = useHistory();
-  // const dataProduct = useSelector((state) => state?.vendor.products);
+
   const auth = useSelector((state) => state?.auth.auth);
   const [toggleBool, setToggleBool] = useState(false);
   const [dataProduct, setDataProduct] = useState([]);
@@ -71,51 +62,6 @@ const ViewProductDetails = () => {
     } else {
       setToggleBool(!toggleBool);
     }
-  };
-
-  const editCat = (id) => {
-    // console.log(id)
-    setEditId(id);
-    history.push(`edit-product/${id}`);
-    // let data = Data.find((x) => x.id === id);
-    // if (data) {
-    //   setValue("category", data?.category);
-    //   setModal(!modal);
-    //   setBtnBool(true);
-    // }
-  };
-  const handleUpdate = (e) => {
-    // console.log(e);
-    let id = e.target.value;
-    console.log(id);
-    let boolSwitch = e.target.checked;
-    db.collection("products")
-      .doc(id)
-      .update({
-        productStatus: boolSwitch,
-      })
-      .then(() => {
-        let dup = [...dataProduct];
-        let updated = dup.findIndex((x) => x.id === id);
-        dup[updated].productStatus = boolSwitch;
-        console.log(dup);
-        setDataProduct(dup);
-      });
-  };
-
-  const deleteCat = (id) => {
-    db.collection("products")
-      .doc(id)
-      .delete()
-      .then(() => {
-        toast.success("Deleted Successfully");
-        let dupData = [...dataProduct];
-        let newArr = dupData.filter((x) => x.id !== id);
-        setDataProduct(newArr);
-      })
-      .catch((error) => {
-        toast.error("Error removing document: ", error);
-      });
   };
 
   return (

@@ -6,7 +6,6 @@ import Sidebar from "../../components/header/Sidebar";
 import { Table } from "reactstrap";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
 
 import { db } from "../../config/firebase/firebase";
 

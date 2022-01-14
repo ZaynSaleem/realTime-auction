@@ -1,24 +1,12 @@
-import React, { useEffect } from "react";
 import "./style.css";
-import ToggleMenu from "../../assets/toggleMenu.png";
-import { FaRegEdit, FaTrashAlt } from "react-icons/fa";
+import React, { useEffect } from "react";
 import { useState } from "react";
-import Sidebar from "../../components/header/Sidebar";
-import {
-  Button,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Table,
-} from "reactstrap";
-import { set, useForm } from "react-hook-form";
+import { Table } from "reactstrap";
+import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-
+import Sidebar from "../../components/header/Sidebar";
+import ToggleMenu from "../../assets/toggleMenu.png";
 import { db } from "../../config/firebase/firebase";
-import { addCat, dltTodo, updateCat } from "../../store/actions";
-import { getVendor } from "../../store/actions/VendorAction";
 
 import Loader from "../../components/Loader/loader";
 import Topbar from "../../components/topbar/Topbar";
@@ -97,7 +85,7 @@ const Users = () => {
           <Topbar togglebtn={toggleButton} img={ToggleMenu} />
 
           <div className="vendor-dashboard-card-wrapper">
-          <Loader bool={loaderBool} />
+            <Loader bool={loaderBool} />
             <div
               className="vendor-container-category-wrapper"
               style={{ display: loaderBool === true ? "none" : "block" }}

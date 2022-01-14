@@ -1,6 +1,5 @@
 .user-card-wrapper {
   width: 100%;
-  /* background: aquamarine; */
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -9,7 +8,6 @@
   gap: 24px;
 }
 .user-wining-card {
-  /* background-color: blue; */
   width: 80%;
   display: flex;
   flex-wrap: wrap;
@@ -19,7 +17,6 @@
 }
 .user-card-image {
   flex: 2;
-  /* background-color: brown; */
 }
 .user-card-content {
   flex: 3 1;

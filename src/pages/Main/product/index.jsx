@@ -1,17 +1,13 @@
-import React, { useEffect, useState } from "react";
-import Navbar from "../../../components/header/Navbar";
-import Slider from "react-slick";
-import card1 from "../../../assets/card1.jpg";
-import card2 from "../../../assets/card2.jpg";
-import card3 from "../../../assets/card3.jpg";
-import card4 from "../../../assets/card4.jpg";
-import BreadCrumb from "../../../components/breadCrumb";
-import Footer from "../../../components/footer/Footer";
 import "./style.css";
-import { useParams } from "react-router-dom";
-import { db } from "../../../config/firebase/firebase";
+import React, { useEffect, useState } from "react";
+import Slider from "react-slick";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import Navbar from "../../../components/header/Navbar";
+import BreadCrumb from "../../../components/breadCrumb";
+import Footer from "../../../components/footer/Footer";
+import { useParams } from "react-router-dom";
+import { db } from "../../../config/firebase/firebase";
 import Loader from "../../../components/Loader/loader";
 
 const Product = () => {
@@ -83,14 +79,12 @@ const Product = () => {
 
           if (distance < 0) {
             clearInterval(x);
-            setTimerbool(true)
+            setTimerbool(true);
             setDay(0);
-            setHour(
-              Math.floor("0")
-            );
+            setHour(Math.floor("0"));
             setMin("0");
             setSec("0");
-  
+
             db.collection("products")
               .doc(params?.id)
               .update({
@@ -229,7 +223,9 @@ const Product = () => {
                     </div>
                   </div>
                 </div>
-              ) : ""}
+              ) : (
+                ""
+              )}
 
               <div className="auction-timezone">
                 <p>Auction ends: {product?.endTime}</p>
@@ -247,7 +243,6 @@ const Product = () => {
                 </div>
                 <div className="btn-bid">
                   {Data[0]?.role && Data[0]?.role === "user" && !timerbool ? (
-
                     <button onClick={bidsHandler}>BID</button>
                   ) : (
                     <button

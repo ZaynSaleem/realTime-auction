@@ -1,24 +1,20 @@
-import React, { useEffect, useState } from "react";
 import "./style.css";
-import ToggleMenu from "../../assets/toggleMenu.png";
-import { FaRegEdit, FaTrashAlt } from "react-icons/fa";
-import { Table } from "reactstrap";
-import { useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-
-import { db } from "../../config/firebase/firebase";
-
-import { dltProduct, getVendorProduct } from "../../store/actions/VendorAction";
-import VendorSidebar from "../../components/header/VendorSidebar";
-import Timer from "../../components/timer/timer";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
+import { useForm } from "react-hook-form";
+import { useSelector } from "react-redux";
+import { Table } from "reactstrap";
+import { toast } from "react-toastify";
+import { FaRegEdit, FaTrashAlt } from "react-icons/fa";
+import VendorSidebar from "../../components/header/VendorSidebar";
+import ToggleMenu from "../../assets/toggleMenu.png";
+import { db } from "../../config/firebase/firebase";
+import Timer from "../../components/timer/timer";
 import Topbar from "../../components/topbar/Topbar";
 
 const VendorDash = () => {
-  const dispatch = useDispatch();
   let history = useHistory();
-  // const dataProduct = useSelector((state) => state?.vendor.products);
+
   const auth = useSelector((state) => state?.auth.auth);
   const [toggleBool, setToggleBool] = useState(false);
   const [dataProduct, setDataProduct] = useState([]);
@@ -42,27 +38,11 @@ const VendorDash = () => {
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
           let dup = doc?.data();
-          // console.log(du);
+
           if (dup) {
             dup.id = doc?.id;
             arr.push(dup);
           }
-          // dup.id = doc?.id;
-          // let obj = {
-          //   id: doc?.id,
-          //   uid: doc?.data()?.uid,
-          //   productName: doc?.data()?.productName,
-          //   catId: doc?.data()?.catId,
-          //   startTime: doc?.data()?.startTime,
-          //   endTime: doc?.data()?.endTime,
-          //   startingBid: doc?.data()?.startingBid,
-          //   timerStatus: doc?.data()?.timerStatus,
-          //   adminStatus: doc?.data()?.adminStatus,
-          //   productStatus: doc?.data().productStatus,
-          //   imageUrl: doc?.data()?.imageUrl,
-          //   bids: [],
-          // };
-          // arr.push(obj);
         });
         setDataProduct(arr);
       })
@@ -80,18 +60,10 @@ const VendorDash = () => {
   };
 
   const editCat = (id) => {
-    // console.log(id)
     setEditId(id);
     history.push(`edit-product/${id}`);
-    // let data = Data.find((x) => x.id === id);
-    // if (data) {
-    //   setValue("category", data?.category);
-    //   setModal(!modal);
-    //   setBtnBool(true);
-    // }
   };
   const handleUpdate = (e) => {
-    // console.log(e);
     let id = e.target.value;
     console.log(id);
     let boolSwitch = e.target.checked;
@@ -125,10 +97,8 @@ const VendorDash = () => {
   };
   const updateTimerStatus = (id, result) => {
     console.log(id, " => ", result);
-    // if (result === "Expired") {
     let dupArr = [...dataProduct];
     let filtArr = dupArr.filter((x) => x.id === id);
-    // console.log(filtArr[0].bids);
     if (filtArr && filtArr[0]?.bids.length) {
       let shots = filtArr[0]?.bids;
       let max = shots?.reduce((max, obj) =>
@@ -143,7 +113,6 @@ const VendorDash = () => {
         .catch((error) => {
           toast.error(error);
         });
-      // console.log(max);
     } else {
       db.collection("products")
         .doc(id)
@@ -154,16 +123,12 @@ const VendorDash = () => {
           toast.error(error);
         });
     }
-    // } else {
-    // db.collection("products")
-    //   .doc(id)
-    //   .update({
-    //     timerStatus: result,
-    //   })
-    //   .catch((error) => {
-    //     toast.error(error);
-    //   });
-    // }
+  };
+  const toggleProduct = (item) => {
+    let str = item?.productName;
+    str = str.replace(/\s+/g, "-").toLowerCase();
+
+    history.push(`/product/${item?.id}/${str}`);
   };
 
   return (
@@ -180,19 +145,7 @@ const VendorDash = () => {
               ? "vendor-dashboard-content"
               : "vendor-dashboard-content-toggle"
           }
-          // style={toggleBool === false ? { width: "85%" } : { width: "100%" }}
         >
-          {/* <div className="vendor-dashboard-top-bar">
-            <div className="vendor-top-container">
-              <div className="vendor-button-toggle">
-                <button onClick={toggleButton}>
-                  {" "}
-                  <img src={ToggleMenu} />
-                </button>
-              </div>
-              <div className="content-top">Vendor-Dash</div>
-            </div>
-          </div> */}
           <Topbar togglebtn={toggleButton} img={ToggleMenu} />
 
           <div className="vendor-dashboard-card-wrapper">
@@ -217,14 +170,17 @@ const VendorDash = () => {
                     <tbody>
                       {dataProduct && dataProduct?.length ? (
                         dataProduct.map((item, index) => {
-                          // console.log(item);
                           return (
                             <tr
                               key={index}
                               style={{ color: item?.adminStatus ? "grey" : "" }}
                             >
                               <th scope="row">{++index}</th>
-                              <td>{item?.productName}</td>
+                              <td>
+                                <a onClick={() => toggleProduct(item)}>
+                                  {item?.productName}
+                                </a>
+                              </td>
                               <td>{item?.startTime}</td>
                               <td>{item?.endTime}</td>
                               <td>
@@ -339,8 +295,6 @@ const VendorDash = () => {
               </div>
             </div>
           </div>
-
-          {/*  */}
         </div>
       </div>
     </div>

@@ -24,7 +24,7 @@ import Topbar from "../../components/topbar/Topbar";
 const AddCategory = () => {
   const dispatch = useDispatch();
   const Data = useSelector((state) => state?.todo.todo);
-  // console.log(Data);
+
   const [toggleBool, setToggleBool] = useState(false);
   const [modal, setModal] = useState(false);
   const [btnBool, setBtnBool] = useState(false);
@@ -90,7 +90,7 @@ const AddCategory = () => {
           };
           arr.push(obj);
           setDataCat([...dataCat, ...arr]);
-          // dispatch(addCat(obj));
+
           toast.success("New Category Added!");
           setModal(!modal);
         })

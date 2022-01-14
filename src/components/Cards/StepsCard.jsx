@@ -5,7 +5,6 @@ const StepsCard = ({ circleIcon, angleIcon, head, bodyText }) => {
     <div className="steps-card">
       <div className="steps-icons">
         <div className="circle-icons">{circleIcon}</div>
-        <div className="right-angle-icons">{angleIcon}</div>
       </div>
 
       <div className="steps-card-text">

@@ -1,7 +1,5 @@
 import "./head.css";
-import imgAvatar from "../../assets/img_avatar.png";
-import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../../store/actions/AuthAction";
+import { useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import {
   FaChartLine,
@@ -12,7 +10,6 @@ import {
 } from "react-icons/fa";
 
 const VendorSidebar = ({ toggleBool, name, togglebtn }) => {
-  let dispatch = useDispatch();
   let history = useHistory();
   const Data = useSelector((state) => state?.auth.auth);
 
@@ -21,7 +18,6 @@ const VendorSidebar = ({ toggleBool, name, togglebtn }) => {
       className={
         toggleBool === false ? "dashboard-sidebar" : "dashboard-sidebar-toggle"
       }
-      // style={toggleBool === false ? { width: "15%" } : { width: "0%" }}
     >
       <div className="sidebar-container">
         <div className="close-btn-sidebar">
@@ -96,29 +92,6 @@ const VendorSidebar = ({ toggleBool, name, togglebtn }) => {
                   <span className="btn-text-vendor">Current Auction</span>
                 </button>
               </div>
-              {/* <div className="sidebar-item">
-              <button
-                className="button-sidebar"
-                onClick={() => {
-                  history.push("/add-product");
-                }}
-              >
-                <FaRegPlusSquare />
-                <span className="btn-text-vendor"> Add Product</span>
-              </button>
-            </div>
-
-            <div className="sidebar-item">
-              <button
-                className="button-sidebar"
-                onClick={() => {
-                  history.push("/vendor-dash");
-                }}
-              >
-                <FaTruck />
-                <span className="btn-text-vendor"> Delivered</span>
-              </button>
-            </div> */}
             </div>
           )}
 
