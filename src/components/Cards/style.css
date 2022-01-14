@@ -6,9 +6,12 @@
 .card-home {
   width: 31%;
   display: flex;
+  /* border: 1px solid whitesmoke; */
+  /* box-shadow: 0px 0px 6px #f3f3f3; */
   flex-wrap: wrap;
   min-height: 530px;
-
+  /* max-height: 474px; */
+  /* height: 400px; */
   transition: 0.6s;
 }
 .card-home:hover {
@@ -83,13 +86,12 @@
   flex-wrap: wrap;
   min-height: 280px;
   max-height: 280px;
-  text-align: center;
 }
 .steps-icons {
   width: 100%;
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: space-between;
   align-items: baseline;
 }
 .circle-icons {
@@ -161,6 +163,7 @@ h2 {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    /* grid-gap: 10px; */
     gap: 63px;
     padding: 11px 22px;
   }
@@ -176,6 +179,7 @@ h2 {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    /* grid-gap: 10px; */
     gap: 53px;
     padding: 11px 22px;
   }
@@ -197,10 +201,10 @@ h2 {
 
 @media (max-width: 515px) {
   .steps-card {
-    width: 300px;
+    width:300px;
     box-shadow: 0px 0px 20px #0000000f;
   }
-  .right-angle-icons {
+  .right-angle-icons{
     display: none;
   }
   .steps-card-wrapper {
@@ -211,11 +215,11 @@ h2 {
     gap: 33px;
     padding: 11px 22px;
   }
-  .steps-icons {
+  .steps-icons{
     align-items: center;
     justify-content: center;
   }
-  .steps-card-text {
+  .steps-card-text{
     text-align: center;
   }
 }
