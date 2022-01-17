@@ -188,6 +188,7 @@
 }
 .auction-tabcontent {
   padding: 30px 0px;
+  min-height: 300px;
 }
 .content-information table {
   border: 1px solid #d5d5d5;

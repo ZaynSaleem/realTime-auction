@@ -20,6 +20,7 @@ import { db } from "../../config/firebase/firebase";
 import { addCat, dltTodo, updateCat } from "../../store/actions";
 import Loader from "../../components/Loader/loader";
 import Topbar from "../../components/topbar/Topbar";
+import BreadCrumb from "../../components/breadCrumb";
 
 const AddCategory = () => {
   const dispatch = useDispatch();
@@ -159,11 +160,15 @@ const AddCategory = () => {
         >
           <Topbar togglebtn={toggleButton} img={ToggleMenu} />
           <Loader bool={loaderBool} />
+
           <div
             className="vendor-dashboard-card-wrapper"
             style={{ display: loaderBool === true ? "none" : "block" }}
           >
+          <BreadCrumb title="Add Category" bool={true} />
             <div className="vendor-container-category-wrapper">
+            
+
               <div className="container-category-wrapper">
                 <div className="add-button">
                   <button className="btn btn-success " onClick={toggle}>

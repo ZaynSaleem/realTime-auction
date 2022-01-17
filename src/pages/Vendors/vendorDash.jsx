@@ -11,12 +11,15 @@ import ToggleMenu from "../../assets/toggleMenu.png";
 import { db } from "../../config/firebase/firebase";
 import Timer from "../../components/timer/timer";
 import Topbar from "../../components/topbar/Topbar";
+import BreadCrumb from "../../components/breadCrumb";
+import Loader from "../../components/Loader/loader";
 
 const VendorDash = () => {
   let history = useHistory();
 
   const auth = useSelector((state) => state?.auth.auth);
   const [toggleBool, setToggleBool] = useState(false);
+  const [loaderBool, setLoaderBool] = useState(false);
   const [dataProduct, setDataProduct] = useState([]);
   const [editId, setEditId] = useState("");
   const [status, setStatus] = useState("");
@@ -32,6 +35,7 @@ const VendorDash = () => {
   let arr = [];
 
   useEffect(() => {
+    setLoaderBool(true);
     db.collection("products")
       .where("uid", "==", auth[0]?.uid)
       .get()
@@ -45,6 +49,7 @@ const VendorDash = () => {
           }
         });
         setDataProduct(arr);
+        setLoaderBool(false);
       })
       .catch((error) => {
         toast.error("Error getting documents: ", error);
@@ -65,7 +70,7 @@ const VendorDash = () => {
   };
   const handleUpdate = (e) => {
     let id = e.target.value;
-    console.log(id);
+    // console.log(id);
     let boolSwitch = e.target.checked;
     db.collection("products")
       .doc(id)
@@ -76,7 +81,7 @@ const VendorDash = () => {
         let dup = [...dataProduct];
         let updated = dup.findIndex((x) => x.id === id);
         dup[updated].productStatus = boolSwitch;
-        console.log(dup);
+        // console.log(dup);
         setDataProduct(dup);
       });
   };
@@ -96,7 +101,7 @@ const VendorDash = () => {
       });
   };
   const updateTimerStatus = (id, result) => {
-    console.log(id, " => ", result);
+    // console.log(id, " => ", result);
     let dupArr = [...dataProduct];
     let filtArr = dupArr.filter((x) => x.id === id);
     if (filtArr && filtArr[0]?.bids.length) {
@@ -148,153 +153,165 @@ const VendorDash = () => {
         >
           <Topbar togglebtn={toggleButton} img={ToggleMenu} />
 
-          <div className="vendor-dashboard-card-wrapper">
-            <div className="vendor-container-category-wrapper">
-              <div className="table-wrapper">
-                <div className="table-form">
-                  <Table bordered>
-                    <thead dark>
-                      <tr>
-                        <th>#</th>
-                        <th>Product Name</th>
-                        <th>Start Time</th>
-                        <th>End Time</th>
-                        <th>Timer</th>
-                        <th>Starting Bid</th>
-                        <th>no.of Bids</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                        <th>Active</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {dataProduct && dataProduct?.length ? (
-                        dataProduct.map((item, index) => {
-                          return (
-                            <tr
-                              key={index}
-                              style={{ color: item?.adminStatus ? "grey" : "" }}
-                            >
-                              <th scope="row">{++index}</th>
-                              <td>
-                                <a onClick={() => toggleProduct(item)}>
-                                  {item?.productName}
-                                </a>
-                              </td>
-                              <td>{item?.startTime}</td>
-                              <td>{item?.endTime}</td>
-                              <td>
-                                {!item?.adminStatus ? (
-                                  <Timer
-                                    statusUpdate={setStatus}
-                                    statusTimer={status}
-                                    startTime={item?.startTime}
-                                    endTime={item?.endTime}
-                                    id={item?.id}
-                                    statusHandler={updateTimerStatus}
-                                  />
-                                ) : (
-                                  "00:00:00"
-                                )}
-                              </td>
-                              <td>{item?.startingBid}</td>
-                              <td>{item?.bids.length}</td>
-                              <td>
-                                {" "}
-                                {!item?.adminStatus ? (
-                                  !item?.productStatus ? (
-                                    <span className="status-active">
-                                      Active
-                                    </span>
+          {loaderBool ? (
+            <Loader bool={loaderBool} />
+          ) : (
+            <div className="vendor-dashboard-card-wrapper">
+              <BreadCrumb title="Dashboard" bool={true} />
+
+              <div className="vendor-container-category-wrapper">
+                <div className="table-wrapper">
+                  <div className="table-form">
+                    <Table bordered>
+                      <thead dark>
+                        <tr>
+                          <th>#</th>
+                          <th>Product Name</th>
+                          <th>Start Time</th>
+                          <th>End Time</th>
+                          <th>Timer</th>
+                          <th>Starting Bid</th>
+                          <th>no.of Bids</th>
+                          <th>Status</th>
+                          <th>Action</th>
+                          <th>Active</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {dataProduct && dataProduct?.length ? (
+                          dataProduct.map((item, index) => {
+                            return (
+                              <tr
+                                key={index}
+                                style={{
+                                  color: item?.adminStatus ? "grey" : "",
+                                }}
+                              >
+                                <th scope="row">{++index}</th>
+                                <td>
+                                  <a onClick={() => toggleProduct(item)}>
+                                    {item?.productName}
+                                  </a>
+                                </td>
+                                <td>{item?.startTime}</td>
+                                <td>{item?.endTime}</td>
+                                <td>
+                                  {!item?.adminStatus ? (
+                                    <Timer
+                                      statusUpdate={setStatus}
+                                      statusTimer={status}
+                                      startTime={item?.startTime}
+                                      endTime={item?.endTime}
+                                      id={item?.id}
+                                      statusHandler={updateTimerStatus}
+                                    />
+                                  ) : (
+                                    "00:00:00"
+                                  )}
+                                </td>
+                                <td>{item?.startingBid}</td>
+                                <td>{item?.bids.length}</td>
+                                <td>
+                                  {" "}
+                                  {!item?.adminStatus ? (
+                                    !item?.productStatus ? (
+                                      <span className="status-active">
+                                        Active
+                                      </span>
+                                    ) : (
+                                      <span className="status-vendor">
+                                        disabled
+                                      </span>
+                                    )
                                   ) : (
                                     <span className="status-vendor">
-                                      disabled
+                                      disabled by admin
                                     </span>
-                                  )
-                                ) : (
-                                  <span className="status-vendor">
-                                    disabled by admin
-                                  </span>
-                                )}
-                              </td>
-                              <td className="button-action">
-                                {new Date(item?.startTime).getTime() <
-                                  new Date().getTime() || item?.adminStatus ? (
-                                  <>
-                                    <button
-                                      className="btn btn-success"
-                                      disabled
-                                    >
-                                      {" "}
-                                      <FaRegEdit size={20} />
-                                    </button>
-
-                                    <button className="btn btn-danger" disabled>
-                                      {" "}
-                                      <FaTrashAlt size={20} />
-                                    </button>
-                                  </>
-                                ) : (
-                                  <>
-                                    <button
-                                      className="btn btn-success"
-                                      onClick={() => editCat(item?.id)}
-                                    >
-                                      {" "}
-                                      <FaRegEdit size={20} />
-                                    </button>
-
-                                    <button
-                                      className="btn btn-danger"
-                                      onClick={() => deleteCat(item?.id)}
-                                    >
-                                      {" "}
-                                      <FaTrashAlt size={20} />
-                                    </button>
-                                  </>
-                                )}
-                              </td>
-                              <td>
-                                {" "}
-                                {item?.adminStatus ? (
-                                  <div className="btn-switch">
-                                    <label class="switch">
-                                      <input
-                                        checked={item?.productStatus}
-                                        value={item?.id}
-                                        type="checkbox"
+                                  )}
+                                </td>
+                                <td className="button-action">
+                                  {new Date(item?.startTime).getTime() <
+                                    new Date().getTime() ||
+                                  item?.adminStatus ? (
+                                    <>
+                                      <button
+                                        className="btn btn-success"
                                         disabled
-                                        onChange={(e) => handleUpdate(e)}
-                                      />
-                                      <span class="slider-switch round"></span>
-                                    </label>
-                                  </div>
-                                ) : (
-                                  <div className="btn-switch">
-                                    <label class="switch">
-                                      <input
-                                        checked={item?.productStatus}
-                                        value={item?.id}
-                                        type="checkbox"
-                                        onChange={(e) => handleUpdate(e)}
-                                      />
-                                      <span class="slider-switch round"></span>
-                                    </label>
-                                  </div>
-                                )}
-                              </td>
-                            </tr>
-                          );
-                        })
-                      ) : (
-                        <tr>No DATA</tr>
-                      )}
-                    </tbody>
-                  </Table>
+                                      >
+                                        {" "}
+                                        <FaRegEdit size={20} />
+                                      </button>
+
+                                      <button
+                                        className="btn btn-danger"
+                                        disabled
+                                      >
+                                        {" "}
+                                        <FaTrashAlt size={20} />
+                                      </button>
+                                    </>
+                                  ) : (
+                                    <>
+                                      <button
+                                        className="btn btn-success"
+                                        onClick={() => editCat(item?.id)}
+                                      >
+                                        {" "}
+                                        <FaRegEdit size={20} />
+                                      </button>
+
+                                      <button
+                                        className="btn btn-danger"
+                                        onClick={() => deleteCat(item?.id)}
+                                      >
+                                        {" "}
+                                        <FaTrashAlt size={20} />
+                                      </button>
+                                    </>
+                                  )}
+                                </td>
+                                <td>
+                                  {" "}
+                                  {item?.adminStatus ? (
+                                    <div className="btn-switch">
+                                      <label class="switch">
+                                        <input
+                                          checked={item?.productStatus}
+                                          value={item?.id}
+                                          type="checkbox"
+                                          disabled
+                                          onChange={(e) => handleUpdate(e)}
+                                        />
+                                        <span class="slider-switch round"></span>
+                                      </label>
+                                    </div>
+                                  ) : (
+                                    <div className="btn-switch">
+                                      <label class="switch">
+                                        <input
+                                          checked={item?.productStatus}
+                                          value={item?.id}
+                                          type="checkbox"
+                                          onChange={(e) => handleUpdate(e)}
+                                        />
+                                        <span class="slider-switch round"></span>
+                                      </label>
+                                    </div>
+                                  )}
+                                </td>
+                              </tr>
+                            );
+                          })
+                        ) : (
+                          <tr>No DATA</tr>
+                        )}
+                      </tbody>
+                    </Table>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </div>

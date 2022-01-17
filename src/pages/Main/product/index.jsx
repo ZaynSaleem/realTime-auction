@@ -9,6 +9,7 @@ import Footer from "../../../components/footer/Footer";
 import { useParams } from "react-router-dom";
 import { db } from "../../../config/firebase/firebase";
 import Loader from "../../../components/Loader/loader";
+import notFound from "../../../assets/404.png";
 
 const Product = () => {
   const params = useParams();
@@ -20,7 +21,6 @@ const Product = () => {
   const [hour, setHour] = useState("00");
   const [min, setMin] = useState("00");
   const [sec, setSec] = useState("00");
-  const [status, setStatus] = useState("");
   const [bidValue, setBidValue] = useState("");
   const [maxBid, setMaxBid] = useState("");
   const [loaderBool, setLoaderBool] = useState(false);
@@ -129,13 +129,7 @@ const Product = () => {
     customPaging: function (i) {
       return (
         <a>
-          {product?.imageUrl ? (
-            product?.imageUrl?.map((item, index) => {
-              return <img src={item} key={index} alt="image" width={50} />;
-            })
-          ) : (
-            <img alt="No Image" width={50} />
-          )}
+          <img src={product?.imageUrl[i]} width={50} />
         </a>
       );
     },
@@ -158,17 +152,25 @@ const Product = () => {
         <div className="custom_container">
           <div className="product-detail-wrapper">
             <div className="lazy-slider">
-              <Slider {...settings}>
-                <div>
-                  {product?.imageUrl ? (
-                    product?.imageUrl?.map((item, index) => {
-                      return <img src={item} key={index} alt="image" />;
+              {product?.imageUrl && product?.imageUrl?.length ? (
+                <Slider {...settings}>
+                  {product?.imageUrl?.length ? (
+                    product?.imageUrl.map((item, index) => {
+                      return (
+                        <div>
+                          <img src={item} key={index} alt="image" />
+                        </div>
+                      );
                     })
                   ) : (
-                    <img alt="No Image" />
+                    <div>
+                      <img src={notFound} />
+                    </div>
                   )}
-                </div>
-              </Slider>
+                </Slider>
+              ) : (
+                ""
+              )}
             </div>
 
             <div className="content-product">

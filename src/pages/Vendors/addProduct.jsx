@@ -11,6 +11,8 @@ import VendorSidebar from "../../components/header/VendorSidebar";
 import { useHistory, useParams } from "react-router-dom";
 import Topbar from "../../components/topbar/Topbar";
 import { FaTimesCircle } from "react-icons/fa";
+import BreadCrumb from "../../components/breadCrumb";
+import Loader from "../../components/Loader/loader";
 
 const AddProduct = () => {
   const id = useParams();
@@ -20,6 +22,7 @@ const AddProduct = () => {
   const auth = useSelector((state) => state?.auth.auth);
   const [toggleBool, setToggleBool] = useState(false);
   const [btnBool, setBtnBool] = useState(false);
+  const [loaderBool, setLoaderBool] = useState(false);
   const [startTime, setStartTime] = useState("");
   const [minEndTime, setMinEndTime] = useState("");
   const [btnUpdateBool, setBtnUpdateBool] = useState(false);
@@ -49,6 +52,7 @@ const AddProduct = () => {
   }, [startTime]);
 
   useEffect(() => {
+    setLoaderBool(true);
     categoryCaller();
     if (id.id && id.id !== "") {
       setBtnUpdateBool(true);
@@ -64,6 +68,7 @@ const AddProduct = () => {
           setValue("image_file", doc?.data()?.imageUrl);
           setValue("description", doc?.data()?.description);
           setImageArr(doc?.data()?.imageUrl);
+          setLoaderBool(false);
         })
         .catch((error) => {
           toast.error("Error getting documents: ", error);
@@ -76,6 +81,8 @@ const AddProduct = () => {
       setValue("starting_bid", "");
       setValue("description", "");
       setImageArr([]);
+      setLoaderBool(false);
+
       setBtnUpdateBool(false);
     }
   }, [id.id]);
@@ -209,7 +216,9 @@ const AddProduct = () => {
   const imageUploadHandler = (data) => {
     return new Promise((resolve, reject) => {
       try {
-        let storageRef = firebase.storage().ref("productImages/" + data?.name);
+        let storageRef = firebase
+          .storage()
+          .ref("productImages/" + data?.name + new Date().getTime());
         storageRef.put(data).then(function () {
           storageRef.getDownloadURL().then(function (url) {
             resolve(url);
@@ -238,147 +247,156 @@ const AddProduct = () => {
         >
           <Topbar togglebtn={toggleButton} img={ToggleMenu} />
 
-          <div className="vendor-dashboard-card-wrapper">
-            <div className="vendor-container-category-wrapper">
-              <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="form-vendor-wrapper">
-                  <div className="form-input-vendor">
-                    <span>Product Name</span>
-                    <input
-                      type="text"
-                      {...register("product_name", {
-                        required: true,
-                        maxLength: 30,
-                      })}
-                    />
-                    {errors.product_name &&
-                      errors.product_name.type === "required" && (
-                        <p>This is required</p>
+          {loaderBool ? (
+            <Loader bool={loaderBool} />
+          ) : (
+            <div className="vendor-dashboard-card-wrapper">
+              <BreadCrumb title="Add Product" bool={true} />
+
+              <div className="vendor-container-category-wrapper">
+                <form onSubmit={handleSubmit(onSubmit)}>
+                  <div className="form-vendor-wrapper">
+                    <div className="form-input-vendor">
+                      <span>Product Name</span>
+                      <input
+                        type="text"
+                        {...register("product_name", {
+                          required: true,
+                          maxLength: 30,
+                        })}
+                      />
+                      {errors.product_name &&
+                        errors.product_name.type === "required" && (
+                          <p>This is required</p>
+                        )}
+                    </div>
+
+                    <div className="form-input-vendor">
+                      <span>Product Category</span>
+                      <select {...register("product_cat", { required: true })}>
+                        <option value="" disabled selected hidden>
+                          Select Category
+                        </option>
+                        {category && category?.length
+                          ? category?.map((item, index) => {
+                              return (
+                                <option key={index} value={item?.catId}>
+                                  {item?.categoryname}
+                                </option>
+                              );
+                            })
+                          : ""}
+                      </select>
+                      {errors.product_cat &&
+                        errors.product_cat.type === "required" && (
+                          <p>This is required</p>
+                        )}
+                    </div>
+
+                    <div className="form-input-vendor">
+                      <span>Start Time</span>
+                      <input
+                        id="start_time"
+                        type="datetime-local"
+                        {...register("start_time", {
+                          required: true,
+                          min: text.split(".")[0],
+                          onChange: (e) => setStartTime(e.target.value),
+                        })}
+                      />
+                      {errors.start_time && (
+                        <p>This is required or must be current time</p>
                       )}
-                  </div>
+                    </div>
 
-                  <div className="form-input-vendor">
-                    <span>Product Category</span>
-                    <select {...register("product_cat", { required: true })}>
-                      <option value="" disabled selected hidden>
-                        Select Category
-                      </option>
-                      {category && category?.length
-                        ? category?.map((item, index) => {
-                            return (
-                              <option key={index} value={item?.catId}>
-                                {item?.categoryname}
-                              </option>
-                            );
-                          })
-                        : ""}
-                    </select>
-                    {errors.product_cat &&
-                      errors.product_cat.type === "required" && (
-                        <p>This is required</p>
+                    <div className="form-input-vendor">
+                      <span>End Time</span>
+                      <input
+                        type="datetime-local"
+                        {...register("end_time", {
+                          required: true,
+                          min: minEndTime,
+                        })}
+                      />
+                      {errors.end_time && (
+                        <p>Must be greater than start time</p>
                       )}
-                  </div>
+                    </div>
 
-                  <div className="form-input-vendor">
-                    <span>Start Time</span>
-                    <input
-                      id="start_time"
-                      type="datetime-local"
-                      {...register("start_time", {
-                        required: true,
-                        min: text.split(".")[0],
-                        onChange: (e) => setStartTime(e.target.value),
-                      })}
-                    />
-                    {errors.start_time && (
-                      <p>This is required or must be current time</p>
-                    )}
-                  </div>
+                    <div className="form-input-vendor">
+                      <span>Starting Bid</span>
+                      <input
+                        type="number"
+                        {...register("starting_bid", { required: true })}
+                      />
+                      {errors.starting_bid &&
+                        errors.starting_bid.type === "required" && (
+                          <p>This is required</p>
+                        )}
+                    </div>
 
-                  <div className="form-input-vendor">
-                    <span>End Time</span>
-                    <input
-                      type="datetime-local"
-                      {...register("end_time", {
-                        required: true,
-                        min: minEndTime,
-                      })}
-                    />
-                    {errors.end_time && <p>Must be greater than start time</p>}
-                  </div>
+                    <div className="form-input-vendor">
+                      <span>Choose Image</span>
+                      <input
+                        type="file"
+                        multiple
+                        accept="image/*"
+                        {...register("image_file", {
+                          required: true,
+                          onChange: (e) => imageHandlerOnchange(e),
+                        })}
+                      />
+                      {errors.image_file &&
+                        errors.image_file.type === "required" && (
+                          <p>This is required</p>
+                        )}
+                    </div>
 
-                  <div className="form-input-vendor">
-                    <span>Starting Bid</span>
-                    <input
-                      type="number"
-                      {...register("starting_bid", { required: true })}
-                    />
-                    {errors.starting_bid &&
-                      errors.starting_bid.type === "required" && (
-                        <p>This is required</p>
-                      )}
-                  </div>
+                    <div className="form-input-vendor">
+                      <span>Description</span>
+                      <textarea
+                        className="form-control"
+                        name="description"
+                        {...register("description", { required: true })}
+                        type="text"
+                      ></textarea>
+                      {errors.description &&
+                        errors.description.type === "required" && (
+                          <p>This is required</p>
+                        )}
+                    </div>
 
-                  <div className="form-input-vendor">
-                    <span>Choose Image</span>
-                    <input
-                      type="file"
-                      multiple
-                      accept="image/*"
-                      {...register("image_file", {
-                        required: true,
-                        onChange: (e) => imageHandlerOnchange(e),
-                      })}
-                    />
-                    {errors.image_file &&
-                      errors.image_file.type === "required" && (
-                        <p>This is required</p>
-                      )}
-                  </div>
-
-                  <div className="form-input-vendor">
-                    <span>Description</span>
-                    <textarea
-                      className="form-control"
-                      name="description"
-                      {...register("description", { required: true })}
-                      type="text"
-                    ></textarea>
-                    {errors.description &&
-                      errors.description.type === "required" && (
-                        <p>This is required</p>
-                      )}
-                  </div>
-
-                  <div className="form-input-vendor">
-                    {btnUpdateBool === false ? (
-                      btnBool === false ? (
-                        <button type="submit">Add Product</button>
+                    <div className="form-input-vendor">
+                      {btnUpdateBool === false ? (
+                        btnBool === false ? (
+                          <button type="submit">Add Product</button>
+                        ) : (
+                          <button type="submit" disabled>
+                            {" "}
+                            <div className="spinner-border spinner-border-sm">
+                              {" "}
+                            </div>{" "}
+                            Add Product
+                          </button>
+                        )
+                      ) : btnBool === false ? (
+                        <button type="submit">Update Product</button>
                       ) : (
                         <button type="submit" disabled>
                           {" "}
                           <div className="spinner-border spinner-border-sm">
                             {" "}
                           </div>{" "}
-                          Add Product
+                          Updating
                         </button>
-                      )
-                    ) : btnBool === false ? (
-                      <button type="submit">Update Product</button>
-                    ) : (
-                      <button type="submit" disabled>
-                        {" "}
-                        <div className="spinner-border spinner-border-sm">
-                          {" "}
-                        </div>{" "}
-                        Updating
-                      </button>
-                    )}
+                      )}
+                    </div>
                   </div>
-                </div>
-              </form>
+                </form>
+              </div>
             </div>
-          </div>
+          )}
+
           {imageArr && imageArr?.length ? (
             <div className="vendor-container-category-wrapper">
               <div className="image-form">

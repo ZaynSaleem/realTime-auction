@@ -10,6 +10,7 @@ import { db } from "../../config/firebase/firebase";
 
 import Loader from "../../components/Loader/loader";
 import Topbar from "../../components/topbar/Topbar";
+import BreadCrumb from "../../components/breadCrumb";
 
 const Users = () => {
   const dispatch = useDispatch();
@@ -84,8 +85,11 @@ const Users = () => {
         >
           <Topbar togglebtn={toggleButton} img={ToggleMenu} />
 
+          <Loader bool={loaderBool} />
           <div className="vendor-dashboard-card-wrapper">
-            <Loader bool={loaderBool} />
+         
+          <BreadCrumb title="Users" bool={true} />
+
             <div
               className="vendor-container-category-wrapper"
               style={{ display: loaderBool === true ? "none" : "block" }}

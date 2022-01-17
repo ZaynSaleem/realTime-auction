@@ -57,18 +57,6 @@ const VendorSidebar = ({ toggleBool, name, togglebtn }) => {
                   <span className="btn-text-vendor"> Add Product</span>
                 </button>
               </div>
-
-              <div className="sidebar-item">
-                <button
-                  className="button-sidebar"
-                  onClick={() => {
-                    history.push("/vendor-dash");
-                  }}
-                >
-                  <FaTruck />
-                  <span className="btn-text-vendor"> Delivered</span>
-                </button>
-              </div>
             </div>
           ) : (
             <div className="items-wrapper">

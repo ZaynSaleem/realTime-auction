@@ -6,14 +6,19 @@ import Sidebar from "../../components/header/Sidebar";
 import { Table } from "reactstrap";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 import { db } from "../../config/firebase/firebase";
 
 import Loader from "../../components/Loader/loader";
 import Topbar from "../../components/topbar/Topbar";
+import { toast } from "react-toastify";
+import BreadCrumb from "../../components/breadCrumb";
 
 const VendorProducts = () => {
   const dispatch = useDispatch();
+  let history = useHistory();
+
   const Data = useSelector((state) => state?.vendor.data);
   const [toggleBool, setToggleBool] = useState(false);
   const [loaderBool, setLoaderBool] = useState(false);
@@ -24,26 +29,33 @@ const VendorProducts = () => {
     setValue,
   } = useForm({});
   let arr = [];
-  useEffect(() => {
+  useEffect(async () => {
     setLoaderBool(true);
     db.collection("products")
       .get()
-      .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          let obj = {
-            id: doc.id,
-            productName: doc.data()?.productName,
-            categoryName: doc.data()?.catId,
-            productStatus: doc.data()?.productStatus,
-            adminStatus: doc.data()?.adminStatus,
-            startingBid: doc.data()?.startingBid,
-          };
-          arr.push(obj);
-        });
+      .then(async (querySnapshot) => {
+        for (let i = 0; i < querySnapshot.docs.length; i++) {
+          let dupData = querySnapshot.docs[i].data();
+          dupData.id = querySnapshot.docs[i].id;
+          try {
+            let item = await db.collection("category").doc(dupData.catId).get();
+            dupData.catId = item?.data()?.categoryName;
+            arr.push(dupData);
+          } catch (error) {
+            toast.error(error);
+          }
+        }
         setProductData(arr);
         setLoaderBool(false);
       });
   }, []);
+
+  const toggleProduct = (item) => {
+    let str = item?.productName;
+    str = str.replace(/\s+/g, "-").toLowerCase();
+
+    history.push(`/product/${item?.id}/${str}`);
+  };
 
   const toggleButton = () => {
     if (!toggleBool) {
@@ -84,8 +96,11 @@ const VendorProducts = () => {
         >
           <Topbar togglebtn={toggleButton} img={ToggleMenu} />
 
+          <Loader bool={loaderBool} />
           <div className="vendor-dashboard-card-wrapper">
-            <Loader bool={loaderBool} />
+        
+          <BreadCrumb title="Products" bool={true} />
+
             <div
               className="vendor-container-category-wrapper"
               style={{ display: loaderBool === true ? "none" : "block" }}
@@ -111,10 +126,19 @@ const VendorProducts = () => {
                             return (
                               <tr key={index}>
                                 <th scope="row">{++index}</th>
-                                <td>{item?.productName}</td>
-                                <td>{item?.categoryName}</td>
                                 <td>
-                                  {!item?.adminStatus ? (
+                                  {" "}
+                                  <a onClick={() => toggleProduct(item)}>
+                                    {item?.productName}
+                                  </a>
+                                </td>
+                                <td>{item?.catId}</td>
+                                <td>
+                                  {item?.timerStatus === "Expired" ? (
+                                    <span className="status-expired">
+                                      Expired
+                                    </span>
+                                  ) : !item?.adminStatus ? (
                                     !item?.productStatus ? (
                                       <span className="status-active">
                                         Live

@@ -26,6 +26,7 @@ import supportIcon from "../../assets/support.png";
 import trackingIcon from "../../assets/tracking.png";
 import moneyIcon from "../../assets/money_icons.png";
 import deliveryIcon from "../../assets/deliveries.png";
+import imageNotFound from "../../assets/404Home.jpg";
 
 const Home = () => {
   let history = useHistory();
@@ -83,7 +84,7 @@ const Home = () => {
                 <img src={supportIcon} />
               </div>
               <div className="detail-text-wrapper">
-                <h4>Call Centerssss</h4>
+                <h4>Call Center</h4>
                 <p>Objectively empowered</p>
               </div>
             </div>
@@ -139,9 +140,7 @@ const Home = () => {
                   <ProductCard
                     roles={Data[0]?.role}
                     image={
-                      item?.imageUrl && item?.imageUrl?.length
-                        ? item?.imageUrl[0]
-                        : ""
+                      item?.imageUrl?.length ? item?.imageUrl[0] : imageNotFound
                     }
                     productname={item?.productName}
                     bids={item?.bids?.length}

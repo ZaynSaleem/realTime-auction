@@ -1,5 +1,6 @@
 import "./style.css";
 import React, { useEffect, useState } from "react";
+import imageNotFound from "../../../assets/404.png";
 
 const WiningCard = (props) => {
   const [maxBid, setMaxBid] = useState("");
@@ -16,50 +17,71 @@ const WiningCard = (props) => {
 
   return (
     <div className="user-card-wrapper">
-      {props?.arr && props?.arr?.length
-        ? props?.arr?.map((item, index) => {
-            return (
-              <div className="user-wining-card">
-                <div className="user-card-image">
-                  <img src={item?.imageUrl[0]} alt="image" />
+      {props?.arr && props?.arr?.length ? (
+        props?.arr?.map((item, index) => {
+          return (
+            <div className="user-wining-card">
+              <div className="user-card-image">
+                <img
+                  src={
+                    item?.imageUrl && item?.imageUrl.length
+                      ? item?.imageUrl[0]
+                      : imageNotFound
+                  }
+                  alt="image"
+                />
+              </div>
+
+              <div className="user-card-content">
+                <div className="user-card-heading">
+                  <h4>
+                    <a onClick={() => props?.togglepage(item)}>
+                      {item?.productName}
+                    </a>
+                  </h4>
                 </div>
-                <div className="user-card-content">
-                  <div className="user-card-heading">
-                    <h4>
-                      <a onClick={() => props?.togglepage(item)}>
-                        {item?.productName}
-                      </a>
-                    </h4>
-                  </div>
-                  <div className="user-card-description">
+
+                <div className="user-card-description">
+                  <p>
+                    {" "}
                     {item?.description
                       ? item?.description
                       : "No Description of this product"}
-                  </div>
-                  <div className="user-card-price">
-                    <span>Starting bid :</span> $
-                    {item?.startingBid
+                  </p>
+                </div>
+
+                <div className="user-card-price">
+                  <span>Starting bid :</span> $
+                  {item?.startingBid
+                    ?.toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                </div>
+
+                {props?.timerStatus === "Expired" ? (
+                  <div className="user-card-endprice">
+                    <span>Sold at :</span> $
+                    {item?.winner?.bidPrice
                       ?.toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                   </div>
-                  {props?.timerStatus === "Expired" ? (
-                    <div className="user-card-endprice">
-                      <span>Sold at :</span> $
-                      {item?.winner?.bidPrice
-                        ?.toString()
-                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-                    </div>
-                  ) : (
-                    <div className="user-card-endprice">
-                      <span>Highest bid :</span> $
-                      {maxBid?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-                    </div>
-                  )}
-                </div>
+                ) : (
+                  <div className="user-card-endprice">
+                    <span>Highest bid :</span> $
+                    {maxBid?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                  </div>
+                )}
               </div>
-            );
-          })
-        : null}
+            </div>
+          );
+        })
+      ) : (
+        <div
+          className="user-wining-card"
+          style={{ justifyContent: "center", padding: "16px" }}
+        >
+          <h4> No Current Auction</h4>
+        </div>
+      )}
     </div>
   );
 };

@@ -156,7 +156,7 @@
 }
 .table-form {
   width: 100%;
-  padding: 30px 0px;
+  padding: 24px;
   overflow: auto;
 }
 .table-form tbody {
@@ -186,6 +186,15 @@
 .status-active {
   font-size: 11px;
   background: #5cb85c;
+  padding: 1px 5px;
+  border-radius: 3px;
+  text-transform: capitalize;
+  color: white;
+  font-weight: 600;
+}
+.status-expired {
+  font-size: 11px;
+  background: #b8b75c;
   padding: 1px 5px;
   border-radius: 3px;
   text-transform: capitalize;
@@ -263,7 +272,7 @@ input:checked + .slider-switch:before {
 
 @media (max-width: 1119px) {
   .table-form {
-    overflow: scroll;
+    overflow-x: scroll;
   }
 }
 /* SIDE BAR */

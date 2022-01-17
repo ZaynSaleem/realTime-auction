@@ -102,13 +102,19 @@ const Navbar = (props) => {
               <div className="item-link">
                 <a href="#">About</a>
               </div>
-              {Data && Data?.length && Data[0]?.role === "vendor" ? (
-                <div className="item-link">
-                  <a href="/vendor-dash">Dashboard</a>
-                </div>
+              {Data && Data?.length && Data[0]?.role ? (
+                Data[0]?.role === "vendor" ? (
+                  <div className="item-link">
+                    <a href="/vendor-dash">Dashboard</a>
+                  </div>
+                ) : (
+                  <div className="item-link">
+                    <a href="/user-dash">Dashboard</a>
+                  </div>
+                )
               ) : (
                 <div className="item-link">
-                  <a href="/user-dash">Dashboard</a>
+                  <a href="/dashboard">Dashboard</a>
                 </div>
               )}
             </div>

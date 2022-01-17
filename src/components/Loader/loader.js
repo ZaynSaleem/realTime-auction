@@ -4,7 +4,7 @@ import './style.css'
 
 const Loader = (props) => {
     return (
-        <div className="image-loader" style={{display:props?.bool === false ? "none" : "block"}}>
+        <div className="image-loader" style={{display:props?.bool === false ? "none" : "flex"}}>
             <img src={spinner}/>   
         </div>
     )

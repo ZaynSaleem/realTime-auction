@@ -50,7 +50,7 @@
 
 .vendor-dashboard-card-wrapper {
   width: 97%;
-  padding: 60px 0px;
+  padding: 20px 0px;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -252,6 +252,9 @@
 }
 .table-form tbody td a {
   cursor: pointer;
+  font-weight: 700;
+  color: cornflowerblue !important;
+  text-decoration: underline !important;
 }
 
 /* SIDE BAR */

@@ -8,6 +8,7 @@ import { db } from "../../../config/firebase/firebase";
 import VendorSidebar from "../../../components/header/VendorSidebar";
 import Topbar from "../../../components/topbar/Topbar";
 import WiningCard from "../../../components/Cards/winingcard";
+import Loader from "../../../components/Loader/loader";
 
 const UserDash = () => {
   const dispatch = useDispatch();
@@ -17,8 +18,10 @@ const UserDash = () => {
   const auth = useSelector((state) => state?.auth.auth);
   const [toggleBool, setToggleBool] = useState(false);
   const [dataProduct, setDataProduct] = useState([]);
+  const [loaderBool, setLoaderBool] = useState(false);
 
   useEffect(() => {
+    setLoaderBool(true);
     let arr = [];
     db.collection("products")
       .get()
@@ -35,6 +38,7 @@ const UserDash = () => {
             // console.log(dup);
           }
         });
+        setLoaderBool(false);
         setDataProduct(arr);
       })
       .catch((error) => {
@@ -74,11 +78,15 @@ const UserDash = () => {
         >
           <Topbar togglebtn={toggleButton} img={ToggleMenu} />
 
-          <div className="vendor-dashboard-card-wrapper">
-            <div className="vendor-container-category-wrapper">
-              <WiningCard arr={dataProduct} togglepage={toggleProduct} />
+          {loaderBool ? (
+            <Loader />
+          ) : (
+            <div className="vendor-dashboard-card-wrapper">
+              <div className="vendor-container-category-wrapper">
+                <WiningCard arr={dataProduct} togglepage={toggleProduct} />
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </div>
