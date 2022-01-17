@@ -11,6 +11,7 @@ import { useHistory } from "react-router";
 import { logout } from "../../store/actions/AuthAction";
 import "./head.css";
 import logo from "../../assets/logo-ibid.png";
+import { Link } from "react-router-dom";
 
 const Navbar = (props) => {
   const Data = useSelector((state) => state?.auth.auth);
@@ -88,34 +89,43 @@ const Navbar = (props) => {
           <div className="navbar-content">
             <div className="navbar-content-items">
               <div className="item-link">
-                <a href="/">Home</a>
+                <Link to="/">Home</Link>
               </div>
               <div className="item-link">
-                <a href="/allproducts">Products</a>
+                <Link to="/allproducts">Products</Link>
+              </div>
+
+              <div className="item-link">
+                {Data?.length && Data[0]?.role === "vendor" ? (
+                  <Link to="/add-product">Sell</Link>
+                ) : Data[0]?.role === "user" ? (
+                  <Link to="/sign-up">Sell</Link>
+                ) : (
+                  ""
+                )}
               </div>
               <div className="item-link">
-                <a href="#">Buy</a>
-              </div>
-              <div className="item-link">
-                <a href="#">Sell</a>
-              </div>
-              <div className="item-link">
-                <a href="#">About</a>
+                <Link to="#">About</Link>
               </div>
               {Data && Data?.length && Data[0]?.role ? (
                 Data[0]?.role === "vendor" ? (
                   <div className="item-link">
-                    <a href="/vendor-dash">Dashboard</a>
+                    <Link to="/vendor-dash">Dashboard</Link>
                   </div>
                 ) : (
                   <div className="item-link">
-                    <a href="/user-dash">Dashboard</a>
+                    <Link to="/user-dash">Dashboard</Link>
                   </div>
                 )
               ) : (
+                ""
+              )}
+              {Data?.length && Data[0]?.email === "admin@admin.com" ? (
                 <div className="item-link">
-                  <a href="/dashboard">Dashboard</a>
+                  <Link to="/dashboard">Dashboard</Link>
                 </div>
+              ) : (
+                ""
               )}
             </div>
           </div>
@@ -127,20 +137,44 @@ const Navbar = (props) => {
       >
         <div className="sidenav-items">
           <div className="item-link">
-            <a href="/">Home</a>
+            <Link to="/">Home</Link>
           </div>
           <div className="item-link">
-            <a href="/allproducts">Products</a>
+            <Link to="/allproducts">Products</Link>
+          </div>
+
+          <div className="item-link">
+            {Data?.length && Data[0]?.role === "vendor" ? (
+              <Link to="/add-product">Sell</Link>
+            ) : Data[0]?.role === "user" ? (
+              <Link to="/sign-up">Sell</Link>
+            ) : (
+              ""
+            )}
           </div>
           <div className="item-link">
-            <a href="#">Buy</a>
+            <Link to="#">About</Link>
           </div>
-          <div className="item-link">
-            <a href="#">Sell</a>
-          </div>
-          <div className="item-link">
-            <a href="#">About</a>
-          </div>
+          {Data && Data?.length && Data[0]?.role ? (
+            Data[0]?.role === "vendor" ? (
+              <div className="item-link">
+                <Link to="/vendor-dash">Dashboard</Link>
+              </div>
+            ) : (
+              <div className="item-link">
+                <Link to="/user-dash">Dashboard</Link>
+              </div>
+            )
+          ) : (
+            ""
+          )}
+          {Data?.length && Data[0]?.email === "admin@admin.com" ? (
+            <div className="item-link">
+              <Link to="/dashboard">Dashboard</Link>
+            </div>
+          ) : (
+            ""
+          )}
           <div className="item-link">
             <a onClick={loginUser}>Logout</a>
           </div>

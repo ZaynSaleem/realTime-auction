@@ -81,7 +81,9 @@ const Footer = () => {
       </div>
       <div className="footer-bottom">
         <div className="custom_container">
-          <div className="footer-text">© 2021 iBID. Privacy Policy</div>
+          <div className="footer-text">
+            © {new Date().getFullYear()} iBID. Privacy Policy
+          </div>
         </div>
       </div>
     </div>
