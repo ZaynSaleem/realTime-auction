@@ -45,15 +45,15 @@ const Navbar = (props) => {
         <div className="custom_container">
           <div className="navbar-second-wrapper">
             <div className="navbar-social-content">
-              <button name="facebook">
+              <span name="facebook">
                 <FaFacebook />
-              </button>
-              <button name="instagram">
+              </span>
+              <span name="instagram">
                 <FaInstagram />
-              </button>
-              <button name="twitter">
+              </span>
+              <span name="twitter">
                 <FaTwitter />
-              </button>
+              </span>
             </div>
             <div className="navbar-content-logo">
               <img src={logo} alt="image" width="100" height="37" />

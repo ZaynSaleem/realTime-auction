@@ -1,5 +1,5 @@
 import "./style.css";
-import { useEffect } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { useState } from "react";
 import ToggleMenu from "../../assets/toggleMenu.png";
 import {
@@ -10,12 +10,19 @@ import {
   FaUserAlt,
   FaUsers,
 } from "react-icons/fa";
-import DashboardCard from "../../components/Cards/DashboardCard";
-import Sidebar from "../../components/header/Sidebar";
-import Topbar from "../../components/topbar/Topbar";
-import BreadCrumb from "../../components/breadCrumb";
 import { db } from "../../config/firebase/firebase";
-import Loader from "../../components/Loader/loader";
+
+// import Sidebar from "../../components/header/Sidebar";
+// import Topbar from "../../components/topbar/Topbar";
+// import BreadCrumb from "../../components/breadCrumb";
+// import Loader from "../../components/Loader/loader";
+const DashboardCard = lazy(() =>
+  import("../../components/Cards/DashboardCard")
+);
+const Sidebar = lazy(() => import("../../components/header/Sidebar"));
+const Topbar = lazy(() => import("../../components/topbar/Topbar"));
+const BreadCrumb = lazy(() => import("../../components/breadCrumb"));
+const Loader = lazy(() => import("../../components/Loader/loader"));
 
 const Dashboard = () => {
   const [toggleBool, setToggleBool] = useState(false);
@@ -96,81 +103,83 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="container-admin">
-      <Sidebar toggleBool={toggleBool} />
+    <Suspense fallback={<div></div>}>
+      <div className="container-admin">
+        <Sidebar toggleBool={toggleBool} />
 
-      <div
-        className={
-          toggleBool === false
-            ? "vendor-dashboard-content"
-            : "vendor-dashboard-content-toggle"
-        }
-      >
-        <Topbar togglebtn={toggleButton} img={ToggleMenu} />
+        <div
+          className={
+            toggleBool === false
+              ? "vendor-dashboard-content"
+              : "vendor-dashboard-content-toggle"
+          }
+        >
+          <Topbar togglebtn={toggleButton} img={ToggleMenu} />
 
-        {loaderBool ? (
-          <Loader bool={loaderBool} />
-        ) : (
-          <div className="vendor-dashboard-card-wrapper">
-            <BreadCrumb title="Dashboard" bool={true} />
-            <div className="vendor-container-category-wrapper">
-              <div className="container-card-wrapper">
-                <DashboardCard
-                  icon={<FaUserAlt />}
-                  headText="No Of Vendors"
-                  count={vendors}
-                  colorIcon="#81d3a1"
-                  color="#ffff"
-                  textColor="#499b75"
-                />
-                <DashboardCard
-                  icon={<FaUsers />}
-                  headText="No Of Users"
-                  count={users}
-                  colorIcon="#dc3545"
-                  color="#ffff"
-                  textColor=""
-                />
-                <DashboardCard
-                  icon={<FaListAlt />}
-                  headText="No Of Categories"
-                  count={category}
-                  colorIcon="#ffc107"
-                  color="#ffff"
-                  textColor=""
-                />
-                <DashboardCard
-                  icon={<FaProductHunt />}
-                  headText="No Of Products"
-                  count={products}
-                  colorIcon="#007bff"
-                  color="#ffff"
-                  textColor=""
-                />
+          {loaderBool ? (
+            <Loader bool={loaderBool} />
+          ) : (
+            <div className="vendor-dashboard-card-wrapper">
+              <BreadCrumb title="Dashboard" bool={true} />
+              <div className="vendor-container-category-wrapper">
+                <div className="container-card-wrapper">
+                  <DashboardCard
+                    icon={<FaUserAlt />}
+                    headText="No Of Vendors"
+                    count={vendors}
+                    colorIcon="#81d3a1"
+                    color="#ffff"
+                    textColor="#499b75"
+                  />
+                  <DashboardCard
+                    icon={<FaUsers />}
+                    headText="No Of Users"
+                    count={users}
+                    colorIcon="#dc3545"
+                    color="#ffff"
+                    textColor=""
+                  />
+                  <DashboardCard
+                    icon={<FaListAlt />}
+                    headText="No Of Categories"
+                    count={category}
+                    colorIcon="#ffc107"
+                    color="#ffff"
+                    textColor=""
+                  />
+                  <DashboardCard
+                    icon={<FaProductHunt />}
+                    headText="No Of Products"
+                    count={products}
+                    colorIcon="#007bff"
+                    color="#ffff"
+                    textColor=""
+                  />
 
-                <DashboardCard
-                  icon={<FaGavel />}
-                  headText="Live Auction"
-                  count={onGoing}
-                  colorIcon="rgb(23 178 184)"
-                  color="#ffff"
-                  textColor=""
-                />
+                  <DashboardCard
+                    icon={<FaGavel />}
+                    headText="Live Auction"
+                    count={onGoing}
+                    colorIcon="rgb(23 178 184)"
+                    color="#ffff"
+                    textColor=""
+                  />
 
-                <DashboardCard
-                  icon={<FaHourglassEnd />}
-                  headText="Expired Products"
-                  count={Expired}
-                  colorIcon="#343a40"
-                  color="#ffff"
-                  textColor=""
-                />
+                  <DashboardCard
+                    icon={<FaHourglassEnd />}
+                    headText="Expired Products"
+                    count={Expired}
+                    colorIcon="#343a40"
+                    color="#ffff"
+                    textColor=""
+                  />
+                </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
-    </div>
+    </Suspense>
   );
 };
 

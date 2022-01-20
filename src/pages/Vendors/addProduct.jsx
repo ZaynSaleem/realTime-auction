@@ -1,22 +1,22 @@
-import React, { useEffect } from "react";
 import "./style.css";
-import ToggleMenu from "../../assets/toggleMenu.png";
+import React, { useEffect } from "react";
+import { FaTimesCircle } from "react-icons/fa";
 import { useState } from "react";
-import { Controller, useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
+import { useForm } from "react-hook-form";
+import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { useHistory, useParams } from "react-router-dom";
+import ToggleMenu from "../../assets/toggleMenu.png";
 
 import firebase, { db } from "../../config/firebase/firebase";
 import VendorSidebar from "../../components/header/VendorSidebar";
-import { useHistory, useParams } from "react-router-dom";
 import Topbar from "../../components/topbar/Topbar";
-import { FaTimesCircle } from "react-icons/fa";
 import BreadCrumb from "../../components/breadCrumb";
 import Loader from "../../components/Loader/loader";
 
 const AddProduct = () => {
   const id = useParams();
-  const dispatch = useDispatch();
+
   const history = useHistory();
 
   const auth = useSelector((state) => state?.auth.auth);
@@ -33,12 +33,9 @@ const AddProduct = () => {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
     setValue,
-    getValues,
   } = useForm({});
 
-  let arr = [];
   const d = new Date();
   let text = d?.toISOString();
   useEffect(() => {

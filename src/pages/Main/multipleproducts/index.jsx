@@ -1,18 +1,23 @@
-import React, { useEffect } from "react";
+import React, { lazy, Suspense, useEffect } from "react";
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import BreadCrumb from "../../../components/breadCrumb";
-import Navbar from "../../../components/header/Navbar";
-import Loader from "../../../components/Loader/loader";
 import { db } from "../../../config/firebase/firebase";
-import { useHistory } from "react-router-dom";
 import "./style.css";
-import InformationLine from "../../../components/informationline";
-import ProductCard from "../../../components/Cards/productscard";
-import Footer from "../../../components/footer/Footer";
+
+const InformationLine = lazy(() =>
+  import("../../../components/informationline")
+);
+
+const ProductCard = lazy(() =>
+  import("../../../components/Cards/productscard")
+);
+const Footer = lazy(() => import("../../../components/footer/Footer"));
+const BreadCrumb = lazy(() => import("../../../components/breadCrumb"));
+const Navbar = lazy(() => import("../../../components/header/Navbar"));
+const Loader = lazy(() => import("../../../components/Loader/loader"));
+
 const MultipleProducts = () => {
   const Data = useSelector((state) => state?.auth.auth);
-  let history = useHistory();
 
   const [product, setProduct] = useState([]);
   const [loaderBool, setLoaderBool] = useState(false);
@@ -39,51 +44,49 @@ const MultipleProducts = () => {
         setLoaderBool(false);
       });
   }, []);
-  const toggleProduct = (item) => {
-    let str = item?.productName;
-    str = str.replace(/\s+/g, "-").toLowerCase();
 
-    history.push(`/product/${item?.id}/${str}`);
-  };
-
-  return loaderBool && loaderBool ? (
-    <div>
-      <Loader />
-    </div>
-  ) : (
-    <div>
-      <Navbar />
-      <BreadCrumb title="Products" />
-      <div className="main-content">
-        <div className="custom_container">
-          <div className="card-main">
-            {product && product?.length ? (
-              product.map((item, index) => {
-                return (
-                  <ProductCard
-                    key={index}
-                    roles={Data[0]?.role}
-                    image={
-                      item?.imageUrl && item?.imageUrl?.length
-                        ? item?.imageUrl[0]
-                        : ""
-                    }
-                    productname={item?.productName}
-                    bids={item?.bids?.length}
-                    startTime={item?.startTime}
-                    endTime={item?.endTime}
-                    items={item}
-                  />
-                );
-              })
-            ) : (
-              <InformationLine title="No Product in latest Auction" />
-            )}
-          </div>
+  return (
+    <Suspense fallback={<div></div>}>
+      {loaderBool && loaderBool ? (
+        <div>
+          <Loader />
         </div>
-      </div>
-      <Footer />
-    </div>
+      ) : (
+        <div>
+          <Navbar />
+          <BreadCrumb title="Products" />
+          <div className="main-content">
+            <div className="custom_container">
+              <div className="card-main">
+                {product && product?.length ? (
+                  product.map((item, index) => {
+                    return (
+                      <ProductCard
+                        key={index}
+                        roles={Data[0]?.role}
+                        image={
+                          item?.imageUrl && item?.imageUrl?.length
+                            ? item?.imageUrl[0]
+                            : ""
+                        }
+                        productname={item?.productName}
+                        bids={item?.bids?.length}
+                        startTime={item?.startTime}
+                        endTime={item?.endTime}
+                        items={item}
+                      />
+                    );
+                  })
+                ) : (
+                  <InformationLine title="No Product in latest Auction" />
+                )}
+              </div>
+            </div>
+          </div>
+          <Footer />
+        </div>
+      )}
+    </Suspense>
   );
 };
 

@@ -1,7 +1,6 @@
 import "./style.css";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
-import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { Table } from "reactstrap";
 import { toast } from "react-toastify";
@@ -24,14 +23,6 @@ const VendorDash = () => {
   const [editId, setEditId] = useState("");
   const [status, setStatus] = useState("");
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-    setValue,
-    getValues,
-  } = useForm({});
   let arr = [];
 
   useEffect(() => {
@@ -187,7 +178,7 @@ const VendorDash = () => {
                                   color: item?.adminStatus ? "grey" : "",
                                 }}
                               >
-                                <th scope="row">{++index}</th>
+                                <td scope="row">{++index}</td>
                                 <td>
                                   <a onClick={() => toggleProduct(item)}>
                                     {item?.productName}
@@ -274,7 +265,7 @@ const VendorDash = () => {
                                   {" "}
                                   {item?.adminStatus ? (
                                     <div className="btn-switch">
-                                      <label class="switch">
+                                      <label className="switch">
                                         <input
                                           checked={item?.productStatus}
                                           value={item?.id}
@@ -282,19 +273,19 @@ const VendorDash = () => {
                                           disabled
                                           onChange={(e) => handleUpdate(e)}
                                         />
-                                        <span class="slider-switch round"></span>
+                                        <span className="slider-switch round"></span>
                                       </label>
                                     </div>
                                   ) : (
                                     <div className="btn-switch">
-                                      <label class="switch">
+                                      <label className="switch">
                                         <input
                                           checked={item?.productStatus}
                                           value={item?.id}
                                           type="checkbox"
                                           onChange={(e) => handleUpdate(e)}
                                         />
-                                        <span class="slider-switch round"></span>
+                                        <span className="slider-switch round"></span>
                                       </label>
                                     </div>
                                   )}

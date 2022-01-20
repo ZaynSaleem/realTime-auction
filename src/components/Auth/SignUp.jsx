@@ -137,7 +137,7 @@ const SignUp = () => {
                   </button>
                 ) : (
                   <button className="btn_create" type="submit" disabled>
-                    <span class="spinner-border spinner-border-sm"></span>{" "}
+                    <span className="spinner-border spinner-border-sm"></span>{" "}
                     Create Account
                   </button>
                 )}

@@ -34,7 +34,7 @@
   align-items: center;
   justify-content: space-between;
 }
-.navbar-social-content button {
+.navbar-social-content span {
   display: flex;
   align-items: center;
   flex-wrap: wrap;

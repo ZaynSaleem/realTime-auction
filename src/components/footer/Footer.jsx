@@ -24,15 +24,15 @@ const Footer = () => {
               Send us an email: contact@example.com
             </div>
             <div className="navbar-social-content">
-              <button name="facebook">
+              <span name="facebook">
                 <FaFacebook />
-              </button>
-              <button name="instagram">
+              </span>
+              <span name="instagram">
                 <FaInstagram />
-              </button>
-              <button name="twitter">
+              </span>
+              <span name="twitter">
                 <FaTwitter />
-              </button>
+              </span>
             </div>
           </div>
 

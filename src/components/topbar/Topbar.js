@@ -30,10 +30,10 @@ const Topbar = (props) => {
             <p>{auth[0]?.email?.split("@")[0]}</p>
           </div>
           <div className="icon-sidebar">
-            <img src={imgAvatar} alt="image"/>
+            <img src={imgAvatar} alt="image" />
           </div>
           <div className="logout-icon">
-            <button dataToggle="tooltip" title="logout" onClick={logoutUser}>
+            <button data-toggle="tooltip" title="logout" onClick={logoutUser}>
               <FaSignOutAlt />
             </button>
           </div>

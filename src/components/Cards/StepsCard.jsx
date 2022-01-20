@@ -9,7 +9,7 @@ const StepsCard = ({ circleIcon, angleIcon, head, bodyText }) => {
       </div>
 
       <div className="steps-card-text">
-        <h3>{head}</h3>
+        <span>{head}</span>
         <p>{bodyText}</p>
       </div>
     </div>

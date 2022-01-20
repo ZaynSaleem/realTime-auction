@@ -1,9 +1,8 @@
-import React, { useEffect } from "react";
+import React, { lazy, useEffect, Suspense } from "react";
 import "./style.css";
 import ToggleMenu from "../../assets/toggleMenu.png";
 import { FaPlusCircle, FaRegEdit, FaTrashAlt } from "react-icons/fa";
 import { useState } from "react";
-import Sidebar from "../../components/header/Sidebar";
 import {
   Button,
   Modal,
@@ -12,20 +11,17 @@ import {
   ModalFooter,
   Table,
 } from "reactstrap";
-import { set, useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
+import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
 import { db } from "../../config/firebase/firebase";
-import { addCat, dltTodo, updateCat } from "../../store/actions";
-import Loader from "../../components/Loader/loader";
-import Topbar from "../../components/topbar/Topbar";
-import BreadCrumb from "../../components/breadCrumb";
+
+const Sidebar = lazy(() => import("../../components/header/Sidebar"));
+const Topbar = lazy(() => import("../../components/topbar/Topbar"));
+const BreadCrumb = lazy(() => import("../../components/breadCrumb"));
+const Loader = lazy(() => import("../../components/Loader/loader"));
 
 const AddCategory = () => {
-  const dispatch = useDispatch();
-  const Data = useSelector((state) => state?.todo.todo);
-
   const [toggleBool, setToggleBool] = useState(false);
   const [modal, setModal] = useState(false);
   const [btnBool, setBtnBool] = useState(false);
@@ -147,122 +143,125 @@ const AddCategory = () => {
   };
 
   return (
-    <div>
-      <div className="container-admin">
-        <Sidebar toggleBool={toggleBool} />
-
-        <div
-          className={
-            toggleBool === false
-              ? "vendor-dashboard-content"
-              : "vendor-dashboard-content-toggle"
-          }
-        >
-          <Topbar togglebtn={toggleButton} img={ToggleMenu} />
-          <Loader bool={loaderBool} />
+    <Suspense fallback={<div></div>}>
+      <div>
+        <div className="container-admin">
+          <Sidebar toggleBool={toggleBool} />
 
           <div
-            className="vendor-dashboard-card-wrapper"
-            style={{ display: loaderBool === true ? "none" : "block" }}
+            className={
+              toggleBool === false
+                ? "vendor-dashboard-content"
+                : "vendor-dashboard-content-toggle"
+            }
           >
-          <BreadCrumb title="Add Category" bool={true} />
-            <div className="vendor-container-category-wrapper">
-            
+            <Topbar togglebtn={toggleButton} img={ToggleMenu} />
+            <Loader bool={loaderBool} />
 
-              <div className="container-category-wrapper">
-                <div className="add-button">
-                  <button className="btn btn-success " onClick={toggle}>
-                    <FaPlusCircle />
-                  </button>
-                </div>
+            <div
+              className="vendor-dashboard-card-wrapper"
+              style={{ display: loaderBool === true ? "none" : "block" }}
+            >
+              <BreadCrumb title="Add Category" bool={true} />
+              <div className="vendor-container-category-wrapper">
+                <div className="container-category-wrapper">
+                  <div className="add-button">
+                    <button className="btn btn-success " onClick={toggle}>
+                      <FaPlusCircle />
+                    </button>
+                  </div>
 
-                <div className="table-wrapper">
-                  <div className="table-form">
-                    <Table bordered>
-                      <thead dark>
-                        <tr>
-                          <th>#</th>
-                          <th>Category</th>
-                          <th>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {dataCat && dataCat?.length ? (
-                          dataCat.map((item, index) => {
-                            return (
-                              <tr key={index}>
-                                <th scope="row">{++index}</th>
-                                <td>{item.category}</td>
-                                <td className="button-action">
-                                  <button
-                                    className="btn btn-success"
-                                    onClick={() => editCat(item?.id)}
-                                  >
-                                    {" "}
-                                    <FaRegEdit size={20} />
-                                  </button>
+                  <div className="table-wrapper">
+                    <div className="table-form">
+                      <Table bordered>
+                        <thead>
+                          <tr>
+                            <th>#</th>
+                            <th>Category</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {dataCat && dataCat?.length ? (
+                            dataCat.map((item, index) => {
+                              return (
+                                <tr key={index}>
+                                  <td scope="row">{++index}</td>
+                                  <td>{item.category}</td>
+                                  <td className="button-action">
+                                    <button
+                                      className="btn btn-success"
+                                      onClick={() => editCat(item?.id)}
+                                    >
+                                      {" "}
+                                      <FaRegEdit size={20} />
+                                    </button>
 
-                                  <button
-                                    className="btn btn-danger"
-                                    onClick={() => deleteCat(item?.id)}
-                                  >
-                                    {" "}
-                                    <FaTrashAlt size={20} />
-                                  </button>
-                                </td>
-                              </tr>
-                            );
-                          })
-                        ) : (
-                          <tr>No DATA</tr>
-                        )}
-                      </tbody>
-                    </Table>
+                                    <button
+                                      className="btn btn-danger"
+                                      onClick={() => deleteCat(item?.id)}
+                                    >
+                                      {" "}
+                                      <FaTrashAlt size={20} />
+                                    </button>
+                                  </td>
+                                </tr>
+                              );
+                            })
+                          ) : (
+                            <tr>No DATA</tr>
+                          )}
+                        </tbody>
+                      </Table>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <Modal isOpen={modal} toggle={toggle}>
-        <form onSubmit={handleSubmit(onSubmit)} onReset={reset}>
-          <ModalHeader toggle={toggle} charCode="X">
-            Category
-          </ModalHeader>
-          <ModalBody>
-            <div className="forms-category-wrapper">
-              <div className="form-category">
-                <div className="form-label">Add Category</div>
-                <div className="form-input-cat">
-                  <input
-                    name="category"
-                    {...register("category", { required: true, maxLength: 30 })}
-                  />
+        <Modal isOpen={modal} toggle={toggle}>
+          <form onSubmit={handleSubmit(onSubmit)} onReset={reset}>
+            <ModalHeader toggle={toggle} charCode="X">
+              Category
+            </ModalHeader>
+            <ModalBody>
+              <div className="forms-category-wrapper">
+                <div className="form-category">
+                  <div className="form-label">Add Category</div>
+                  <div className="form-input-cat">
+                    <input
+                      name="category"
+                      {...register("category", {
+                        required: true,
+                        maxLength: 30,
+                      })}
+                    />
+                  </div>
+                  {errors.category && errors.category.type === "required" && (
+                    <span className="error-message">This is required</span>
+                  )}
                 </div>
-                {errors.category && errors.category.type === "required" && (
-                  <span className="error-message">This is required</span>
-                )}
               </div>
-            </div>
-          </ModalBody>
-          <ModalFooter>
-            {btnBool === false ? (
-              <Button color="primary" type="submit">
-                Add
+            </ModalBody>
+            <ModalFooter>
+              {btnBool === false ? (
+                <Button color="primary" type="submit">
+                  Add
+                </Button>
+              ) : (
+                <Button color="primary" type="submit">
+                  Update
+                </Button>
+              )}
+              <Button color="secondary" onClick={toggle}>
+                Cancel
               </Button>
-            ) : (
-              <Button color="primary" type="submit">
-                Update
-              </Button>
-            )}
-            <Button color="secondary" onClick={toggle}>
-              Cancel
-            </Button>
-          </ModalFooter>
-        </form>
-      </Modal>
-    </div>
+            </ModalFooter>
+          </form>
+        </Modal>
+      </div>
+    </Suspense>
   );
 };
 

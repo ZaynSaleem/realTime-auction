@@ -1,33 +1,23 @@
-import React, { useEffect, useState } from "react";
 import "./style.css";
+import React, { lazy, Suspense, useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
+import { Table } from "reactstrap";
+import { toast } from "react-toastify";
+import { db } from "../../config/firebase/firebase";
 import ToggleMenu from "../../assets/toggleMenu.png";
 
-import Sidebar from "../../components/header/Sidebar";
-import { Table } from "reactstrap";
-import { useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-
-import { db } from "../../config/firebase/firebase";
-
-import Loader from "../../components/Loader/loader";
-import Topbar from "../../components/topbar/Topbar";
-import { toast } from "react-toastify";
-import BreadCrumb from "../../components/breadCrumb";
+const Sidebar = lazy(() => import("../../components/header/Sidebar"));
+const Topbar = lazy(() => import("../../components/topbar/Topbar"));
+const BreadCrumb = lazy(() => import("../../components/breadCrumb"));
+const Loader = lazy(() => import("../../components/Loader/loader"));
 
 const VendorProducts = () => {
-  const dispatch = useDispatch();
   let history = useHistory();
 
-  const Data = useSelector((state) => state?.vendor.data);
   const [toggleBool, setToggleBool] = useState(false);
   const [loaderBool, setLoaderBool] = useState(false);
   const [productData, setProductData] = useState([]);
 
-  const {
-    formState: { errors },
-    setValue,
-  } = useForm({});
   let arr = [];
   useEffect(async () => {
     setLoaderBool(true);
@@ -83,110 +73,111 @@ const VendorProducts = () => {
   };
 
   return (
-    <div>
-      <div className="container-admin">
-        <Sidebar toggleBool={toggleBool} />
+    <Suspense fallback={<div></div>}>
+      <div>
+        <div className="container-admin">
+          <Sidebar toggleBool={toggleBool} />
 
-        <div
-          className={
-            toggleBool === false
-              ? "vendor-dashboard-content"
-              : "vendor-dashboard-content-toggle"
-          }
-        >
-          <Topbar togglebtn={toggleButton} img={ToggleMenu} />
+          <div
+            className={
+              toggleBool === false
+                ? "vendor-dashboard-content"
+                : "vendor-dashboard-content-toggle"
+            }
+          >
+            <Topbar togglebtn={toggleButton} img={ToggleMenu} />
 
-          <Loader bool={loaderBool} />
-          <div className="vendor-dashboard-card-wrapper">
-        
-          <BreadCrumb title="Products" bool={true} />
+            <Loader bool={loaderBool} />
+            <div className="vendor-dashboard-card-wrapper">
+              <BreadCrumb title="Products" bool={true} />
 
-            <div
-              className="vendor-container-category-wrapper"
-              style={{ display: loaderBool === true ? "none" : "block" }}
-            >
-              <div className="container-category-wrapper">
-                <div className="table-wrapper">
-                  <div className="table-form">
-                    <Table bordered>
-                      <thead dark>
-                        <tr>
-                          <th>#</th>
-                          <th>Product Name</th>
-                          <th>Category Name</th>
-                          <th>Vendor status</th>
-                          <th>Starting Bid</th>
-                          <th>Admin Status</th>
-                          <th>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {productData && productData?.length ? (
-                          productData.map((item, index) => {
-                            return (
-                              <tr key={index}>
-                                <th scope="row">{++index}</th>
-                                <td>
-                                  {" "}
-                                  <a onClick={() => toggleProduct(item)}>
-                                    {item?.productName}
-                                  </a>
-                                </td>
-                                <td>{item?.catId}</td>
-                                <td>
-                                  {item?.timerStatus === "Expired" ? (
-                                    <span className="status-expired">
-                                      Expired
-                                    </span>
-                                  ) : !item?.adminStatus ? (
-                                    !item?.productStatus ? (
+              <div
+                className="vendor-container-category-wrapper"
+                style={{ display: loaderBool === true ? "none" : "block" }}
+              >
+                <div className="container-category-wrapper">
+                  <div className="table-wrapper">
+                    <div className="table-form">
+                      <Table bordered>
+                        <thead>
+                          <tr>
+                            <th>#</th>
+                            <th>Product Name</th>
+                            <th>Category Name</th>
+                            <th>Vendor status</th>
+                            <th>Starting Bid</th>
+                            <th>Admin Status</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {productData && productData?.length ? (
+                            productData.map((item, index) => {
+                              return (
+                                <tr key={index}>
+                                  <td scope="row">{++index}</td>
+                                  <td>
+                                    {" "}
+                                    <a onClick={() => toggleProduct(item)}>
+                                      {item?.productName}
+                                    </a>
+                                  </td>
+                                  <td>{item?.catId}</td>
+                                  <td>
+                                    {item?.timerStatus === "Expired" ? (
+                                      <span className="status-expired">
+                                        Expired
+                                      </span>
+                                    ) : !item?.adminStatus ? (
+                                      !item?.productStatus ? (
+                                        <span className="status-active">
+                                          Live
+                                        </span>
+                                      ) : (
+                                        <span className="status-vendor">
+                                          disabled
+                                        </span>
+                                      )
+                                    ) : (
+                                      <span className="status-vendor">
+                                        blocked
+                                      </span>
+                                    )}
+                                  </td>
+                                  <td>{item?.startingBid}</td>
+                                  <td>
+                                    {!item?.adminStatus ? (
                                       <span className="status-active">
-                                        Live
+                                        Active
                                       </span>
                                     ) : (
                                       <span className="status-vendor">
-                                        disabled
+                                        disabled by admin
                                       </span>
-                                    )
-                                  ) : (
-                                    <span className="status-vendor">
-                                      blocked
-                                    </span>
-                                  )}
-                                </td>
-                                <td>{item?.startingBid}</td>
-                                <td>
-                                  {!item?.adminStatus ? (
-                                    <span className="status-active">
-                                      Active
-                                    </span>
-                                  ) : (
-                                    <span className="status-vendor">
-                                      disabled by admin
-                                    </span>
-                                  )}
-                                </td>
-                                <td>
-                                  <div className="btn-switch">
-                                    <label class="switch">
-                                      <input
-                                        checked={item?.adminStatus}
-                                        value={item?.id}
-                                        type="checkbox"
-                                        onChange={(e) => handleStatus(e)}
-                                      />
-                                      <span class="slider-switch round"></span>
-                                    </label>
-                                  </div>
-                                </td>
-                              </tr>
-                            );
-                          })
-                        ) : (
-                          <tr>No DATA</tr>
-                        )}
-                      </tbody>
-                    </Table>
+                                    )}
+                                  </td>
+                                  <td>
+                                    <div className="btn-switch">
+                                      <label className="switch">
+                                        <input
+                                          checked={item?.adminStatus}
+                                          value={item?.id}
+                                          type="checkbox"
+                                          onChange={(e) => handleStatus(e)}
+                                        />
+                                        <span className="slider-switch round"></span>
+                                      </label>
+                                    </div>
+                                  </td>
+                                </tr>
+                              );
+                            })
+                          ) : (
+                            <tr>No DATA</tr>
+                          )}
+                        </tbody>
+                      </Table>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -194,7 +185,7 @@ const VendorProducts = () => {
           </div>
         </div>
       </div>
-    </div>
+    </Suspense>
   );
 };
 
