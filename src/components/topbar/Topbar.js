@@ -30,7 +30,7 @@ const Topbar = (props) => {
             <p>{auth[0]?.email?.split("@")[0]}</p>
           </div>
           <div className="icon-sidebar">
-            <img src={imgAvatar} />
+            <img src={imgAvatar} alt="image"/>
           </div>
           <div className="logout-icon">
             <button dataToggle="tooltip" title="logout" onClick={logoutUser}>

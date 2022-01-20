@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./auth.css";
 import { FaTwitter, FaGoogle } from "react-icons/fa";
-import LoginImg from "../../assets/loginImage.png";
+import LoginImg from "../../assets/loginImage-min.png";
 import firebase, { db } from "../../config/firebase/firebase";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
@@ -85,7 +85,7 @@ const SignIn = () => {
           </div>
         </div>
         <div className="image_left_signIn">
-          <img src={LoginImg} />
+          <img src={LoginImg} alt="Login Image"/>
         </div>
       </div>
 

@@ -72,10 +72,11 @@
   width: 100%;
   font-size: 16px;
   text-transform: capitalize;
-  color: grey;
+  color: #606060;
+  font-weight: 500;
 }
 .price-card span {
-  color: cornflowerblue;
+  color: #1875ff;
   font-weight: 600;
 }
 .gavel-bid {
@@ -85,7 +86,7 @@
   top: 8px;
 }
 .gavel-bid button {
-  background: cornflowerblue;
+  background: #1875ff;
   border: 0;
   font-size: 15px;
   padding: 8px;

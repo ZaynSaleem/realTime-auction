@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./auth.css";
-import left from "../../assets/left_main.png";
+import left from "../../assets/left_main-min.png";
 import firebase, { db } from "../../config/firebase/firebase";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router";
@@ -67,7 +67,7 @@ const SignUp = () => {
           </div>
         </div>
         <div className="image_left">
-          <img src={left} />
+          <img src={left} alt="SignUp Image"/>
         </div>
       </div>
 

@@ -129,7 +129,7 @@ const Product = () => {
     customPaging: function (i) {
       return (
         <a>
-          <img src={product?.imageUrl[i]} width={50} />
+          <img src={product?.imageUrl[i]} width={50} alt="image"/>
         </a>
       );
     },
@@ -157,14 +157,14 @@ const Product = () => {
                   {product?.imageUrl?.length ? (
                     product?.imageUrl.map((item, index) => {
                       return (
-                        <div>
+                        <div key={index}>
                           <img src={item} key={index} alt="image" />
                         </div>
                       );
                     })
                   ) : (
                     <div>
-                      <img src={notFound} />
+                      <img src={notFound} alt="image"/>
                     </div>
                   )}
                 </Slider>

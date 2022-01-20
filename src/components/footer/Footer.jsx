@@ -15,7 +15,7 @@ const Footer = () => {
         <div className="footer-card-wrapper">
           <div className="footer-card">
             <div className="navbar-content-logo">
-              <img src={logo} />
+              <img src={logo} alt="logo image" width="100" height="37"/>
             </div>
             <div className="footer-call-us">
               Call us toll free: +1-541-754-3010
@@ -24,13 +24,13 @@ const Footer = () => {
               Send us an email: contact@example.com
             </div>
             <div className="navbar-social-content">
-              <button>
+              <button name="facebook">
                 <FaFacebook />
               </button>
-              <button>
+              <button name="instagram">
                 <FaInstagram />
               </button>
-              <button>
+              <button name="twitter">
                 <FaTwitter />
               </button>
             </div>

@@ -78,7 +78,8 @@
 }
 .steps-head p {
   margin: 0;
-  color: #2695ff;
+  color: #4d95ff;
+  font-weight: 600;
 }
 .steps-head h1 {
   font-weight: 100;
@@ -156,7 +157,7 @@
   align-items: center;
 }
 .detail-card img {
-  height: 72px;
+  /* height: 72px; */
   /* width: 50px; */
   object-fit: contain;
 }
@@ -173,7 +174,7 @@
 .detail-text-wrapper p {
   margin: 0;
   padding: 0;
-  color: #a5a5a5;
+  color: #747474fa;
 }
 @media (max-width: 1102px) {
   .detail-card {

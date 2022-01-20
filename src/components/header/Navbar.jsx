@@ -45,18 +45,18 @@ const Navbar = (props) => {
         <div className="custom_container">
           <div className="navbar-second-wrapper">
             <div className="navbar-social-content">
-              <button>
+              <button name="facebook">
                 <FaFacebook />
               </button>
-              <button>
+              <button name="instagram">
                 <FaInstagram />
               </button>
-              <button>
+              <button name="twitter">
                 <FaTwitter />
               </button>
             </div>
             <div className="navbar-content-logo">
-              <img src={logo} />
+              <img src={logo} alt="image" width="100" height="37" />
             </div>
             <div className="toggle-button">
               <button onClick={() => setNavBool(!navBool)}>

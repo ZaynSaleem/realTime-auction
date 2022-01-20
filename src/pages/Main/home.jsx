@@ -15,7 +15,7 @@ import {
 } from "react-icons/fa";
 import StepsCard from "../../components/Cards/StepsCard";
 import Footer from "../../components/footer/Footer";
-import sliderImage from "../../assets/sliderHome.jpg";
+import sliderImage from "../../assets/sliderHome-min.jpg";
 import { db } from "../../config/firebase/firebase";
 import { useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -81,7 +81,7 @@ const Home = () => {
           <div className="detail-card-wrapper">
             <div className="detail-card">
               <div className="detail-card-image">
-                <img src={supportIcon} />
+                <img src={supportIcon} alt="image" height="72px" width="57px" />
               </div>
               <div className="detail-text-wrapper">
                 <h4>Call Center</h4>
@@ -91,7 +91,7 @@ const Home = () => {
 
             <div className="detail-card">
               <div className="detail-card-image">
-                <img src={trackingIcon} />
+                <img src={trackingIcon} alt="image" height="72px" width="57px"/>
               </div>
               <div className="detail-text-wrapper">
                 <h4>Order Tracking</h4>
@@ -101,7 +101,7 @@ const Home = () => {
 
             <div className="detail-card">
               <div className="detail-card-image">
-                <img src={deliveryIcon} />
+                <img src={deliveryIcon} alt="image" height="72px" width="57px"/>
               </div>
               <div className="detail-text-wrapper">
                 <h4>Fatest Delivery</h4>
@@ -111,7 +111,7 @@ const Home = () => {
 
             <div className="detail-card">
               <div className="detail-card-image">
-                <img src={moneyIcon} />
+                <img src={moneyIcon} alt="image" height="72px" width="57px"/>
               </div>
               <div className="detail-text-wrapper">
                 <h4>Instant Buying</h4>
@@ -147,6 +147,7 @@ const Home = () => {
                     startTime={item?.startTime}
                     endTime={item?.endTime}
                     items={item}
+                    key={index}
                   />
                 );
               })

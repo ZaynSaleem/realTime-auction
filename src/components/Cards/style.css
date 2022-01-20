@@ -112,13 +112,15 @@
   width: 100%;
 }
 .steps-card-text p {
-  color: #999999;
+  color: #747474fa;
   font-size: 14.5px;
 }
 .steps-card-text h3 {
   font-size: 19px;
   font-weight: 500;
   font-family: inherit;
+  margin: 0;
+  padding: 8px 0px;
 }
 
 .dashboard-card {
@@ -201,10 +203,10 @@ h2 {
 
 @media (max-width: 515px) {
   .steps-card {
-    width:300px;
+    width: 300px;
     box-shadow: 0px 0px 20px #0000000f;
   }
-  .right-angle-icons{
+  .right-angle-icons {
     display: none;
   }
   .steps-card-wrapper {
@@ -215,11 +217,11 @@ h2 {
     gap: 33px;
     padding: 11px 22px;
   }
-  .steps-icons{
+  .steps-icons {
     align-items: center;
     justify-content: center;
   }
-  .steps-card-text{
+  .steps-card-text {
     text-align: center;
   }
 }

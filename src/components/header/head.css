@@ -80,7 +80,7 @@
   color: cornflowerblue;
 }
 .navbar-content-logo img {
-  height: 37px;
+  /* height: 37px; */
   object-fit: contain;
 }
 .toggle-button {

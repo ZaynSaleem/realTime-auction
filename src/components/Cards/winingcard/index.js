@@ -20,7 +20,7 @@ const WiningCard = (props) => {
       {props?.arr && props?.arr?.length ? (
         props?.arr?.map((item, index) => {
           return (
-            <div className="user-wining-card">
+            <div className="user-wining-card" key={index}>
               <div className="user-card-image">
                 <img
                   src={

@@ -20,7 +20,7 @@
   display: flex;
   flex-wrap: wrap;
   font-size: 14px;
-  color: #787878;
+  color: #747474fa;
   line-height: 2.4;
 }
 .footer-card h1 {
@@ -32,7 +32,7 @@
 }
 .footer-card p {
   font-size: 17px;
-  color: #6a6a6a;
+  color: #747474fa;
 }
 .footer-bottom {
   width: 100%;
@@ -40,7 +40,7 @@
 }
 .footer-text {
   padding: 14px 5px;
-  color: #afafaf;
+  color: #747474fa;
   text-align: start;
 }
 .footer-card h4 {

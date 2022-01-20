@@ -61,6 +61,7 @@ const MultipleProducts = () => {
               product.map((item, index) => {
                 return (
                   <ProductCard
+                    key={index}
                     roles={Data[0]?.role}
                     image={
                       item?.imageUrl && item?.imageUrl?.length
